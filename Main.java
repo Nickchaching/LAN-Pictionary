@@ -8,6 +8,11 @@ import java.net.SocketTimeoutException;
 import javax.swing.*;
 import javax.swing.event.*;
 
+//NETWORKING:
+//6000 - MAIN COMMUNICATIONS
+//6001 - SERVER CALLS
+//6002 - SERVER RESPONSES
+
 public class Main implements ActionListener{
     //Properties
     boolean blnConnected = false;
@@ -94,7 +99,7 @@ public class Main implements ActionListener{
             inSocket.close();
 
             //Delay
-            Thread.sleep(50);
+            Thread.sleep(250);
 
             //Create a DatagramSocket
             DatagramSocket outSocket = new DatagramSocket();
