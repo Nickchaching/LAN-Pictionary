@@ -1,3 +1,4 @@
+import java.io.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.net.DatagramPacket;
@@ -18,8 +19,30 @@ public class Main implements ActionListener{
     boolean blnHost;
     String strUsername;
     String strServerAddress;
-    SuperSocketMaster HostSocket = new SuperSocketMaster(6000, this);
-    SuperSocketMaster ClientSocket = new SuperSocketMaster(strServerAddress, 6000, this);
+    SuperSocketMaster HostSocket;
+    SuperSocketMaster ClientSocket;
+
+    //Colours
+    Color clrBackground = new Color(37, 37, 37);
+    Color clrLightGrey = new Color(217, 217, 217);
+    Color clrWhite = new Color(255, 255, 255);
+
+    //Fonts
+    Font fntHelvetica30 = new Font("Helvetica", Font.BOLD, 30);
+    Font fntHelvetica40 = new Font("Helvetica", Font.BOLD, 40);
+    Font fntHelvetica100 = new Font("Helvetica", Font.BOLD, 100);
+
+    //JComponents
+    JFrame theFrame = new JFrame();
+
+    JPanel theHomePanel = new JPanel();
+    JLabel PictionaryLabel = new JLabel("PICTONARY");
+    JLabel EnterNameLabel = new JLabel("Enter Name");
+    JLabel StartGameLabel = new JLabel("Start Game");
+    JTextField NameField = new JTextField();
+    JButton HostGameButton = new JButton("Host Game");
+    JButton JoinGameButton = new JButton("Join Game");
+
 
     //Methods
     public void actionPerformed(ActionEvent evt){
@@ -46,12 +69,6 @@ public class Main implements ActionListener{
                 //Extract and display the received message
                 String receivedMessage = new String(inPacket.getData(), 0, inPacket.getLength());
                 System.out.println(receivedMessage);
-                try{
-                    Thread.sleep(5000);
-                }
-                catch(InterruptedException e){
-
-                }
             }
 
             // Close the socket
@@ -100,6 +117,74 @@ public class Main implements ActionListener{
 
     //Constructor
     public Main(){
+        theHomePanel.setPreferredSize(new Dimension(1280, 720));
+        theHomePanel.setLayout(null);
+        theHomePanel.setBackground(clrBackground);
 
+        PictionaryLabel.setSize(640, 125);
+        PictionaryLabel.setLocation(320, 35);
+        PictionaryLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        PictionaryLabel.setFont(fntHelvetica100);
+        PictionaryLabel.setForeground(clrWhite);
+
+        EnterNameLabel.setSize(640, 50);
+        EnterNameLabel.setLocation(320, 200);
+        EnterNameLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        EnterNameLabel.setFont(fntHelvetica40);
+        EnterNameLabel.setForeground(clrWhite);
+
+        NameField.setSize(640, 50);
+        NameField.setLocation(320, 265);
+        NameField.setHorizontalAlignment(SwingConstants.CENTER);
+        NameField.setFont(fntHelvetica30);
+        NameField.setBackground(clrLightGrey);
+        NameField.setBorder(null);
+
+        StartGameLabel.setSize(640, 50);
+        StartGameLabel.setLocation(320, 365);
+        StartGameLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        StartGameLabel.setFont(fntHelvetica40);
+        StartGameLabel.setForeground(clrWhite);
+
+        HostGameButton.setSize(640, 50);
+        HostGameButton.setLocation(320, 430);
+        HostGameButton.setFont(fntHelvetica30);
+        HostGameButton.setBackground(clrLightGrey);
+        HostGameButton.setBorder(null);
+
+        JoinGameButton.setSize(640, 50);
+        JoinGameButton.setLocation(320, 500);
+        JoinGameButton.setFont(fntHelvetica30);
+        JoinGameButton.setBackground(clrLightGrey);
+        JoinGameButton.setBorder(null);
+
+        theHomePanel.add(PictionaryLabel);
+        theHomePanel.add(EnterNameLabel);
+        theHomePanel.add(NameField);
+        theHomePanel.add(StartGameLabel);
+        theHomePanel.add(HostGameButton);
+        theHomePanel.add(JoinGameButton);
+
+        theFrame.setContentPane(theHomePanel);
+        theFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        theFrame.setResizable(false);
+        theFrame.pack();
+        theFrame.setVisible(true);
+    }
+
+    //Main Method
+    public static void main(String[] args) throws IOException{
+        Main game = new Main();
+        BufferedReader keyboard = new BufferedReader(new InputStreamReader(System.in));
+        if(keyboard.readLine().equals("server mode")){
+            game.blnHost = true;
+            game.HostSocket = new SuperSocketMaster(6000, game);
+            game.broadcastIP();
+        }
+        else{
+            game.blnHost = false;
+            game.findServer();
+            game.ClientSocket = new SuperSocketMaster(game.strServerAddress, 6000, game);
+        }
     }
 }
