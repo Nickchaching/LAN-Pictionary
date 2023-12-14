@@ -107,13 +107,9 @@ public class Main implements ActionListener{
                     else if(strServerList[intCount][0].equals(strServerLoad[0])){
                         intCount = 5;
                     }
-                    else{
-                        intCount++;
-                    }
                 }
 
-                strServerList[0] = strServerLoad;
-
+                System.out.println("New PARSE");
                 System.out.println("Server Name: "+strServerList[0][0]+" | Server IP: "+strServerList[0][1]+" | Server Players: "+strServerList[0][2]);
                 System.out.println("Server Name: "+strServerList[1][0]+" | Server IP: "+strServerList[1][1]+" | Server Players: "+strServerList[1][2]);
                 System.out.println("Server Name: "+strServerList[2][0]+" | Server IP: "+strServerList[2][1]+" | Server Players: "+strServerList[2][2]);
