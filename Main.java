@@ -1,9 +1,6 @@
 import java.io.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
 import javax.swing.*;
 import javax.swing.event.*;
 
@@ -13,17 +10,18 @@ import javax.swing.event.*;
 
 public class Main implements ActionListener{
     //Properties
-    boolean blnConnected = false;
+    static boolean blnConnected = false;
     boolean blnHost;
-    String strUsername;
+    static String strUsername;
     
-    SuperSocketMaster HostSocket;
-    int intPlayers = 0;
+    static SuperSocketMaster HostSocket;
+    static int intPlayers = 0;
+    Thread broadcastIP = new Thread(new broadcastIP());
 
     SuperSocketMaster ClientSocket;
     String strServerAddress;
-    String[] strServerLoad;
-    String[][] strServerList = new String[5][3];
+    static String[][] strServerList = new String[5][3];
+    Thread findServer = new Thread(new findServer());
 
     //Colours
     Color clrBackground = new Color(37, 37, 37);
@@ -47,7 +45,7 @@ public class Main implements ActionListener{
     JButton JoinGameButton = new JButton("Join Game");
 
     JPanel theServerSelectionPanel = new JPanel();
-    JButton Server1Button = new JButton();
+    static JButton Server1Button = new JButton();
 
 
     //Methods
@@ -57,113 +55,39 @@ public class Main implements ActionListener{
                 strUsername = NameField.getText();
                 blnHost = true;
                 HostSocket = new SuperSocketMaster(6000, this);
-                broadcastIP();
+                HostSocket.connect();
+                broadcastIP.start();
             }
             else{
                 NameField.setText("Please Enter a Name");
             }
         }
-        if(evt.getSource() == JoinGameButton){
+        else if(evt.getSource() == JoinGameButton){
             if(!NameField.getText().equals("")){
                 strUsername = NameField.getText();
                 blnHost = false;
-                findServer();
-                ClientSocket = new SuperSocketMaster(strServerAddress, 6000, this);
+                theFrame.setVisible(false);
+                theFrame.setContentPane(theServerSelectionPanel);
+                theFrame.pack();
+                theFrame.setVisible(true);
+                findServer.start();
             }
             else{
                 NameField.setText("Please Enter a Name");
             }
         }
-    }
-    
-    //Client Only Methods
-    public void findServer(){
-        try{
-            // Create a DatagramSocket to listen on a specific port
-            DatagramSocket inSocket = new DatagramSocket(6001);
-
-            // Buffer to store incoming data
-            byte[] buffer = new byte[1024];
-
-            // Create a DatagramPacket to receive the incoming data
-            DatagramPacket inPacket = new DatagramPacket(buffer, buffer.length);
-            
-            while(!blnConnected){
-                int intCount = 0;
-                
-                //Receive the packet
-                inSocket.receive(inPacket);
-
-                //Extract and display the received message
-                String receivedMessage = new String(inPacket.getData(), 0, inPacket.getLength());
-                strServerLoad = receivedMessage.split(",");
-
-                //Check to see if IP Exists and Slots Filled
-                for(intCount = 0; intCount < 5; intCount++){
-                    if(strServerList[intCount][0] == null){
-                        strServerList[intCount] = strServerLoad;
-                        intCount = 5;
-                    }
-                    else if(strServerList[intCount][0].equals(strServerLoad[0])){
-                        intCount = 5;
-                    }
-                }
-
-                System.out.println("New PARSE");
-                System.out.println("Server Name: "+strServerList[0][0]+" | Server IP: "+strServerList[0][1]+" | Server Players: "+strServerList[0][2]);
-                System.out.println("Server Name: "+strServerList[1][0]+" | Server IP: "+strServerList[1][1]+" | Server Players: "+strServerList[1][2]);
-                System.out.println("Server Name: "+strServerList[2][0]+" | Server IP: "+strServerList[2][1]+" | Server Players: "+strServerList[2][2]);
-                System.out.println("Server Name: "+strServerList[3][0]+" | Server IP: "+strServerList[3][1]+" | Server Players: "+strServerList[3][2]);
-                System.out.println("Server Name: "+strServerList[4][0]+" | Server IP: "+strServerList[4][1]+" | Server Players: "+strServerList[4][2]);
-           
-            }
-
-            // Close the socket
-            inSocket.close();
-        }
-        catch(Exception e){
-            e.printStackTrace();
-        }
-    }
-
-    //Server Only Methods
-    public void broadcastIP(){
-        try{
-            //Create a DatagramSocket
-            DatagramSocket outSocket = new DatagramSocket();
-            
-            //Set the broadcast address
-            InetAddress broadcastAddress = InetAddress.getByName("255.255.255.255");
-
-            //Message to be sent
-            String message = HostSocket.getMyAddress()+","+strUsername+","+intPlayers;
-            byte[] data = message.getBytes();
-
-            //Create a DatagramPacket with the message, length, and broadcast address
-            DatagramPacket outPacket = new DatagramPacket(data, data.length, broadcastAddress, 6001);
-
-            //Send the packet
-            while(!blnConnected){
-                outSocket.send(outPacket);
-                System.out.println("Broadcasted IP");
-                try{
-                    Thread.sleep(5000);
-                }
-                catch(InterruptedException e){
-
-                }
-            }
-
-            //Close the socket
-            outSocket.close();
-        }
-        catch(Exception e){
-
+        else if(evt.getSource() == Server1Button){
+            blnConnected = true;
+            strServerAddress = strServerList[0][0];
+            System.out.println(strServerAddress);
+            ClientSocket = new SuperSocketMaster(strServerAddress, 6000, this);
+            ClientSocket.connect();
         }
     }
 
     //Constructor
     public Main(){
+        //Home Panel
         theHomePanel.setPreferredSize(new Dimension(1280, 720));
         theHomePanel.setLayout(null);
         theHomePanel.setBackground(clrBackground);
@@ -215,7 +139,20 @@ public class Main implements ActionListener{
         HostGameButton.addActionListener(this);
         JoinGameButton.addActionListener(this);
 
+        //Server Selection Panel
+        theServerSelectionPanel.setPreferredSize(new Dimension(1280, 720));
+        theServerSelectionPanel.setLayout(null);
+        theServerSelectionPanel.setBackground(clrBackground);
 
+        Server1Button.setSize(640, 50);
+        Server1Button.setLocation(320, 200);
+        Server1Button.setFont(fntHelvetica30);
+        Server1Button.setBackground(clrLightGrey);
+        Server1Button.setBorder(null);
+
+        theServerSelectionPanel.add(Server1Button);
+
+        Server1Button.addActionListener(this);
 
 
         theFrame.setContentPane(theHomePanel);

@@ -255,6 +255,7 @@ public class SuperSocketMaster{
             clientconnections.remove(clientConnection);
             clientConnection = null;
             System.out.println("Server removed a client connection.  Current Size: "+clientconnections.size());
+            Main.intPlayers = clientconnections.size();
           }catch(NullPointerException e){
           }
         }catch(IOException e){ 
@@ -277,6 +278,7 @@ public class SuperSocketMaster{
             Thread t1 = new Thread(singleconnection);
             t1.start();
             System.out.println("Server accepted a client connection:  Current Size: "+clientconnections.size());
+            Main.intPlayers = clientconnections.size();
           } catch (IOException e) {
             blnListenForClients = false;
           }
