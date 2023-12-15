@@ -46,6 +46,10 @@ public class Main implements ActionListener{
 
     JPanel theServerSelectionPanel = new JPanel();
     static JButton Server1Button = new JButton();
+    static JButton Server2Button = new JButton();
+    static JButton Server3Button = new JButton();
+    static JButton Server4Button = new JButton();
+    static JButton Server5Button = new JButton();
 
 
     //Methods
@@ -76,9 +80,11 @@ public class Main implements ActionListener{
                 NameField.setText("Please Enter a Name");
             }
         }
-        else if(evt.getSource() == Server1Button){
+        else if(evt.getSource() == Server1Button || evt.getSource() == Server2Button || evt.getSource() == Server3Button || evt.getSource() == Server4Button || evt.getSource() == Server5Button){
             blnConnected = true;
-            strServerAddress = strServerList[0][0];
+            if(evt.getSource() == Server1Button){
+                strServerAddress = strServerList[0][0];
+            }
             System.out.println(strServerAddress);
             ClientSocket = new SuperSocketMaster(strServerAddress, 6000, this);
             ClientSocket.connect();
@@ -150,9 +156,41 @@ public class Main implements ActionListener{
         Server1Button.setBackground(clrLightGrey);
         Server1Button.setBorder(null);
 
+        Server2Button.setSize(640, 50);
+        Server2Button.setLocation(320, 300);
+        Server2Button.setFont(fntHelvetica30);
+        Server2Button.setBackground(clrLightGrey);
+        Server2Button.setBorder(null);
+
+        Server3Button.setSize(640, 50);
+        Server3Button.setLocation(320, 400);
+        Server3Button.setFont(fntHelvetica30);
+        Server3Button.setBackground(clrLightGrey);
+        Server3Button.setBorder(null);
+
+        Server4Button.setSize(640, 50);
+        Server4Button.setLocation(320, 500);
+        Server4Button.setFont(fntHelvetica30);
+        Server4Button.setBackground(clrLightGrey);
+        Server4Button.setBorder(null);
+
+        Server5Button.setSize(640, 50);
+        Server5Button.setLocation(320, 600);
+        Server5Button.setFont(fntHelvetica30);
+        Server5Button.setBackground(clrLightGrey);
+        Server5Button.setBorder(null);
+
         theServerSelectionPanel.add(Server1Button);
+        theServerSelectionPanel.add(Server2Button);
+        theServerSelectionPanel.add(Server3Button);
+        theServerSelectionPanel.add(Server4Button);
+        theServerSelectionPanel.add(Server5Button);
 
         Server1Button.addActionListener(this);
+        Server2Button.addActionListener(this);
+        Server3Button.addActionListener(this);
+        Server4Button.addActionListener(this);
+        Server5Button.addActionListener(this);
 
 
         theFrame.setContentPane(theHomePanel);

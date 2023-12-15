@@ -46,6 +46,10 @@ public class findServer implements Runnable{
                 System.out.println("Server IP: "+Main.strServerList[4][0]+" | Server Name: "+Main.strServerList[4][1]+" | Server Players: "+Main.strServerList[4][2]);
                 
                 Main.Server1Button.setText(Main.strServerList[0][1]+" | "+Main.strServerList[0][0]+" | "+Main.strServerList[0][2]+" Players");
+                Main.Server2Button.setText(Main.strServerList[1][1]+" | "+Main.strServerList[1][0]+" | "+Main.strServerList[1][2]+" Players");
+                Main.Server3Button.setText(Main.strServerList[2][1]+" | "+Main.strServerList[2][0]+" | "+Main.strServerList[2][2]+" Players");
+                Main.Server4Button.setText(Main.strServerList[3][1]+" | "+Main.strServerList[3][0]+" | "+Main.strServerList[3][2]+" Players");
+                Main.Server5Button.setText(Main.strServerList[4][1]+" | "+Main.strServerList[4][0]+" | "+Main.strServerList[4][2]+" Players");
             }
 
             // Close the socket
