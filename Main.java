@@ -6,13 +6,35 @@ import javax.swing.event.*;
 
 //NETWORKING:
 //6000 - MAIN COMMUNICATIONS
+    //General Format: DesignationID#, ActionID#, IP, Param1, Param2, Param3, Param4
+        //DesignationID 0 = Intended for Server
+        //DesignationID 1 = Intended for Clients
+    
+    //Server Intended Messages
+        //Initial Connection: 0, 0, IP, ClientName
+        //Terminating Connection: 0, -1, IP
+        //Drawing Telemetry: 0, 1, IP, PosX, PosY, BrushSize, BrushColor
+        //Chat Telemetry: 0, 2, IP, Message
+
+    //Client Intended Messages
+        //Terminating Connection: 1, -1, IP
+        //Lobby Player Info Ping: 1, 0, IP, PlayerNames[]
+        //Drawing Telemetry: 1, 1, IP, PosX, PosY, BrushSize, BrushColor
+        //Chat Telemetry: 1, 2, IP, Message
+        //Score Telemetry: 1, 3, IP, PlayerScores[]
+        //Timer Telemetry: 1, 4, IP, TimeRemaining
+        //Object Telemetry: 1, 5, IP, ObjecttoDraw
+        //Game Telemetry: 1, 6, IP, RoundsPlayed
+
 //6001 - INITIAL SERVER CONNECTION
+    //Server Ping: IP, ServerName, PlayerCount
 
 public class Main implements ActionListener{
     //Properties
     static boolean blnConnected = false;
     boolean blnHost;
     static String strUsername;
+    String strIncomingSplit[];
     
     static SuperSocketMaster HostSocket;
     static int intPlayers = 0;
@@ -31,11 +53,13 @@ public class Main implements ActionListener{
     //Fonts
     Font fntHelvetica30 = new Font("Helvetica", Font.BOLD, 30);
     Font fntHelvetica40 = new Font("Helvetica", Font.BOLD, 40);
+    Font fntHelvetica75 = new Font("Helvetica", Font.BOLD, 75);
     Font fntHelvetica125 = new Font("Helvetica", Font.BOLD, 125);
 
     //JComponents
     JFrame theFrame = new JFrame();
 
+    //Home Panel
     JPanel theHomePanel = new JPanel();
     JLabel PictionaryLabel = new JLabel("PICTONARY");
     JLabel EnterNameLabel = new JLabel("Enter Name");
@@ -44,7 +68,9 @@ public class Main implements ActionListener{
     JButton HostGameButton = new JButton("Host Game");
     JButton JoinGameButton = new JButton("Join Game");
 
+    //Client Server Selection Panel
     JPanel theServerSelectionPanel = new JPanel();
+    JLabel AvailableServersLabel = new JLabel("Available Servers");
     static JButton Server1Button = new JButton();
     static JButton Server2Button = new JButton();
     static JButton Server3Button = new JButton();
@@ -54,6 +80,7 @@ public class Main implements ActionListener{
 
     //Methods
     public void actionPerformed(ActionEvent evt){
+        //Initial Host Connection
         if(evt.getSource() == HostGameButton){
             if(!NameField.getText().equals("")){
                 strUsername = NameField.getText();
@@ -66,28 +93,71 @@ public class Main implements ActionListener{
                 NameField.setText("Please Enter a Name");
             }
         }
+        //Initial Client Connection
         else if(evt.getSource() == JoinGameButton){
             if(!NameField.getText().equals("")){
                 strUsername = NameField.getText();
                 blnHost = false;
-                theFrame.setVisible(false);
                 theFrame.setContentPane(theServerSelectionPanel);
                 theFrame.pack();
-                theFrame.setVisible(true);
                 findServer.start();
             }
             else{
                 NameField.setText("Please Enter a Name");
             }
         }
+        //Client Server Selection
         else if(evt.getSource() == Server1Button || evt.getSource() == Server2Button || evt.getSource() == Server3Button || evt.getSource() == Server4Button || evt.getSource() == Server5Button){
-            blnConnected = true;
             if(evt.getSource() == Server1Button){
                 strServerAddress = strServerList[0][0];
             }
+            else if(evt.getSource() == Server2Button){
+                strServerAddress = strServerList[1][0];
+            }
+            else if(evt.getSource() == Server3Button){
+                strServerAddress = strServerList[2][0];
+            }
+            else if(evt.getSource() == Server4Button){
+                strServerAddress = strServerList[3][0];
+            }
+            else if(evt.getSource() == Server5Button){
+                strServerAddress = strServerList[4][0];
+            }
             System.out.println(strServerAddress);
             ClientSocket = new SuperSocketMaster(strServerAddress, 6000, this);
-            ClientSocket.connect();
+            blnConnected = ClientSocket.connect();
+            if(blnConnected){
+                ClientSocket.sendText("0,0,"+ClientSocket.getMyAddress()+","+strUsername);
+                //Swap to Lobby Panel
+            }
+            else{
+                //Show user an "error label" and remove the server as an option and disconnect the socket
+            }
+        }
+        //Server Message Handling
+        else if(evt.getSource() == HostSocket && HostSocket.readText().substring(0, 1).equals("0")){
+            strIncomingSplit = HostSocket.readText().split(",");
+            
+            //Message Type 0: Initial Connection
+            if(strIncomingSplit[1].equals("0")){
+                System.out.println("The server has accepted a new client, "+strIncomingSplit[3]+", at "+strIncomingSplit[2]);
+            }
+            //Message Type 1: Drawing Telemetry
+            else if(strIncomingSplit[1].equals("1")){
+
+            }
+            //Message Type 2: Chat Telemetry
+            else if(strIncomingSplit[1].equals("2")){
+
+            }
+            //Message Type -1: Terminating Connection
+            else if(strIncomingSplit[1].equals("-1")){
+
+            }
+
+            //Split the server message by commas
+            //Check index 1 for message type
+            //Within if-statements, trigger appropriate actions
         }
     }
 
@@ -149,37 +219,50 @@ public class Main implements ActionListener{
         theServerSelectionPanel.setPreferredSize(new Dimension(1280, 720));
         theServerSelectionPanel.setLayout(null);
         theServerSelectionPanel.setBackground(clrBackground);
+        
+        AvailableServersLabel.setSize(640, 100);
+        AvailableServersLabel.setLocation(320, 25);
+        AvailableServersLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        AvailableServersLabel.setFont(fntHelvetica75);
+        AvailableServersLabel.setForeground(clrWhite);
 
-        Server1Button.setSize(640, 50);
-        Server1Button.setLocation(320, 200);
+        Server1Button.setSize(1000, 50);
+        Server1Button.setLocation(140, 175);
         Server1Button.setFont(fntHelvetica30);
         Server1Button.setBackground(clrLightGrey);
         Server1Button.setBorder(null);
 
-        Server2Button.setSize(640, 50);
-        Server2Button.setLocation(320, 300);
+        Server2Button.setSize(1000, 50);
+        Server2Button.setLocation(140, 275);
         Server2Button.setFont(fntHelvetica30);
         Server2Button.setBackground(clrLightGrey);
         Server2Button.setBorder(null);
 
-        Server3Button.setSize(640, 50);
-        Server3Button.setLocation(320, 400);
+        Server3Button.setSize(1000, 50);
+        Server3Button.setLocation(140, 375);
         Server3Button.setFont(fntHelvetica30);
         Server3Button.setBackground(clrLightGrey);
         Server3Button.setBorder(null);
 
-        Server4Button.setSize(640, 50);
-        Server4Button.setLocation(320, 500);
+        Server4Button.setSize(1000, 50);
+        Server4Button.setLocation(140, 475);
         Server4Button.setFont(fntHelvetica30);
         Server4Button.setBackground(clrLightGrey);
         Server4Button.setBorder(null);
 
-        Server5Button.setSize(640, 50);
-        Server5Button.setLocation(320, 600);
+        Server5Button.setSize(1000, 50);
+        Server5Button.setLocation(140, 575);
         Server5Button.setFont(fntHelvetica30);
         Server5Button.setBackground(clrLightGrey);
         Server5Button.setBorder(null);
 
+        Server1Button.setVisible(false);
+        Server2Button.setVisible(false);
+        Server3Button.setVisible(false);
+        Server4Button.setVisible(false);
+        Server5Button.setVisible(false);
+
+        theServerSelectionPanel.add(AvailableServersLabel);
         theServerSelectionPanel.add(Server1Button);
         theServerSelectionPanel.add(Server2Button);
         theServerSelectionPanel.add(Server3Button);

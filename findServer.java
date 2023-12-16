@@ -1,3 +1,5 @@
+//This class is intended to be run as a seperate thread. It receives server pings on the LAN and updates the buttons 
+
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 
@@ -50,6 +52,22 @@ public class findServer implements Runnable{
                 Main.Server3Button.setText(Main.strServerList[2][1]+" | "+Main.strServerList[2][0]+" | "+Main.strServerList[2][2]+" Players");
                 Main.Server4Button.setText(Main.strServerList[3][1]+" | "+Main.strServerList[3][0]+" | "+Main.strServerList[3][2]+" Players");
                 Main.Server5Button.setText(Main.strServerList[4][1]+" | "+Main.strServerList[4][0]+" | "+Main.strServerList[4][2]+" Players");
+
+                if(Main.strServerList[0][0] != null){
+                    Main.Server1Button.setVisible(true);
+                }
+                if(Main.strServerList[1][0] != null){
+                    Main.Server2Button.setVisible(true);
+                }
+                if(Main.strServerList[2][0] != null){
+                    Main.Server3Button.setVisible(true);
+                }
+                if(Main.strServerList[3][0] != null){
+                    Main.Server4Button.setVisible(true);
+                }
+                if(Main.strServerList[4][0] != null){
+                    Main.Server5Button.setVisible(true);
+                }
             }
 
             // Close the socket
