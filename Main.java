@@ -77,7 +77,6 @@ public class Main implements ActionListener{
     static JButton Server4Button = new JButton();
     static JButton Server5Button = new JButton();
 
-
     //Methods
     public void actionPerformed(ActionEvent evt){
         //Initial Host Connection
@@ -281,6 +280,8 @@ public class Main implements ActionListener{
         theFrame.setResizable(false);
         theFrame.pack();
         theFrame.setVisible(true);
+
+        test testing = new test(this);
     }
 
     //Main Method
