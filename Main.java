@@ -280,12 +280,10 @@ public class Main implements ActionListener{
         theFrame.setResizable(false);
         theFrame.pack();
         theFrame.setVisible(true);
-
-        test testing = new test(this);
     }
 
     //Main Method
-    public static void main(String[] args) throws IOException{
+    public static void main(String[] args){
         new Main();
     }
 }
