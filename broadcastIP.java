@@ -3,6 +3,9 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 
 public class broadcastIP implements Runnable{
+    //Properties
+    Model theModel;
+
     //Methods
     public void run(){
         try{
@@ -12,9 +15,9 @@ public class broadcastIP implements Runnable{
             //Set the broadcast address
             InetAddress broadcastAddress = InetAddress.getByName("255.255.255.255");
 
-            while(!Main.blnConnected){
+            while(!theModel.blnGameStarted){
                 //Message to be sent
-                String message = Main.HostSocket.getMyAddress()+","+Main.strUsername+","+Main.intPlayers;
+                String message = theModel.getStatus();
                 byte[] data = message.getBytes();
 
                 //Create a DatagramPacket with the message, length, and broadcast address
@@ -40,7 +43,7 @@ public class broadcastIP implements Runnable{
     }
 
     //Constructor
-    public broadcastIP(){
-
+    public broadcastIP(Model theModel){
+        this.theModel = theModel;
     }
 }

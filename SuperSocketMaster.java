@@ -35,6 +35,7 @@ public class SuperSocketMaster{
   private String strIncomingText = null;
   private ReentrantLock strIncomingTextLock = new ReentrantLock();
   private SocketConnection soccon = null;
+  Model theModel;
   transient ActionListener actionListener = null;
   // Methods
   /**
@@ -149,9 +150,10 @@ public class SuperSocketMaster{
    * @param intPort TCP Port you want to use for your connection
    * @param listener Swing/AWT program's ActionListener.  Usually "this"
    */
-  public SuperSocketMaster(int intPort, ActionListener listener){
+  public SuperSocketMaster(int intPort, ActionListener listener, Model theModel){
     this.addActionListener(listener);
     this.intPort = intPort;
+    this.theModel = theModel;
   }
   /**
    * Client Mode SuperSocketMaster Constructor<p>
@@ -255,7 +257,7 @@ public class SuperSocketMaster{
             clientconnections.remove(clientConnection);
             clientConnection = null;
             System.out.println("Server removed a client connection.  Current Size: "+clientconnections.size());
-            Main.intPlayers = clientconnections.size();
+            theModel.intPlayers = clientconnections.size();
           }catch(NullPointerException e){
           }
         }catch(IOException e){ 
@@ -278,7 +280,7 @@ public class SuperSocketMaster{
             Thread t1 = new Thread(singleconnection);
             t1.start();
             System.out.println("Server accepted a client connection:  Current Size: "+clientconnections.size());
-            Main.intPlayers = clientconnections.size();
+            theModel.intPlayers = clientconnections.size();
           } catch (IOException e) {
             blnListenForClients = false;
           }
