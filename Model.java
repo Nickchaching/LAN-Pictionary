@@ -23,6 +23,12 @@
 //6001 - INITIAL SERVER CONNECTION
     //Server Ping: IP, ServerName, PlayerCount
 
+//SERVER STORAGE:
+//Client Details: IP, Name
+
+//Importing Logic Libraries
+import java.util.Arrays;
+
 public class Model{
     //Properties
     View theView;
@@ -38,6 +44,8 @@ public class Model{
     SuperSocketMaster HostSocket;
     int intPlayers = 0;
     Thread broadcastIP = new Thread(new broadcastIP(this));
+    String strPlayerList[][];
+    String strPlayerTemp[][];
 
     //Client Only Properties
     SuperSocketMaster ClientSocket;
@@ -64,12 +72,27 @@ public class Model{
     }
 
     //Server Message Handling
-    public void serverMessageRecieved(){
+    public int serverMessageRecieved(){
         strIncomingSplit = HostSocket.readText().split(",");
             
         //Message Type 0: Initial Connection
         if(strIncomingSplit[1].equals("0")){
             System.out.println("The server has accepted a new client, "+strIncomingSplit[3]+", at "+strIncomingSplit[2]);
+            if(strPlayerList == null){
+                strPlayerList = new String[1][2];
+                strPlayerList[0][0] = strIncomingSplit[2];
+                strPlayerList[0][1] = strIncomingSplit[3];
+            }
+            else{
+                int intCount;
+                strPlayerTemp = strPlayerList;
+                strPlayerList = new String[strPlayerTemp.length + 1][2];
+                for(intCount = 0; intCount < strPlayerTemp.length; intCount++){
+                    strPlayerList[intCount] = strPlayerTemp[intCount];
+                }
+                strPlayerList[strPlayerTemp.length][0] = strIncomingSplit[2];
+                strPlayerList[strPlayerTemp.length][1] = strIncomingSplit[3];
+            }
         }
         //Message Type 1: Drawing Telemetry
         else if(strIncomingSplit[1].equals("1")){
@@ -84,6 +107,8 @@ public class Model{
 
         }
 
+        return Integer.parseInt(strIncomingSplit[1]);
+
         //Split the server message by commas
         //Check index 1 for message type
         //Within if-statements, trigger appropriate actions
@@ -92,6 +117,11 @@ public class Model{
     //BroadcastIP Message Recall
     public String getStatus(){
         return HostSocket.getMyAddress()+","+strUsername+","+intPlayers;
+    }
+
+    //Retrieve Player List
+    public String[][] getPlayerList(){
+        return strPlayerList;
     }
 
 

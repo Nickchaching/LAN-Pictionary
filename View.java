@@ -18,13 +18,15 @@ public class View implements ActionListener, MouseMotionListener, KeyListener{
     JFrame theFrame = new JFrame();
     homePanel theHomePanel = new homePanel();
     serverSelectionPanel theServerSelectionPanel = new serverSelectionPanel();
+    serverLobbyPanel theServerLobbyPanel = new serverLobbyPanel();
 
     //Methods
     public void actionPerformed(ActionEvent evt){
         //Initial Host Connection
         if(evt.getSource() == theHomePanel.HostGameButton){
             if(theModel.initializeHost(theHomePanel.NameField.getText())){
-                //Swap Pane
+                theFrame.setContentPane(theServerLobbyPanel);
+                theFrame.pack();
             }
             else{
                 theHomePanel.NameField.setText("Please Enter a Name");
@@ -69,9 +71,14 @@ public class View implements ActionListener, MouseMotionListener, KeyListener{
         //Server Message Handling
         else if(evt.getSource() == theModel.HostSocket){
             if(theModel.HostSocket.readText().substring(0,1).equals("0")){
-                theModel.serverMessageRecieved();
+                if(theModel.serverMessageRecieved() == 0){
+                    theServerLobbyPanel.updatePlayerList(theModel.getPlayerList());
+                }
             }
-            else if(theModel.HostSocket.readText().substring(0,1).equals("1")){
+        }
+        //Client Message Handling
+        else if(evt.getSource() == theModel.ClientSocket){
+            if(theModel.HostSocket.readText().substring(0,1).equals("1")){
                 //Client Message Handling
             }
         }
@@ -107,6 +114,7 @@ public class View implements ActionListener, MouseMotionListener, KeyListener{
             theServerSelectionPanel.Server5Button.setVisible(true);
         }
     }
+    
 
     //Constructor
     public View(){
