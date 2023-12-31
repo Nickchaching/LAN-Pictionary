@@ -68,6 +68,35 @@ public class View implements ActionListener, MouseMotionListener, KeyListener{
                 //Display an "error label" and update all buttons to reflect the new list
             }
         }
+        //Server Theme Selection
+        else if(evt.getSource() == theServerLobbyPanel.Theme1Button || evt.getSource() == theServerLobbyPanel.Theme2Button || evt.getSource() == theServerLobbyPanel.Theme3Button || evt.getSource() == theServerLobbyPanel.Theme4Button || evt.getSource() == theServerLobbyPanel.Theme5Button || evt.getSource() == theServerLobbyPanel.Theme6Button || evt.getSource() == theServerLobbyPanel.Theme7Button || evt.getSource() == theServerLobbyPanel.Theme8Button){
+            int intButton = 0;
+            if(evt.getSource() == theServerLobbyPanel.Theme1Button){
+                intButton = 1;
+            }
+            else if(evt.getSource() == theServerLobbyPanel.Theme2Button){
+                intButton = 2;
+            }
+            else if(evt.getSource() == theServerLobbyPanel.Theme3Button){
+                intButton = 3;
+            }
+            else if(evt.getSource() == theServerLobbyPanel.Theme4Button){
+                intButton = 4;
+            }
+            else if(evt.getSource() == theServerLobbyPanel.Theme5Button){
+                intButton = 5;
+            }
+            else if(evt.getSource() == theServerLobbyPanel.Theme6Button){
+                intButton = 6;
+            }
+            else if(evt.getSource() == theServerLobbyPanel.Theme7Button){
+                intButton = 7;
+            }
+            else if(evt.getSource() == theServerLobbyPanel.Theme8Button){
+                intButton = 8;
+            }
+        }
+
         //Server Message Handling
         else if(evt.getSource() == theModel.HostSocket){
             if(theModel.HostSocket.readText().substring(0,1).equals("0")){
@@ -128,6 +157,18 @@ public class View implements ActionListener, MouseMotionListener, KeyListener{
         theServerSelectionPanel.Server3Button.addActionListener(this);
         theServerSelectionPanel.Server4Button.addActionListener(this);
         theServerSelectionPanel.Server5Button.addActionListener(this);
+
+        //Adding Server Lobby Panel Action Listeners
+        theServerLobbyPanel.Theme1Button.addActionListener(this);
+        theServerLobbyPanel.Theme2Button.addActionListener(this);
+        theServerLobbyPanel.Theme3Button.addActionListener(this);
+        theServerLobbyPanel.Theme4Button.addActionListener(this);
+        theServerLobbyPanel.Theme5Button.addActionListener(this);
+        theServerLobbyPanel.Theme6Button.addActionListener(this);
+        theServerLobbyPanel.Theme7Button.addActionListener(this);
+        theServerLobbyPanel.Theme8Button.addActionListener(this);
+        theServerLobbyPanel.StartGameButton.addActionListener(this);
+        
 
         //Initialzing the Frame
         theFrame.setContentPane(theHomePanel);

@@ -5,9 +5,11 @@ import java.awt.*;
 public class assets{
     //Colours
     static Color clrBackground = new Color(37, 37, 37);
+    static Color clrButtonFGDefault = new Color(51, 51, 51);
     static Color clrGrey = new Color(150, 150, 150);
     static Color clrLightGrey = new Color(217, 217, 217);
     static Color clrWhite = new Color(255, 255, 255);
+    static Color clrLightGreen = new Color(1, 68, 33);
 
     //Fonts
     static Font fntHelvetica30 = new Font("Helvetica", Font.BOLD, 30);

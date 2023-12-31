@@ -70,6 +70,70 @@ public class serverLobbyPanel extends JPanel implements ActionListener{
 
     }
 
+    public void updateThemeSelection(int intTheme){
+        switch(intTheme){
+            case 1:
+                resetThemeButtons();
+                Theme1Button.setBackground(assets.clrLightGreen);
+                Theme1Button.setForeground(assets.clrLightGrey);
+                break;
+            case 2:
+                resetThemeButtons();
+                Theme2Button.setBackground(assets.clrLightGreen);
+                Theme2Button.setForeground(assets.clrLightGrey);
+                break;
+            case 3:
+                resetThemeButtons();
+                Theme3Button.setBackground(assets.clrLightGreen);
+                Theme3Button.setForeground(assets.clrLightGrey);
+                break;
+            case 4:
+                resetThemeButtons();
+                Theme4Button.setBackground(assets.clrLightGreen);
+                Theme4Button.setForeground(assets.clrLightGrey);
+                break;
+            case 5:
+                resetThemeButtons();
+                Theme5Button.setBackground(assets.clrLightGreen);
+                Theme5Button.setForeground(assets.clrLightGrey);
+                break;
+            case 6:
+                resetThemeButtons();
+                Theme6Button.setBackground(assets.clrLightGreen);
+                Theme6Button.setForeground(assets.clrLightGrey);
+                break;
+            case 7:
+                resetThemeButtons();
+                Theme7Button.setBackground(assets.clrLightGreen);
+                Theme7Button.setForeground(assets.clrLightGrey);
+                break;
+            case 8:
+                resetThemeButtons();
+                Theme8Button.setBackground(assets.clrLightGreen);
+                Theme8Button.setForeground(assets.clrLightGrey);
+                break;
+        }
+    }
+
+    public void resetThemeButtons(){
+        Theme1Button.setBackground(assets.clrLightGrey);
+        Theme1Button.setForeground(assets.clrButtonFGDefault);
+        Theme2Button.setBackground(assets.clrLightGrey);
+        Theme2Button.setForeground(assets.clrButtonFGDefault);
+        Theme3Button.setBackground(assets.clrLightGrey);
+        Theme3Button.setForeground(assets.clrButtonFGDefault);
+        Theme4Button.setBackground(assets.clrLightGrey);
+        Theme4Button.setForeground(assets.clrButtonFGDefault);
+        Theme5Button.setBackground(assets.clrLightGrey);
+        Theme5Button.setForeground(assets.clrButtonFGDefault);
+        Theme6Button.setBackground(assets.clrLightGrey);
+        Theme6Button.setForeground(assets.clrButtonFGDefault);
+        Theme7Button.setBackground(assets.clrLightGrey);
+        Theme7Button.setForeground(assets.clrButtonFGDefault);
+        Theme8Button.setBackground(assets.clrLightGrey);
+        Theme8Button.setForeground(assets.clrButtonFGDefault);
+    }
+
     //Constructor
     public serverLobbyPanel(){
         setPreferredSize(new Dimension(1280, 720));

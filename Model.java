@@ -26,8 +26,6 @@
 //SERVER STORAGE:
 //Client Details: IP, Name
 
-//Importing Logic Libraries
-import java.util.Arrays;
 
 public class Model{
     //Properties
@@ -39,6 +37,8 @@ public class Model{
     boolean blnGameStarted = false;
     String strUsername;
     String strIncomingSplit[];
+    int intTheme;
+    String strTheme;
     
     //Server Properties
     SuperSocketMaster HostSocket;
@@ -46,6 +46,7 @@ public class Model{
     Thread broadcastIP = new Thread(new broadcastIP(this));
     String strPlayerList[][];
     String strPlayerTemp[][];
+    String strThemes[];
 
     //Client Only Properties
     SuperSocketMaster ClientSocket;
@@ -122,6 +123,17 @@ public class Model{
     //Retrieve Player List
     public String[][] getPlayerList(){
         return strPlayerList;
+    }
+
+    //Theme Selection Handling
+    public boolean selectTheme(int intTheme){
+        if(intTheme != this.intTheme){
+            this.intTheme = intTheme;
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 
 
