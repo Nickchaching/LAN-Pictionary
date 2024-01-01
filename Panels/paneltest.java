@@ -3,7 +3,7 @@ import javax.swing.*;
 
 public class paneltest {
     JFrame theFrame = new JFrame();
-    serverLobbyPanel testPanel = new serverLobbyPanel();
+    drawerPRPanel testPanel = new drawerPRPanel();
 
     public paneltest(){
         theFrame.setContentPane(testPanel);

@@ -229,7 +229,8 @@ public class serverLobbyPanel extends JPanel implements ActionListener{
         Theme1Button.setSize(360, 50);
         Theme1Button.setLocation(880, 125);
         Theme1Button.setFont(assets.fntHelvetica30);
-        Theme1Button.setBackground(assets.clrLightGrey);
+        Theme1Button.setBackground(assets.clrLightGreen);
+        Theme1Button.setForeground(assets.clrLightGrey);
         Theme1Button.setBorder(null);
 
         Theme2Button.setSize(360, 50);

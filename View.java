@@ -13,7 +13,6 @@ import javax.swing.*;
 public class View implements ActionListener, MouseMotionListener, KeyListener{
     //Properties
     Model theModel = new Model(this);
-    Timer pingTimer = new Timer(1000, this);
 
     //JComponents
     JFrame theFrame = new JFrame();
@@ -21,13 +20,14 @@ public class View implements ActionListener, MouseMotionListener, KeyListener{
     serverSelectionPanel theServerSelectionPanel = new serverSelectionPanel();
     serverLobbyPanel theServerLobbyPanel = new serverLobbyPanel();
     clientLobbyPanel theClientLobbyPanel = new clientLobbyPanel();
+    drawerPRPanel theDrawerPRPanel = new drawerPRPanel();
+    nonDrawerPRPanel theNonDrawerPRPanel = new nonDrawerPRPanel();
 
     //Methods
     public void actionPerformed(ActionEvent evt){
         //Initial Host Connection
         if(evt.getSource() == theHomePanel.HostGameButton){
             if(theModel.initializeHost(theHomePanel.NameField.getText())){
-                pingTimer.start();
                 theServerLobbyPanel.displayThemes(theModel.getThemes());
                 theFrame.setContentPane(theServerLobbyPanel);
                 theFrame.pack();
@@ -105,6 +105,23 @@ public class View implements ActionListener, MouseMotionListener, KeyListener{
             }
         }
 
+        else if(evt.getSource() == theServerLobbyPanel.StartGameButton){
+            if(theModel.startGame()){
+                if(theModel.newRound()){
+                    //Host is drawing
+                    theDrawerPRPanel.initializePanel(theModel.getRound(), theModel.getObjectChoices());
+                    theFrame.setContentPane(theDrawerPRPanel);
+                    theFrame.pack();
+                }
+                else{
+                    //Host is not drawing
+                    theNonDrawerPRPanel.initializePanel(theModel.getRound());
+                    theFrame.setContentPane(theNonDrawerPRPanel);
+                    theFrame.pack();
+                }
+            }
+        }
+
         //Server Message Handling
         else if(evt.getSource() == theModel.HostSocket){
             if(theModel.HostSocket.readText().substring(0,1).equals("0")){
@@ -123,10 +140,17 @@ public class View implements ActionListener, MouseMotionListener, KeyListener{
         }
 
         //Pushing Regular Updates
-        else if(evt.getSource() == pingTimer){
+        else if(evt.getSource() == theModel.pingTimer){
             if(theFrame.getContentPane() == theServerLobbyPanel){
                 theModel.sendPing(0);
             }
+            else if(theFrame.getContentPane() == theDrawerPRPanel){
+                theDrawerPRPanel.updateTimer(Integer.parseInt(theModel.sendPing(1)));
+            }
+            else if(theFrame.getContentPane() == theNonDrawerPRPanel){
+                theNonDrawerPRPanel.updateTimer(Integer.parseInt(theModel.sendPing(1)));
+            }
+            //Responsible for Procesing and Sending out Telemetry
         }
     }
 

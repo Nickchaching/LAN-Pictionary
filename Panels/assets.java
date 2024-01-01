@@ -10,6 +10,7 @@ public class assets{
     static Color clrLightGrey = new Color(217, 217, 217);
     static Color clrWhite = new Color(255, 255, 255);
     static Color clrLightGreen = new Color(1, 68, 33);
+    static Color clrRed = new Color(255, 0, 0);
 
     //Fonts
     static Font fntHelvetica30 = new Font("Helvetica", Font.BOLD, 30);

@@ -5,32 +5,42 @@
         //DesignationID 1 = Intended for Clients
     
     //Server Intended Messages
-        //Initial Connection: 0, 0, IP, ClientName
         //Terminating Connection: 0, -1, IP
-        //Drawing Telemetry: 0, 1, IP, PosX, PosY, BrushSize, BrushColor
-        //Chat Telemetry: 0, 2, IP, Message
+        //Initial Connection: 0, 0, IP, ClientName
+        //Chat Telemetry: 0, 1, IP, Message
+        //Object Choice Telemetry: 0, 2, IP, Object
+        //Drawing Telemetry: 0, 2, IP, PosX, PosY, BrushSize, BrushColor
 
     //Client Intended Messages
         //Terminating Connection: 1, -1, IP
         //Lobby Player Info Ping: 1, 0, IP, PlayerNames[]
-        //Drawing Telemetry: 1, 1, IP, PosX, PosY, BrushSize, BrushColor
-        //Chat Telemetry: 1, 2, IP, Message
-        //Score Telemetry: 1, 3, IP, PlayerScores[]
-        //Timer Telemetry: 1, 4, IP, TimeRemaining
-        //Object Telemetry: 1, 5, IP, ObjecttoDraw
-        //Game Telemetry: 1, 6, IP, RoundsPlayed
+        //Chat Telemetry: 1, 1, IP, FormattedMessage (with player name)
+        //Round Intitalization1 (Choosing): 1, 2, IP, RoundsPlayed, DrawerIP, ObjectstoChoose[]
+        //Round Initializaton Telemetry: 1, 3, IP, TimeRemaining
+        //Round Initialization2 (Done Choosing): 1, 4, IP, Object.charlength
+        //Drawing Telemetry: 1, 5, IP, PosX, PosY, BrushSize, BrushColor
+        //Game Telemetry: 1, 6, IP, TimeRemaining, PlayerScores[][]
+        //Round Completion: 1, 7, IP, Object
+        //Round Initializaton Telemetry: 1, 8, IP, TimeRemaining
 
 //6001 - INITIAL SERVER CONNECTION
     //Server Ping: IP, ServerName, PlayerCount
 
 //SERVER STORAGE:
-//Client Details: IP, Name
+//Client Details: IP, Name, Points, Drawing?, Drew?
 
 import java.io.*;
+import javax.swing.*;
 
 public class Model{
     //Properties
     View theView;
+
+    //Game Settings
+    int intPreRoundDuration = 15000;
+    int intRoundDuration = 90000;
+    int intPostRoundDuration = 5000;
+    int intRounds = 5;
 
     //Shared Properties
     boolean blnConnected = false;
@@ -39,6 +49,8 @@ public class Model{
     String strUsername;
     String strIncomingSplit[];
     String strTheme;
+    int intRound;
+    boolean blnDrawing;
     
     //Server Properties
     SuperSocketMaster HostSocket;
@@ -47,6 +59,14 @@ public class Model{
     String strPlayerList[][];
     String strPlayerTemp[][];
     String strThemes[] = new String[8];
+    String strObjects[];
+    String strChoiceObjects[];
+    String strDrawer;
+    String strObject;
+    Timer pingTimer;
+    SuperTimer preRoundTimer;
+    SuperTimer roundTimer;
+    SuperTimer postRoundTimer;
 
     //Client Only Properties
     SuperSocketMaster ClientSocket;
@@ -65,6 +85,10 @@ public class Model{
             blnConnected = HostSocket.connect();
             if(blnConnected){
                 broadcastIP.start();
+                pingTimer.start();
+                strPlayerList = new String[1][4];
+                strPlayerList[0][0] = HostSocket.getMyAddress();
+                strPlayerList[0][1] = strUsername;
             }
             return blnConnected;
         }
@@ -92,6 +116,7 @@ public class Model{
                 strThemes[intCount] = themeFile.readLine();
             }
             themeFile.close();
+            strTheme = strThemes[0];
         }
         catch(FileNotFoundException e){
             System.out.println("Unfortunately, the themes file has not been found");
@@ -113,6 +138,89 @@ public class Model{
         }
     }
 
+    //Loading Theme Objects
+    public boolean loadObjects(){
+        int intCount;
+        int intObjects = 0;
+        try{
+            BufferedReader objectFile = new BufferedReader(new FileReader("Assets/"+strTheme));
+            while(objectFile.readLine() != null){
+                intObjects++;
+            }
+            objectFile.close();
+            objectFile = new BufferedReader(new FileReader("Assets/"+strTheme));
+            strObjects = new String[intObjects];
+            for(intCount = 0; intCount < intObjects; intCount++){
+                strObjects[intCount] = objectFile.readLine();
+            }
+        return true;
+        }
+        catch(FileNotFoundException e){
+            System.out.println("Unfortunately, the object file has not been found");
+            return false;
+        }
+        catch(IOException e){
+            System.out.println("Unfortunately, there has been an error loading the objects");
+            return false;
+        }
+    }
+
+    //Get Random Drawer
+    public String getRandDrawer(){
+        return strPlayerList[(int)(Math.random() * strPlayerList.length)][0];
+    }
+
+    //Get Random Objects
+    public String[] getRandObjects(){
+        String strRandObjects[] = new String[2];
+        strRandObjects[0] = strObjects[(int)(Math.random() * strObjects.length)];
+        strRandObjects[1] = strObjects[(int)(Math.random() * strObjects.length)];
+        while(strRandObjects[0].equals(strRandObjects[1])){
+            strRandObjects[1] = strObjects[(int)(Math.random() * strObjects.length)];
+        }
+        return strRandObjects;
+    }
+
+    //Start Game Procedure
+    public boolean startGame(){
+        blnGameStarted = loadObjects();
+        if(blnGameStarted){
+            intRound = 1;
+        }
+        return blnGameStarted;
+    }
+
+    //New Round
+    public boolean newRound(){
+        //Generating a new Drawer and Objects
+        strDrawer = getRandDrawer();
+        strChoiceObjects = getRandObjects();
+
+        //Informing Clients of Round Start
+        HostSocket.sendText("1,2,"+HostSocket.getMyAddress()+","+intRound+","+strDrawer+","+String.join(",", strChoiceObjects));
+
+        preRoundTimer.start();
+
+        //Checking if the Host is the Drawer
+        if(strDrawer.equals(HostSocket.getMyAddress())){
+            return true;
+        }
+        else{
+            return false;
+        }
+
+    }
+
+    //Get Object Choices
+    public String[] getObjectChoices(){
+        return strChoiceObjects;
+    }
+
+    //Get Round Info
+    public int getRound(){
+        return intRound;
+    }
+
     //Server Message Handling
     public int serverMessageRecieved(){
         strIncomingSplit = HostSocket.readText().split(",");
@@ -120,21 +228,14 @@ public class Model{
         //Message Type 0: Initial Connection
         if(strIncomingSplit[1].equals("0")){
             System.out.println("The server has accepted a new client, "+strIncomingSplit[3]+", at "+strIncomingSplit[2]);
-            if(strPlayerList == null){
-                strPlayerList = new String[1][2];
-                strPlayerList[0][0] = strIncomingSplit[2];
-                strPlayerList[0][1] = strIncomingSplit[3];
+            int intCount;
+            strPlayerTemp = strPlayerList;
+            strPlayerList = new String[strPlayerTemp.length + 1][2];
+            for(intCount = 0; intCount < strPlayerTemp.length; intCount++){
+                strPlayerList[intCount] = strPlayerTemp[intCount];
             }
-            else{
-                int intCount;
-                strPlayerTemp = strPlayerList;
-                strPlayerList = new String[strPlayerTemp.length + 1][2];
-                for(intCount = 0; intCount < strPlayerTemp.length; intCount++){
-                    strPlayerList[intCount] = strPlayerTemp[intCount];
-                }
-                strPlayerList[strPlayerTemp.length][0] = strIncomingSplit[2];
-                strPlayerList[strPlayerTemp.length][1] = strIncomingSplit[3];
-            }
+            strPlayerList[strPlayerTemp.length][0] = strIncomingSplit[2];
+            strPlayerList[strPlayerTemp.length][1] = strIncomingSplit[3];
         }
         //Message Type 1: Drawing Telemetry
         else if(strIncomingSplit[1].equals("1")){
@@ -157,7 +258,8 @@ public class Model{
     }
 
     //Regular Server Data Pings
-    public void sendPing(int intType){
+    public String sendPing(int intType){
+        //Lobby Player Info Ping
         if(intType == 0 && strPlayerList != null){
             int intCount;
             String strEncode1[] = new String[strPlayerList.length];
@@ -166,6 +268,14 @@ public class Model{
             }
             HostSocket.sendText("1,0,"+HostSocket.getMyAddress()+","+String.join(",", strEncode1));
         }
+        //Round Initialization Ping
+        else if(intType == 1){
+            HostSocket.sendText("1,3,"+HostSocket.getMyAddress()+preRoundTimer.getRemainingTime());
+            return (int)(preRoundTimer.getRemainingTime()*100/intPreRoundDuration)+"";
+        }
+        
+        //Defualt Return
+        return null;
     }
 
 
@@ -267,5 +377,9 @@ public class Model{
     //Constuctor
     public Model(View theView){
         this.theView = theView;
+        pingTimer = new Timer(1000, theView);
+        preRoundTimer = new SuperTimer(intPreRoundDuration, theView);
+        roundTimer = new SuperTimer(intRoundDuration, theView);
+        postRoundTimer = new SuperTimer(intPostRoundDuration, theView);
     }
 }
