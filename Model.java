@@ -26,6 +26,7 @@
 //SERVER STORAGE:
 //Client Details: IP, Name
 
+import java.io.*;
 
 public class Model{
     //Properties
@@ -37,7 +38,6 @@ public class Model{
     boolean blnGameStarted = false;
     String strUsername;
     String strIncomingSplit[];
-    int intTheme;
     String strTheme;
     
     //Server Properties
@@ -46,13 +46,14 @@ public class Model{
     Thread broadcastIP = new Thread(new broadcastIP(this));
     String strPlayerList[][];
     String strPlayerTemp[][];
-    String strThemes[];
+    String strThemes[] = new String[8];
 
     //Client Only Properties
     SuperSocketMaster ClientSocket;
     String strServerAddress;
     String[][] strServerList = new String[5][3];
     Thread findServer = new Thread(new findServer(this));
+    String strPlayers[];
 
     //Server Methods
     //Initial Host Connection
@@ -72,10 +73,50 @@ public class Model{
         }
     }
 
+    //BroadcastIP Message Recall
+    public String getStatus(){
+        return HostSocket.getMyAddress()+","+strUsername+","+intPlayers;
+    }
+
+    //Retrieve Player List
+    public String[][] getPlayerList(){
+        return strPlayerList;
+    }
+
+    //Load and Retrieve Themes
+    public String[] getThemes(){
+        int intCount;
+        try{
+            BufferedReader themeFile = new BufferedReader(new FileReader("Assets/themes.txt"));
+            for(intCount = 0; intCount < 8; intCount++){
+                strThemes[intCount] = themeFile.readLine();
+            }
+            themeFile.close();
+        }
+        catch(FileNotFoundException e){
+            System.out.println("Unfortunately, the themes file has not been found");
+        }
+        catch(IOException e){
+            System.out.println("Unfortunately, there has been an error loading the themes");
+        }
+        return strThemes;
+    }
+
+    //Theme Selection Handling
+    public boolean selectTheme(int intTheme){
+        if(strThemes[intTheme - 1] != strTheme){
+            strTheme = strThemes[intTheme - 1];
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
     //Server Message Handling
     public int serverMessageRecieved(){
         strIncomingSplit = HostSocket.readText().split(",");
-            
+        
         //Message Type 0: Initial Connection
         if(strIncomingSplit[1].equals("0")){
             System.out.println("The server has accepted a new client, "+strIncomingSplit[3]+", at "+strIncomingSplit[2]);
@@ -115,24 +156,15 @@ public class Model{
         //Within if-statements, trigger appropriate actions
     }
 
-    //BroadcastIP Message Recall
-    public String getStatus(){
-        return HostSocket.getMyAddress()+","+strUsername+","+intPlayers;
-    }
-
-    //Retrieve Player List
-    public String[][] getPlayerList(){
-        return strPlayerList;
-    }
-
-    //Theme Selection Handling
-    public boolean selectTheme(int intTheme){
-        if(intTheme != this.intTheme){
-            this.intTheme = intTheme;
-            return true;
-        }
-        else{
-            return false;
+    //Regular Server Data Pings
+    public void sendPing(int intType){
+        if(intType == 0 && strPlayerList != null){
+            int intCount;
+            String strEncode1[] = new String[strPlayerList.length];
+            for(intCount = 0; intCount < strPlayerList.length; intCount++){
+                strEncode1[intCount] = strPlayerList[intCount][1];
+            }
+            HostSocket.sendText("1,0,"+HostSocket.getMyAddress()+","+String.join(",", strEncode1));
         }
     }
 
@@ -207,6 +239,28 @@ public class Model{
         if(strServerList[4][0] != null){
             theView.updateServerButton(strServerList[4][1]+" | "+strServerList[4][0]+" | "+strServerList[4][2]+" Players", 5);
         }
+    }
+
+    //Client Message Handling
+    public int clientMessageRecieved(){
+        strIncomingSplit = ClientSocket.readText().split(",");
+
+        if(strIncomingSplit[1].equals("0")){
+            int intLength = strIncomingSplit.length - 3;
+            int intCount;
+            String strDecode[] = new String[intLength];
+            for(intCount = 0; intCount < intLength; intCount++){
+                strDecode[intCount] = strIncomingSplit[intCount + 3];
+            }
+            strPlayers = strDecode;
+        }
+
+        return Integer.parseInt(strIncomingSplit[1]);
+    }
+
+    //Retrieve Player List
+    public String[] getPlayers(){
+        return strPlayers;
     }
 
 

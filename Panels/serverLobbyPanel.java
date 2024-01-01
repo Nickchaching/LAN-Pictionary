@@ -13,8 +13,9 @@ public class serverLobbyPanel extends JPanel implements ActionListener{
     public JPanel PlayersPanel = new JPanel();
     public JScrollPane PlayersScroll = new JScrollPane(PlayersPanel);
     public JLabel PlayerLabels[];
-    public JButton Theme1Button = new JButton("Testing 1");
-    public JButton Theme2Button = new JButton("Testing 2");
+    public JLabel PlayerLabels2[];
+    public JButton Theme1Button = new JButton();
+    public JButton Theme2Button = new JButton();
     public JButton Theme3Button = new JButton();
     public JButton Theme4Button = new JButton();
     public JButton Theme5Button = new JButton();
@@ -23,19 +24,17 @@ public class serverLobbyPanel extends JPanel implements ActionListener{
     public JButton Theme8Button = new JButton();
     public JButton StartGameButton = new JButton("START GAME");
     public Timer theTimer = new Timer(1000/60, this);
-    private int intVelo;
+    private int intScrollVelo = 2;
+    private int intScrollHeight;
 
     //Methods
     public void actionPerformed(ActionEvent evt){
         if(evt.getSource() == theTimer){
             if(PlayersPanel.getPreferredSize().getHeight() > 540){
-                if(PlayersScroll.getViewport().getViewPosition().getY() >= PlayersPanel.getPreferredSize().getHeight() - 535){
-                    intVelo = -1;
+                if(PlayersScroll.getViewport().getViewPosition().getY() >= intScrollHeight - 540){
+                    PlayersScroll.getViewport().setViewPosition(new Point(0, 0));
                 }
-                else if(PlayersScroll.getViewport().getViewPosition().getY() <= 0){
-                    intVelo = 1;
-                }
-                PlayersScroll.getViewport().setViewPosition(new Point(0, (int)PlayersScroll.getViewport().getViewPosition().getY() + intVelo));
+                PlayersScroll.getViewport().setViewPosition(new Point(0, (int)PlayersScroll.getViewport().getViewPosition().getY() + intScrollVelo));
                 repaint();
             }
         }
@@ -51,23 +50,90 @@ public class serverLobbyPanel extends JPanel implements ActionListener{
     public void updatePlayerList(String strPlayerList[][]){
         int intCount;
 
-        PlayersPanel.setBounds(0, 0, 680, 60 * strPlayerList.length);
-        PlayersPanel.setPreferredSize(new Dimension(680, 60 * strPlayerList.length));
-        PlayerLabels = new JLabel[strPlayerList.length];
+        if(strPlayerList.length <= 9){
+            PlayersPanel.setBounds(0, 0, 680, 60 * strPlayerList.length);
+            PlayersPanel.setPreferredSize(new Dimension(680, 60 * strPlayerList.length));
+            PlayerLabels = new JLabel[strPlayerList.length];
 
-        for(intCount = 0; intCount < strPlayerList.length; intCount++){
-            PlayerLabels[intCount] = new JLabel(strPlayerList[intCount][1]+" at "+strPlayerList[intCount][0]);
-            PlayerLabels[intCount].setSize(680,50);
-            PlayerLabels[intCount].setLocation(0, intCount * 60);
-            PlayerLabels[intCount].setHorizontalAlignment(SwingConstants.CENTER);
-            PlayerLabels[intCount].setFont(assets.fntHelvetica30);
-            PlayerLabels[intCount].setBackground(assets.clrLightGrey);
-            PlayerLabels[intCount].setOpaque(true);
-            PlayersPanel.add(PlayerLabels[intCount]);
+            for(intCount = 0; intCount < strPlayerList.length; intCount++){
+                PlayerLabels[intCount] = new JLabel(strPlayerList[intCount][1]+" at "+strPlayerList[intCount][0]);
+                PlayerLabels[intCount].setSize(680,50);
+                PlayerLabels[intCount].setLocation(0, intCount * 60);
+                PlayerLabels[intCount].setHorizontalAlignment(SwingConstants.CENTER);
+                PlayerLabels[intCount].setFont(assets.fntHelvetica30);
+                PlayerLabels[intCount].setBackground(assets.clrLightGrey);
+                PlayerLabels[intCount].setOpaque(true);
+                PlayersPanel.add(PlayerLabels[intCount]);
+            }
         }
-        
-        PlayersPanel.repaint();
+        else if(strPlayerList.length == 10){
+            theTimer.start();
+            PlayersPanel.removeAll();
+            PlayersPanel.setBounds(0, 0, 680, 60 * 2 * strPlayerList.length);
+            PlayersPanel.setPreferredSize(new Dimension(680, 60 * 2 * strPlayerList.length));
+            intScrollHeight = (int)PlayersPanel.getPreferredSize().getHeight();
+            PlayerLabels = new JLabel[strPlayerList.length];
+            PlayerLabels2 = new JLabel[strPlayerList.length];
 
+            for(intCount = 0; intCount < strPlayerList.length; intCount++){
+                PlayerLabels[intCount] = new JLabel(strPlayerList[intCount][1]+" at "+strPlayerList[intCount][0]);
+                PlayerLabels[intCount].setSize(680,50);
+                PlayerLabels[intCount].setLocation(0, intCount * 60);
+                PlayerLabels[intCount].setHorizontalAlignment(SwingConstants.CENTER);
+                PlayerLabels[intCount].setFont(assets.fntHelvetica30);
+                PlayerLabels[intCount].setBackground(assets.clrLightGrey);
+                PlayerLabels[intCount].setOpaque(true);
+                PlayersPanel.add(PlayerLabels[intCount]);
+                PlayerLabels2[intCount] = new JLabel(strPlayerList[intCount][1]+" at "+strPlayerList[intCount][0]);
+                PlayerLabels2[intCount].setSize(680,50);
+                PlayerLabels2[intCount].setLocation(0, 60 * strPlayerList.length + intCount * 60);
+                PlayerLabels2[intCount].setHorizontalAlignment(SwingConstants.CENTER);
+                PlayerLabels2[intCount].setFont(assets.fntHelvetica30);
+                PlayerLabels2[intCount].setBackground(assets.clrLightGrey);
+                PlayerLabels2[intCount].setOpaque(true);
+                PlayersPanel.add(PlayerLabels2[intCount]);
+            }
+        }    
+        else if(strPlayerList.length > 10){
+            PlayersPanel.removeAll();
+            PlayersPanel.setBounds(0, 0, 680, 60 * 2 * strPlayerList.length);
+            PlayersPanel.setPreferredSize(new Dimension(680, 60 * 2 * strPlayerList.length));
+            intScrollHeight = (int)PlayersPanel.getPreferredSize().getHeight();
+            PlayerLabels = new JLabel[strPlayerList.length];
+            PlayerLabels2 = new JLabel[strPlayerList.length];
+
+            for(intCount = 0; intCount < strPlayerList.length; intCount++){
+                PlayerLabels[intCount] = new JLabel(strPlayerList[intCount][1]+" at "+strPlayerList[intCount][0]);
+                PlayerLabels[intCount].setSize(680,50);
+                PlayerLabels[intCount].setLocation(0, intCount * 60);
+                PlayerLabels[intCount].setHorizontalAlignment(SwingConstants.CENTER);
+                PlayerLabels[intCount].setFont(assets.fntHelvetica30);
+                PlayerLabels[intCount].setBackground(assets.clrLightGrey);
+                PlayerLabels[intCount].setOpaque(true);
+                PlayersPanel.add(PlayerLabels[intCount]);
+                PlayerLabels2[intCount] = new JLabel(strPlayerList[intCount][1]+" at "+strPlayerList[intCount][0]);
+                PlayerLabels2[intCount].setSize(680,50);
+                PlayerLabels2[intCount].setLocation(0, 60 * strPlayerList.length + intCount * 60);
+                PlayerLabels2[intCount].setHorizontalAlignment(SwingConstants.CENTER);
+                PlayerLabels2[intCount].setFont(assets.fntHelvetica30);
+                PlayerLabels2[intCount].setBackground(assets.clrLightGrey);
+                PlayerLabels2[intCount].setOpaque(true);
+                PlayersPanel.add(PlayerLabels2[intCount]);
+            }
+        }
+
+        PlayersPanel.repaint();
+    }
+
+    public void displayThemes(String strThemes[]){
+        Theme1Button.setText(strThemes[0]);
+        Theme2Button.setText(strThemes[1]);
+        Theme3Button.setText(strThemes[2]);
+        Theme4Button.setText(strThemes[3]);
+        Theme5Button.setText(strThemes[4]);
+        Theme6Button.setText(strThemes[5]);
+        Theme7Button.setText(strThemes[6]);
+        Theme8Button.setText(strThemes[7]);
     }
 
     public void updateThemeSelection(int intTheme){
@@ -228,7 +294,5 @@ public class serverLobbyPanel extends JPanel implements ActionListener{
         add(Theme7Button);
         add(Theme8Button);
         add(StartGameButton);
-
-        theTimer.start();
     }
 }

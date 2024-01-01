@@ -13,18 +13,22 @@ import javax.swing.*;
 public class View implements ActionListener, MouseMotionListener, KeyListener{
     //Properties
     Model theModel = new Model(this);
+    Timer pingTimer = new Timer(1000, this);
 
     //JComponents
     JFrame theFrame = new JFrame();
     homePanel theHomePanel = new homePanel();
     serverSelectionPanel theServerSelectionPanel = new serverSelectionPanel();
     serverLobbyPanel theServerLobbyPanel = new serverLobbyPanel();
+    clientLobbyPanel theClientLobbyPanel = new clientLobbyPanel();
 
     //Methods
     public void actionPerformed(ActionEvent evt){
         //Initial Host Connection
         if(evt.getSource() == theHomePanel.HostGameButton){
             if(theModel.initializeHost(theHomePanel.NameField.getText())){
+                pingTimer.start();
+                theServerLobbyPanel.displayThemes(theModel.getThemes());
                 theFrame.setContentPane(theServerLobbyPanel);
                 theFrame.pack();
             }
@@ -62,7 +66,8 @@ public class View implements ActionListener, MouseMotionListener, KeyListener{
             }
 
             if(theModel.initializeClientConnection(intButton)){
-                //Swap to Lobby Panel
+                theFrame.setContentPane(theClientLobbyPanel);
+                theFrame.pack();
             }
             else{
                 //Display an "error label" and update all buttons to reflect the new list
@@ -95,6 +100,9 @@ public class View implements ActionListener, MouseMotionListener, KeyListener{
             else if(evt.getSource() == theServerLobbyPanel.Theme8Button){
                 intButton = 8;
             }
+            if(theModel.selectTheme(intButton)){
+                theServerLobbyPanel.updateThemeSelection(intButton);
+            }
         }
 
         //Server Message Handling
@@ -107,8 +115,17 @@ public class View implements ActionListener, MouseMotionListener, KeyListener{
         }
         //Client Message Handling
         else if(evt.getSource() == theModel.ClientSocket){
-            if(theModel.HostSocket.readText().substring(0,1).equals("1")){
-                //Client Message Handling
+            if(theModel.ClientSocket.readText().substring(0,1).equals("1")){
+                if(theModel.clientMessageRecieved() == 0){
+                    theClientLobbyPanel.updatePlayerList(theModel.getPlayers());
+                }
+            }
+        }
+
+        //Pushing Regular Updates
+        else if(evt.getSource() == pingTimer){
+            if(theFrame.getContentPane() == theServerLobbyPanel){
+                theModel.sendPing(0);
             }
         }
     }
@@ -176,6 +193,7 @@ public class View implements ActionListener, MouseMotionListener, KeyListener{
         theFrame.setResizable(false);
         theFrame.pack();
         theFrame.setVisible(true);
+
     }
 
     //Unused Methods
