@@ -1,0 +1,34 @@
+Mountain
+Valley
+Canyon
+Plateau
+Volcano
+Crater
+Glacier
+Cave
+Desert
+Archipelago
+Tundra
+Ocean
+River
+Lake
+Island
+Peninsula
+Isthmus
+Delta
+Plain
+Cliff
+Fault Line
+Rift Valley
+Coral Reef
+Atoll
+Lagoon
+Marsh
+Swamp
+Estuary
+Floodplain
+Waterfall
+Geyser
+Hot Spring
+Lava Tube
+Sinkhole
