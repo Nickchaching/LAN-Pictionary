@@ -74,6 +74,7 @@ public class Model{
     String[][] strServerList = new String[5][3];
     Thread findServer = new Thread(new findServer(this));
     String strPlayers[];
+    int intTimePerRemaining;
 
     //Server Methods
     //Initial Host Connection
@@ -272,7 +273,7 @@ public class Model{
         }
         //Round Initialization Ping
         else if(intType == 1){
-            HostSocket.sendText("1,3,"+HostSocket.getMyAddress()+preRoundTimer.getRemainingTime());
+            HostSocket.sendText("1,3,"+HostSocket.getMyAddress()+(int)(preRoundTimer.getRemainingTime()*100/intPreRoundDuration));
             return (int)(preRoundTimer.getRemainingTime()*100/intPreRoundDuration)+"";
         }
         
@@ -357,6 +358,7 @@ public class Model{
     public int clientMessageRecieved(){
         strIncomingSplit = ClientSocket.readText().split(",");
 
+        //Lobby Player Info Ping
         if(strIncomingSplit[1].equals("0")){
             int intLength = strIncomingSplit.length - 3;
             int intCount;
@@ -367,6 +369,7 @@ public class Model{
             strPlayers = strDecode;
         }
 
+        //Start of a New Round
         if(strIncomingSplit[1].equals("2")){
             intRound = Integer.parseInt(strIncomingSplit[3]);
             if(strIncomingSplit[4].equals(ClientSocket.getMyAddress())){
@@ -380,6 +383,11 @@ public class Model{
             }
         }
 
+        //Round Timer Update Ping
+        if(strIncomingSplit[1].equals("3")){
+            intTimePerRemaining = Integer.parseInt(strIncomingSplit[3]);
+        }
+
         return Integer.parseInt(strIncomingSplit[1]);
     }
 
@@ -391,6 +399,11 @@ public class Model{
     //Retrieve Drawing Status
     public boolean isDrawing(){
         return blnDrawing;
+    }
+
+    //Retrieve Time Remaining Percentage
+    public int getTimeRemPer(){
+        return intTimePerRemaining;
     }
 
 
