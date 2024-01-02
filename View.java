@@ -104,7 +104,7 @@ public class View implements ActionListener, MouseMotionListener, KeyListener{
                 theServerLobbyPanel.updateThemeSelection(intButton);
             }
         }
-
+        //Server Start Game
         else if(evt.getSource() == theServerLobbyPanel.StartGameButton){
             if(theModel.startGame()){
                 if(theModel.newRound()){
@@ -121,12 +121,28 @@ public class View implements ActionListener, MouseMotionListener, KeyListener{
                 }
             }
         }
+        //Drawing Choice Selected
+        else if(evt.getSource() == theDrawerPRPanel.Choice1Button || evt.getSource() == theDrawerPRPanel.Choice2Button){
+            int intButton;
+            if(evt.getSource() == theDrawerPRPanel.Choice1Button){
+                intButton = 1;
+            }
+            else{
+                intButton = 2;
+            }
+            theModel.choseObject(intButton);
+            //Change Panel To Drawing Frame
+        }
+
 
         //Server Message Handling
         else if(evt.getSource() == theModel.HostSocket){
             if(theModel.HostSocket.readText().substring(0,1).equals("0")){
                 if(theModel.serverMessageRecieved() == 0){
                     theServerLobbyPanel.updatePlayerList(theModel.getPlayerList());
+                }
+                else if(theModel.serverMessageRecieved() == 2){
+                    //Change Panel to Drawing Frame
                 }
             }
         }
@@ -155,6 +171,9 @@ public class View implements ActionListener, MouseMotionListener, KeyListener{
                     else if(theFrame.getContentPane() == theNonDrawerPRPanel){
                         theNonDrawerPRPanel.updateTimer(theModel.getTimeRemPer());
                     }
+                }
+                else if(theModel.clientMessageRecieved() == 4){
+                    //Change Panel to Drawing Frame
                 }
             }
         }
@@ -230,6 +249,9 @@ public class View implements ActionListener, MouseMotionListener, KeyListener{
         theServerLobbyPanel.Theme8Button.addActionListener(this);
         theServerLobbyPanel.StartGameButton.addActionListener(this);
         
+        //Adding DrawingPR Panel Action Listeners
+        theDrawerPRPanel.Choice1Button.addActionListener(this);
+        theDrawerPRPanel.Choice2Button.addActionListener(this);
 
         //Initialzing the Frame
         theFrame.setContentPane(theHomePanel);

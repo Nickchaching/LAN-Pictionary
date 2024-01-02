@@ -52,6 +52,8 @@ public class Model{
     int intRound;
     boolean blnDrawing;
     String strChoiceObjects[];
+    String strObject;
+    int intObjectLength;
     
     //Server Properties
     SuperSocketMaster HostSocket;
@@ -62,7 +64,6 @@ public class Model{
     String strThemes[] = new String[8];
     String strObjects[];
     String strDrawer;
-    String strObject;
     Timer pingTimer;
     SuperTimer preRoundTimer;
     SuperTimer roundTimer;
@@ -214,6 +215,14 @@ public class Model{
 
     }
 
+    //Starting a Round (Drawing)
+    public void startRound(){
+        preRoundTimer.stop();
+        intObjectLength = strObject.length();
+        HostSocket.sendText("1,4,"+HostSocket.getMyAddress()+","+intObjectLength);
+        roundTimer.start();
+    }
+
     //Get Object Choices
     public String[] getObjectChoices(){
         return strChoiceObjects;
@@ -240,17 +249,14 @@ public class Model{
             strPlayerList[strPlayerTemp.length][0] = strIncomingSplit[2];
             strPlayerList[strPlayerTemp.length][1] = strIncomingSplit[3];
         }
-        //Message Type 1: Drawing Telemetry
+        //Message Type 1: Chat Telemetry
         else if(strIncomingSplit[1].equals("1")){
 
         }
-        //Message Type 2: Chat Telemetry
+        //Message Type 2: Object Choice Telemetry
         else if(strIncomingSplit[1].equals("2")){
-
-        }
-        //Message Type -1: Terminating Connection
-        else if(strIncomingSplit[1].equals("-1")){
-
+            strObject = strIncomingSplit[3];
+            startRound();
         }
 
         return Integer.parseInt(strIncomingSplit[1]);
@@ -273,7 +279,7 @@ public class Model{
         }
         //Round Initialization Ping
         else if(intType == 1){
-            HostSocket.sendText("1,3,"+HostSocket.getMyAddress()+(int)(preRoundTimer.getRemainingTime()*100/intPreRoundDuration));
+            HostSocket.sendText("1,3,"+HostSocket.getMyAddress()+","+(int)(preRoundTimer.getRemainingTime()*100/intPreRoundDuration));
             return (int)(preRoundTimer.getRemainingTime()*100/intPreRoundDuration)+"";
         }
         
@@ -388,6 +394,11 @@ public class Model{
             intTimePerRemaining = Integer.parseInt(strIncomingSplit[3]);
         }
 
+        //Round Start
+        if(strIncomingSplit[1].equals("4")){
+            intObjectLength = Integer.parseInt(strIncomingSplit[3]);
+        }
+
         return Integer.parseInt(strIncomingSplit[1]);
     }
 
@@ -404,6 +415,23 @@ public class Model{
     //Retrieve Time Remaining Percentage
     public int getTimeRemPer(){
         return intTimePerRemaining;
+    }
+
+    //Shared Methods
+    //Select Object to Draw
+    public void choseObject(int intButton){
+        if(intButton == 1){
+            strObject = strChoiceObjects[0];
+        }
+        else{
+            strObject = strChoiceObjects[1];
+        }
+        if(blnHost){
+            startRound();
+        }
+        else{
+            ClientSocket.sendText("0,2,"+ClientSocket.getMyAddress()+","+strObject);
+        }
     }
 
 
