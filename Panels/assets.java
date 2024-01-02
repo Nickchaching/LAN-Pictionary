@@ -11,8 +11,18 @@ public class assets{
     static Color clrWhite = new Color(255, 255, 255);
     static Color clrLightGreen = new Color(1, 68, 33);
     static Color clrRed = new Color(255, 0, 0);
+    
+    //Drawing Colors
+    static Color clrDrawYellow = new Color(255, 213, 30);
+    static Color clrDrawGreen = new Color(0, 191, 99);
+    static Color clrDrawBlue = new Color(56, 182, 255);
+    static Color clrDrawPurple = new Color(140, 82, 255);
+    static Color clrDrawRed = new Color(255, 49, 49);
+    static Color clrDrawOrange = new Color(255, 145, 77);
+    static Color clrDrawBlack = new Color(0, 0, 0);
 
     //Fonts
+    static Font fntHelvetica20 = new Font("Helvetica", Font.BOLD, 20);
     static Font fntHelvetica30 = new Font("Helvetica", Font.BOLD, 30);
     static Font fntHelvetica40 = new Font("Helvetica", Font.BOLD, 40);
     static Font fntHelvetica50 = new Font("Helvetica", Font.BOLD, 50);

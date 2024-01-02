@@ -132,6 +132,9 @@ public class View implements ActionListener, MouseMotionListener, KeyListener{
             }
             theModel.choseObject(intButton);
             //Change Panel To Drawing Frame
+            System.out.println("Changing Frame");
+            System.out.println(theModel.intObjectLength);
+            System.out.println(theModel.strObject);
         }
 
 
@@ -143,6 +146,9 @@ public class View implements ActionListener, MouseMotionListener, KeyListener{
                 }
                 else if(theModel.serverMessageRecieved() == 2){
                     //Change Panel to Drawing Frame
+                    System.out.println("Changing Frame");
+                    System.out.println(theModel.intObjectLength);
+                    System.out.println(theModel.strObject);
                 }
             }
         }
