@@ -5,10 +5,13 @@ package Panels;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionListener;
+import java.awt.Graphics;
 
 import javax.swing.*;
 
-public class drawerRoundPanel extends JPanel implements ActionListener{
+public class drawerRoundPanel extends JPanel implements ActionListener, MouseMotionListener{
     //Properties
     JButton ClearButton = new JButton("X");
     JButton SSizeButton = new JButton("✎");
@@ -22,19 +25,82 @@ public class drawerRoundPanel extends JPanel implements ActionListener{
     JButton BlackButton = new JButton();
     public Timer theTimer = new Timer(1000/60, this);
     int intWidth = 1280;
+    boolean blnInitialBackground = true;
+    boolean blnClearPressed = false;
+    Color clrSelected;
     
     //Methods
     public void actionPerformed(ActionEvent evt){
         if(evt.getSource() == theTimer){
             repaint();
         }
+        else if(evt.getSource() == ClearButton){
+            System.out.println("Clear");
+            blnInitialBackground = false;
+            blnClearPressed = true;
+            System.out.println("blnInitialBackground: "+blnInitialBackground);
+            System.out.println("blnClearPressed: "+blnClearPressed);
+        }
+        else if(evt.getSource() == SSizeButton){
+            paneltest.intPenSize = 3;
+        }
+        else if(evt.getSource() == LSizeButton){
+            paneltest.intPenSize = 5;
+        }
+        else if(evt.getSource() == YellowButton){
+            clrSelected = assets.clrDrawYellow;
+        }
+        else if(evt.getSource() == GreenButton){
+            clrSelected = assets.clrDrawGreen;
+        }
+        else if(evt.getSource() == BlueButton){
+            clrSelected = assets.clrDrawBlue;
+        }
+        else if(evt.getSource() == PurpleButton){
+            clrSelected = assets.clrDrawPurple;
+        }
+        else if(evt.getSource() == RedButton){
+            clrSelected = assets.clrDrawPurple;
+        }
+        else if(evt.getSource() == OrangeButton){
+            clrSelected = assets.clrDrawOrange;
+        }
+        else if(evt.getSource() == BlackButton){
+            clrSelected = assets.clrDrawBlack;
+        }
+    }
+    public void mouseDragged(MouseEvent evt){
+        Graphics g = getGraphics();
+        g.setColor(clrSelected);
+        g.fillOval(evt.getX(), evt.getY(), paneltest.intPenSize, paneltest.intPenSize);
+    }
+    public void mouseMoved(MouseEvent evt){
+
     }
 
+
     public void paintComponent(Graphics g){
+        System.out.println("blnInitialBackground: "+blnInitialBackground);
+        System.out.println("blnClearPressed: "+blnClearPressed);
         g.setColor(assets.clrBackground);
         g.fillRect(0, 0, 1280, 720);
         g.setColor(assets.clrWhite);
         g.fillRect(15, 25, 789, 680);
+
+        // NOT FINISHED CLEAR BUTTON    
+        //Initial Background
+        //if(blnInitialBackground == true){
+        //    System.out.println("Red");
+        //    System.out.println("blnInitialBackground: "+blnInitialBackground);
+        //    System.out.println("blnClearPressed: "+blnClearPressed);            g.setColor(assets.clrRed);
+        //    g.fillRect(15, 25, 789, 680);
+        //}
+        //Press Clear Button
+        //else if(blnClearPressed == true){
+        //    g.setColor(assets.clrWhite);
+        //    g.fillRect(15, 25, 789, 680);
+        //    blnClearPressed = false;
+        //}
         g.setColor(assets.clrLightGrey);
         g.fillRect(0, 0, 1280, 10);
 
@@ -46,6 +112,8 @@ public class drawerRoundPanel extends JPanel implements ActionListener{
 
         g.setColor(assets.clrRed);
         g.fillRect(0, 0, intWidth, 10);
+
+
 
         //Drawing Live Update Code
     }
@@ -110,6 +178,19 @@ public class drawerRoundPanel extends JPanel implements ActionListener{
         BlackButton.setBackground(assets.clrDrawBlack);
         BlackButton.setBorder(null);
 
+        ClearButton.addActionListener(this);
+        SSizeButton.addActionListener(this);
+        LSizeButton.addActionListener(this);
+        YellowButton.addActionListener(this);
+        GreenButton.addActionListener(this);
+        BlueButton.addActionListener(this);
+        PurpleButton.addActionListener(this);
+        RedButton.addActionListener(this);
+        OrangeButton.addActionListener(this);
+        BlackButton.addActionListener(this);
+
+        addMouseMotionListener(this);
+        
         add(ClearButton);
         add(SSizeButton);
         add(LSizeButton);
