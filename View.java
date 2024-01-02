@@ -136,6 +136,18 @@ public class View implements ActionListener, MouseMotionListener, KeyListener{
                 if(theModel.clientMessageRecieved() == 0){
                     theClientLobbyPanel.updatePlayerList(theModel.getPlayers());
                 }
+                else if(theModel.clientMessageRecieved() == 2){
+                    if(theModel.isDrawing()){
+                        theDrawerPRPanel.initializePanel(theModel.getRound(), theModel.strChoiceObjects);
+                        theFrame.setContentPane(theDrawerPRPanel);
+                        theFrame.pack();
+                    }
+                    else{
+                        theNonDrawerPRPanel.initializePanel(theModel.getRound());
+                        theFrame.setContentPane(theNonDrawerPRPanel);
+                        theFrame.pack();
+                    }
+                }
             }
         }
 

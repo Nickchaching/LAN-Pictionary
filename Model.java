@@ -51,6 +51,7 @@ public class Model{
     String strTheme;
     int intRound;
     boolean blnDrawing;
+    String strChoiceObjects[];
     
     //Server Properties
     SuperSocketMaster HostSocket;
@@ -60,7 +61,6 @@ public class Model{
     String strPlayerTemp[][];
     String strThemes[] = new String[8];
     String strObjects[];
-    String strChoiceObjects[];
     String strDrawer;
     String strObject;
     Timer pingTimer;
@@ -203,9 +203,11 @@ public class Model{
 
         //Checking if the Host is the Drawer
         if(strDrawer.equals(HostSocket.getMyAddress())){
+            blnDrawing = true;
             return true;
         }
         else{
+            blnDrawing = false;
             return false;
         }
 
@@ -365,12 +367,30 @@ public class Model{
             strPlayers = strDecode;
         }
 
+        if(strIncomingSplit[1].equals("2")){
+            intRound = Integer.parseInt(strIncomingSplit[3]);
+            if(strIncomingSplit[4].equals(ClientSocket.getMyAddress())){
+                blnDrawing = true;
+                strChoiceObjects = new String[2];
+                strChoiceObjects[0] = strIncomingSplit[5];
+                strChoiceObjects[1] = strIncomingSplit[6];
+            }
+            else{
+                blnDrawing = false;
+            }
+        }
+
         return Integer.parseInt(strIncomingSplit[1]);
     }
 
     //Retrieve Player List
     public String[] getPlayers(){
         return strPlayers;
+    }
+
+    //Retrieve Drawing Status
+    public boolean isDrawing(){
+        return blnDrawing;
     }
 
 
