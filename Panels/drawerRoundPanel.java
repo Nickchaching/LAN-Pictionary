@@ -20,6 +20,9 @@ public class drawerRoundPanel extends JPanel implements ActionListener{
     JButton RedButton = new JButton();
     JButton OrangeButton = new JButton();
     JButton BlackButton = new JButton();
+    JLabel ItemLabel = new JLabel("Item");
+    JTextArea ChatArea = new JTextArea();
+    JTextField ChatField = new JTextField();
     public Timer theTimer = new Timer(1000/60, this);
     int intWidth = 1280;
     boolean blnClearPressed = false;
@@ -119,7 +122,7 @@ public class drawerRoundPanel extends JPanel implements ActionListener{
         g.fillRect(15, 25, 789, 680);
 
         
-        g.setColor(assets.clrLightGrey);
+        g.setColor(assets.clrWhite);
         g.fillRect(0, 0, 1280, 10);
 
         //Temporary Layout
@@ -195,7 +198,20 @@ public class drawerRoundPanel extends JPanel implements ActionListener{
         BlackButton.setBackground(assets.clrDrawBlack);
         BlackButton.setBorder(null);
 
-  
+        ItemLabel.setSize(365, 50);
+        ItemLabel.setLocation(900, 305);
+        ItemLabel.setBackground(assets.clrWhite);
+        ItemLabel.setOpaque(true);
+        
+        ChatArea.setSize(365, 266);
+        ChatArea.setLocation(900, 365);
+        ChatArea.setBackground(assets.clrWhite);
+        ChatArea.setEditable(false);
+
+        ChatField.setSize(345, 54);
+        ChatField.setLocation(910, 641);
+        ChatField.setBackground(assets.clrWhite);
+
         
         add(ClearButton);
         add(SSizeButton);
@@ -207,6 +223,10 @@ public class drawerRoundPanel extends JPanel implements ActionListener{
         add(RedButton);
         add(OrangeButton);
         add(BlackButton);
+
+        add(ItemLabel);
+        add(ChatArea);
+        add(ChatField);
 
         theTimer.start();
     }
