@@ -136,54 +136,57 @@ public class View implements ActionListener, MouseMotionListener, KeyListener{
             System.out.println(theModel.intObjectLength);
             System.out.println(theModel.strObject);
         }
-
-
+        //Pre-Round Timer Completed
+        else if(evt.getSource() == theModel.preRoundTimer){
+            theModel.choseObject(1);
+            //Change Panel to Drawing Frame
+            System.out.println("Changing Frame");
+            System.out.println(theModel.intObjectLength);
+            System.out.println(theModel.strObject);
+        }
         //Server Message Handling
         else if(evt.getSource() == theModel.HostSocket){
             if(theModel.HostSocket.readText().substring(0,1).equals("0")){
-                if(theModel.serverMessageRecieved() == 0){
-                    theServerLobbyPanel.updatePlayerList(theModel.getPlayerList());
-                }
-                else if(theModel.serverMessageRecieved() == 2){
-                    //Change Panel to Drawing Frame
-                    System.out.println("Changing Frame");
-                    System.out.println(theModel.intObjectLength);
-                    System.out.println(theModel.strObject);
+                switch(theModel.serverMessageRecieved()){
+                    case 0:
+                        theServerLobbyPanel.updatePlayerList(theModel.getPlayerList());
+                    case 2:
+                        //Change Panel to Drawing Frame
+                        System.out.println("Changing Frame");
+                        System.out.println(theModel.intObjectLength);
+                        System.out.println(theModel.strObject);
                 }
             }
         }
         //Client Message Handling
         else if(evt.getSource() == theModel.ClientSocket){
             if(theModel.ClientSocket.readText().substring(0,1).equals("1")){
-                if(theModel.clientMessageRecieved() == 0){
-                    theClientLobbyPanel.updatePlayerList(theModel.getPlayers());
-                }
-                else if(theModel.clientMessageRecieved() == 2){
-                    if(theModel.isDrawing()){
-                        theDrawerPRPanel.initializePanel(theModel.getRound(), theModel.strChoiceObjects);
-                        theFrame.setContentPane(theDrawerPRPanel);
-                        theFrame.pack();
-                    }
-                    else{
-                        theNonDrawerPRPanel.initializePanel(theModel.getRound());
-                        theFrame.setContentPane(theNonDrawerPRPanel);
-                        theFrame.pack();
-                    }
-                }
-                else if(theModel.clientMessageRecieved() == 3){
-                    if(theFrame.getContentPane() == theDrawerPRPanel){
-                        theDrawerPRPanel.updateTimer(theModel.getTimeRemPer());
-                    }
-                    else if(theFrame.getContentPane() == theNonDrawerPRPanel){
-                        theNonDrawerPRPanel.updateTimer(theModel.getTimeRemPer());
-                    }
-                }
-                else if(theModel.clientMessageRecieved() == 4){
-                    //Change Panel to Drawing Frame
+                switch(theModel.clientMessageRecieved()){
+                    case 0:
+                        theClientLobbyPanel.updatePlayerList(theModel.getPlayers());
+                    case 2:
+                        if(theModel.isDrawing()){
+                            theDrawerPRPanel.initializePanel(theModel.getRound(), theModel.getObjectChoices());
+                            theFrame.setContentPane(theDrawerPRPanel);
+                            theFrame.pack();
+                        }
+                        else{
+                            theNonDrawerPRPanel.initializePanel(theModel.getRound());
+                            theFrame.setContentPane(theNonDrawerPRPanel);
+                            theFrame.pack();
+                        }
+                    case 3:
+                        if(theFrame.getContentPane() == theDrawerPRPanel){
+                            theDrawerPRPanel.updateTimer(theModel.getTimeRemPer());
+                        }
+                        else if(theFrame.getContentPane() == theNonDrawerPRPanel){
+                            theNonDrawerPRPanel.updateTimer(theModel.getTimeRemPer());
+                        }
+                    case 4:
+                        //Change Panel to Drawing Frame
                 }
             }
         }
-
         //Pushing Regular Updates
         else if(evt.getSource() == theModel.pingTimer){
             if(theFrame.getContentPane() == theServerLobbyPanel){

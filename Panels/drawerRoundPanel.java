@@ -28,8 +28,8 @@ public class drawerRoundPanel extends JPanel implements ActionListener{
     boolean blnClearPressed = false;
     Color clrSelected;
 
-    int intDraw[][];
-    int intCounter;
+    int intDraw[][] = new int[536520][4];;
+    int intCounter = 0;
     int intPenSize = 10;
     int intPenColour = 7;
 
@@ -41,9 +41,26 @@ public class drawerRoundPanel extends JPanel implements ActionListener{
         }
     }
 
-    public void updateDraw(int intDraw[][], int intCounter){
-        this.intDraw = intDraw;
-        this.intCounter = intCounter;
+    public void updateDraw(int intX, int intY){
+        intDraw[intCounter][0] = intX; 
+        intDraw[intCounter][1] = intY; 
+        intDraw[intCounter][2] = intPenSize;
+        intDraw[intCounter][3] = intPenColour;
+        //Increase intCount
+        intCounter++;
+    }
+
+    public void clearScreen(){
+        //Variables
+        int intRow = 0;
+        int intColumn = 0;
+        //Reset Array Data
+        for(intRow = 0; intRow <= intCounter; intRow++){
+            for(intColumn = 0; intColumn < 4; intColumn++){
+                intDraw[intRow][intColumn] = 0;
+            }
+        }
+        intCounter = 0;
     }
 
     public void updateSize(int intSize){
