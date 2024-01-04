@@ -29,8 +29,8 @@ public class drawerPRPanel extends JPanel{
         Choice2Button.setText(strOptions[1]);
     }
 
-    public void updateTimer(int intPercent){
-        intWidth = 1280 * intPercent/100;
+    public void updateTimer(double dblPercent){
+        intWidth = (int)(1280 * dblPercent/100);
         repaint();
     }
 

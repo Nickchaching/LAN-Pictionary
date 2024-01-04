@@ -279,8 +279,12 @@ public class Model{
         }
         //Round Initialization Ping
         else if(intType == 1){
-            HostSocket.sendText("1,3,"+HostSocket.getMyAddress()+","+(int)(preRoundTimer.getRemainingTime()*100/intPreRoundDuration));
-            return (int)(preRoundTimer.getRemainingTime()*100/intPreRoundDuration)+"";
+            HostSocket.sendText("1,3,"+HostSocket.getMyAddress()+","+(preRoundTimer.getRemainingTime()*100.0/intPreRoundDuration));
+            return (preRoundTimer.getRemainingTime()*100.0/intPreRoundDuration)+"";
+        }
+        else if(intType == 2){
+            HostSocket.sendText("1,6,"+HostSocket.getMyAddress()+","+(roundTimer.getRemainingTime()*100.0/intRoundDuration));
+            return (roundTimer.getRemainingTime()*100.0/intRoundDuration)+"";
         }
         
         //Defualt Return
@@ -438,7 +442,7 @@ public class Model{
     //Constuctor
     public Model(View theView){
         this.theView = theView;
-        pingTimer = new Timer(1000, theView);
+        pingTimer = new Timer(1000/60, theView);
         preRoundTimer = new SuperTimer(intPreRoundDuration, theView);
         roundTimer = new SuperTimer(intRoundDuration, theView);
         postRoundTimer = new SuperTimer(intPostRoundDuration, theView);

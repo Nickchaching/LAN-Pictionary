@@ -41,6 +41,10 @@ public class drawerRoundPanel extends JPanel implements ActionListener{
         }
     }
 
+    public void updateTimer(double dblPercent){
+        intWidth = (int)(1280 * dblPercent/100);
+    }
+
     public void updateDraw(int intX, int intY){
         intDraw[intCounter][0] = intX; 
         intDraw[intCounter][1] = intY; 
