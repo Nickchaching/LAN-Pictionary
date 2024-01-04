@@ -8,7 +8,7 @@ import java.awt.event.*;
 public class paneltest implements ActionListener, MouseMotionListener{
     //Properties
     JFrame theFrame = new JFrame();
-    static drawerRoundPanel theDrawerRoundPanel = new drawerRoundPanel();
+    drawerRoundPanel theDrawerRoundPanel = new drawerRoundPanel();
 
     //Methods
     public void actionPerformed(ActionEvent evt){

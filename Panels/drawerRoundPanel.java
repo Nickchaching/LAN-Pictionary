@@ -52,7 +52,7 @@ public class drawerRoundPanel extends JPanel implements ActionListener{
         int intRow = 0;
         int intColumn = 0;
         //Reset Array Data
-        for(intRow = 0; intRow < 536520; intRow++){
+        for(intRow = 0; intRow <= intCounter; intRow++){
             for(intColumn = 0; intColumn < 4; intColumn++){
                 intDraw[intRow][intColumn] = 0;
             }
