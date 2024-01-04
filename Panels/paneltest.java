@@ -9,30 +9,11 @@ public class paneltest implements ActionListener, MouseMotionListener{
     //Properties
     JFrame theFrame = new JFrame();
     static drawerRoundPanel theDrawerRoundPanel = new drawerRoundPanel();
-    //Drawing Properties
-    int intPenSize; //6 is small, 10 is large
-    int intPenColour; 
-    //Saving Drawings After Repaints
-    static int intCount = 0; 
-    static int intDraw[][] = new int[536520][4]; //Array Columns: X, Y, Pen Size, Pen Colour
 
     //Methods
     public void actionPerformed(ActionEvent evt){
         if(evt.getSource() == theDrawerRoundPanel.ClearButton){
-            //Variables
-            int intRow = 0;
-            int intColumn = 0;
-            //Cover Drawings on Screen
-            Graphics g = theDrawerRoundPanel.getGraphics();
-            g.setColor(assets.clrWhite);
-            g.fillRect(15, 25, 789, 680);
-            //Reset Array Data
-            for(intRow = 0; intRow < 536520; intRow++){
-                for(intColumn = 0; intColumn < 4; intColumn++){
-                    intDraw[intRow][intColumn] = 0;
-                }
-            }
-            intCount = 0;
+            theDrawerRoundPanel.clearScreen();
         }
         else if(evt.getSource() == theDrawerRoundPanel.SSizeButton){
             theDrawerRoundPanel.updateSize(6);
@@ -66,20 +47,8 @@ public class paneltest implements ActionListener, MouseMotionListener{
         int intX = evt.getX();
         int intY = evt.getY();
         if(intX > 15 && intX < 800 && intY > 25 && intY < 695){
-            //Save Drawing Data in Array
-            intDraw[intCount][0] = intX; 
-            intDraw[intCount][1] = intY; 
-            intDraw[intCount][2] = theDrawerRoundPanel.intPenSize;
-            intDraw[intCount][3] = theDrawerRoundPanel.intPenColour;
-            System.out.println("intCount: " + intCount);
-            System.out.println("X: " + intDraw[intCount][0]);
-            System.out.println("Y: " + intDraw[intCount][1]);
-            System.out.println("Size: " + intDraw[intCount][2]);
-            System.out.println("Colour: " + intDraw[intCount][3]);
-            //Increase intCount
-            intCount++;
+            theDrawerRoundPanel.updateDraw(intX, intY);
         }
-        theDrawerRoundPanel.updateDraw(intDraw, intCount);
     }
     public void mouseMoved(MouseEvent evt){
 
