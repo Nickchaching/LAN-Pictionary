@@ -15,9 +15,6 @@ public class paneltest implements ActionListener, MouseMotionListener{
     //Saving Drawings After Repaints
     static int intCount = 0; 
     static int intDraw[][] = new int[536520][4]; //Array Columns: X, Y, Pen Size, Pen Colour
-    //Variable to Determine if Mouse/Drawing Data Should be Tracked in Array
-    boolean blnSizeChosen = false;
-    boolean blnColourChosen = false; //If both are true, the mouse/data will be stored
 
     //Methods
     public void actionPerformed(ActionEvent evt){
@@ -35,64 +32,45 @@ public class paneltest implements ActionListener, MouseMotionListener{
                     intDraw[intRow][intColumn] = 0;
                 }
             }
+            intCount = 0;
         }
         else if(evt.getSource() == theDrawerRoundPanel.SSizeButton){
-            intPenSize = 6;
-            blnSizeChosen = true;
+            theDrawerRoundPanel.updateSize(6);
         }
         else if(evt.getSource() == theDrawerRoundPanel.LSizeButton){
-            intPenSize = 10;
-            blnSizeChosen = true;
+            theDrawerRoundPanel.updateSize(10);
         }
         else if(evt.getSource() == theDrawerRoundPanel.YellowButton){
-            theDrawerRoundPanel.clrSelected = assets.clrDrawYellow;
-            intPenColour = 1;
-            blnColourChosen = true;
+            theDrawerRoundPanel.updateColour(1);
         }
         else if(evt.getSource() == theDrawerRoundPanel.GreenButton){
-            theDrawerRoundPanel.clrSelected = assets.clrDrawGreen;
-            intPenColour = 2;
-            blnColourChosen = true;
+            theDrawerRoundPanel.updateColour(2);
         }
         else if(evt.getSource() == theDrawerRoundPanel.BlueButton){
-            theDrawerRoundPanel.clrSelected = assets.clrDrawBlue;
-            intPenColour = 3;
-            blnColourChosen = true;
+            theDrawerRoundPanel.updateColour(3);
         }
         else if(evt.getSource() == theDrawerRoundPanel.PurpleButton){
-            theDrawerRoundPanel.clrSelected = assets.clrDrawPurple;
-            intPenColour = 4;
-            blnColourChosen = true;
+            theDrawerRoundPanel.updateColour(4);
         }
         else if(evt.getSource() == theDrawerRoundPanel.RedButton){
-            theDrawerRoundPanel.clrSelected = assets.clrDrawRed;
-            intPenColour = 5;
-            blnColourChosen = true;
+            theDrawerRoundPanel.updateColour(5);
         }
         else if(evt.getSource() == theDrawerRoundPanel.OrangeButton){
-            theDrawerRoundPanel.clrSelected = assets.clrDrawOrange;
-            intPenColour = 6;
-            blnColourChosen = true;
+            theDrawerRoundPanel.updateColour(6);
         }
         else if(evt.getSource() == theDrawerRoundPanel.BlackButton){
-            theDrawerRoundPanel.clrSelected = assets.clrDrawBlack;
-            intPenColour = 7;
-            blnColourChosen = true;
+            theDrawerRoundPanel.updateColour(7);
         }
     } 
     public void mouseDragged(MouseEvent evt){
         int intX = evt.getX();
         int intY = evt.getY();
-        if(intX > 15 && intX < 800 && intY > 25 && intY < 695 && blnSizeChosen == true && blnColourChosen == true){
-            //Draw on Drawing Surface of the Panel
-            Graphics g = theDrawerRoundPanel.getGraphics();
-            g.setColor(theDrawerRoundPanel.clrSelected);
-            g.fillOval(intX, intY, intPenSize, intPenSize);
+        if(intX > 15 && intX < 800 && intY > 25 && intY < 695){
             //Save Drawing Data in Array
             intDraw[intCount][0] = intX; 
             intDraw[intCount][1] = intY; 
-            intDraw[intCount][2] = intPenSize;
-            intDraw[intCount][3] = intPenColour;
+            intDraw[intCount][2] = theDrawerRoundPanel.intPenSize;
+            intDraw[intCount][3] = theDrawerRoundPanel.intPenColour;
             System.out.println("intCount: " + intCount);
             System.out.println("X: " + intDraw[intCount][0]);
             System.out.println("Y: " + intDraw[intCount][1]);
@@ -100,45 +78,11 @@ public class paneltest implements ActionListener, MouseMotionListener{
             System.out.println("Colour: " + intDraw[intCount][3]);
             //Increase intCount
             intCount++;
-        }    
+        }
+        theDrawerRoundPanel.updateDraw(intDraw, intCount);
     }
     public void mouseMoved(MouseEvent evt){
 
-    }
-    //Draw Saved Data After Each Repaint
-    public static void redraw(int[][] intDraw, int intCount){
-        //Variables
-        int intX = intDraw[intCount][0];
-        int intY = intDraw[intCount][1];
-        int intSize = intDraw[intCount][2];
-        int intColour = intDraw[intCount][3];
-        Color clrUsed = assets.clrDrawBlack; //Initialized to Prevent Error
-        //Convert Colour Integer to Colour 
-        if(intColour == 1){
-            clrUsed = assets.clrDrawYellow;
-        }
-        else if(intColour == 2){
-            clrUsed = assets.clrDrawGreen;
-        }
-        else if(intColour == 3){
-            clrUsed = assets.clrDrawBlue;
-        }
-        else if(intColour == 4){
-            clrUsed = assets.clrDrawPurple;
-        }
-        else if(intColour == 5){
-            clrUsed = assets.clrDrawRed;
-        }
-        else if(intColour == 6){
-            clrUsed = assets.clrDrawOrange;
-        }
-        else if(intColour == 7){
-            clrUsed = assets.clrDrawBlack;
-        }
-        //Graphics
-        Graphics g = theDrawerRoundPanel.getGraphics();
-        g.setColor(clrUsed);
-        g.fillOval(intX, intY, intSize, intSize);
     }
 
     //Constructor

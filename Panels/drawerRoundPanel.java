@@ -22,42 +22,103 @@ public class drawerRoundPanel extends JPanel implements ActionListener{
     JButton BlackButton = new JButton();
     public Timer theTimer = new Timer(1000/60, this);
     int intWidth = 1280;
-    boolean blnInitialBackground = true;
     boolean blnClearPressed = false;
     Color clrSelected;
+
+    int intDraw[][];
+    int intCounter;
+    int intPenSize = 10;
+    int intPenColour = 7;
+
     
     //Methods
     public void actionPerformed(ActionEvent evt){
         if(evt.getSource() == theTimer){
             repaint();
-            paneltest.redraw(paneltest.intDraw, paneltest.intCount);
         }
     }
 
+    public void updateDraw(int intDraw[][], int intCounter){
+        this.intDraw = intDraw;
+        this.intCounter = intCounter;
+    }
 
+    public void updateSize(int intSize){
+        this.intPenSize = intSize;
+    }
+
+    public void updateColour(int intColour){
+        this.intPenColour = intColour;
+        if(intColour == 1){
+            clrSelected = assets.clrDrawYellow;
+        }
+        else if(intColour == 2){
+            clrSelected = assets.clrDrawGreen;
+        }
+        else if(intColour == 3){
+            clrSelected = assets.clrDrawBlue;
+        }
+        else if(intColour == 4){
+            clrSelected = assets.clrDrawPurple;
+        }
+        else if(intColour == 5){
+            clrSelected = assets.clrDrawRed;
+        }
+        else if(intColour == 6){
+            clrSelected = assets.clrDrawOrange;
+        }
+        else if(intColour == 7){
+            clrSelected = assets.clrDrawBlack;
+        }
+    }
+
+    public void redrawComponents(Graphics g){
+        int intCount;
+
+        for(intCount = 0; intCount < intCounter; intCount++){
+            //Variables
+            int intX = intDraw[intCount][0];
+            int intY = intDraw[intCount][1];
+            int intSize = intDraw[intCount][2];
+            int intColour = intDraw[intCount][3];
+            Color clrColour;
+
+            //Convert Colour Integer to Colour 
+            if(intColour == 1){
+                clrColour = assets.clrDrawYellow;
+            }
+            else if(intColour == 2){
+                clrColour = assets.clrDrawGreen;
+            }
+            else if(intColour == 3){
+                clrColour = assets.clrDrawBlue;
+            }
+            else if(intColour == 4){
+                clrColour = assets.clrDrawPurple;
+            }
+            else if(intColour == 5){
+                clrColour = assets.clrDrawRed;
+            }
+            else if(intColour == 6){
+                clrColour = assets.clrDrawOrange;
+            }
+            else{
+                clrColour = assets.clrDrawBlack;
+            }
+            
+            //Draw Graphics
+            g.setColor(clrColour);
+            g.fillOval(intX, intY, intSize, intSize);
+        }
+    }
 
     public void paintComponent(Graphics g){
-        //System.out.println("blnInitialBackground: "+blnInitialBackground);
-        //System.out.println("blnClearPressed: "+blnClearPressed);
         g.setColor(assets.clrBackground);
         g.fillRect(0, 0, 1280, 720);
         g.setColor(assets.clrWhite);
         g.fillRect(15, 25, 789, 680);
 
-        // NOT FINISHED CLEAR BUTTON    
-        //Initial Background
-        //if(blnInitialBackground == true){
-        //    System.out.println("Red");
-        //    System.out.println("blnInitialBackground: "+blnInitialBackground);
-        //    System.out.println("blnClearPressed: "+blnClearPressed);            g.setColor(assets.clrRed);
-        //    g.fillRect(15, 25, 789, 680);
-        //}
-        //Press Clear Button
-        //else if(blnClearPressed == true){
-        //    g.setColor(assets.clrWhite);
-        //    g.fillRect(15, 25, 789, 680);
-        //    blnClearPressed = false;
-        //}
+        
         g.setColor(assets.clrLightGrey);
         g.fillRect(0, 0, 1280, 10);
 
@@ -70,9 +131,8 @@ public class drawerRoundPanel extends JPanel implements ActionListener{
         g.setColor(assets.clrRed);
         g.fillRect(0, 0, intWidth, 10);
 
-
-
         //Drawing Live Update Code
+        redrawComponents(g);
     }
     
     //Constructor
