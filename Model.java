@@ -75,7 +75,7 @@ public class Model{
     String[][] strServerList = new String[5][3];
     Thread findServer = new Thread(new findServer(this));
     String strPlayers[];
-    int intTimePerRemaining;
+    double dblTimePerRemaining;
 
     //Server Methods
     //Initial Host Connection
@@ -395,7 +395,7 @@ public class Model{
 
         //Round Timer Update Ping
         if(strIncomingSplit[1].equals("3")){
-            intTimePerRemaining = Integer.parseInt(strIncomingSplit[3]);
+            dblTimePerRemaining = Double.parseDouble(strIncomingSplit[3]);
         }
 
         //Round Start
@@ -417,8 +417,8 @@ public class Model{
     }
 
     //Retrieve Time Remaining Percentage
-    public int getTimeRemPer(){
-        return intTimePerRemaining;
+    public double getTimeRemPer(){
+        return dblTimePerRemaining;
     }
 
     //Shared Methods
