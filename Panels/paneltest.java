@@ -2,9 +2,6 @@ package Panels;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionListener;
-import java.awt.Graphics;
 
 
 
@@ -25,11 +22,19 @@ public class paneltest implements ActionListener, MouseMotionListener{
     //Methods
     public void actionPerformed(ActionEvent evt){
         if(evt.getSource() == theDrawerRoundPanel.ClearButton){
-            System.out.println("Clear");
-            //blnInitialBackground = false;
-            //blnClearPressed = true;
-            //System.out.println("blnInitialBackground: "+blnInitialBackground);
-            //System.out.println("blnClearPressed: "+blnClearPressed);
+            //Variables
+            int intRow = 0;
+            int intColumn = 0;
+            //Cover Drawings on Screen
+            Graphics g = theDrawerRoundPanel.getGraphics();
+            g.setColor(assets.clrWhite);
+            g.fillRect(15, 25, 789, 680);
+            //Reset Array Data
+            for(intRow = 0; intRow < 536520; intRow++){
+                for(intColumn = 0; intColumn < 4; intColumn++){
+                    intDraw[intRow][intColumn] = 0;
+                }
+            }
         }
         else if(evt.getSource() == theDrawerRoundPanel.SSizeButton){
             intPenSize = 6;
