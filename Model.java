@@ -403,6 +403,10 @@ public class Model{
             intObjectLength = Integer.parseInt(strIncomingSplit[3]);
         }
 
+        if(strIncomingSplit[1].equals("6")){
+            dblTimePerRemaining = Double.parseDouble(strIncomingSplit[3]);
+        }
+
         return Integer.parseInt(strIncomingSplit[1]);
     }
 

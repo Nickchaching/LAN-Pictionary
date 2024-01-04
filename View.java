@@ -197,6 +197,11 @@ public class View implements ActionListener, MouseMotionListener, KeyListener{
                     theFrame.setContentPane(theDrawerRoundPanel);
                     theFrame.pack();
                 }
+                else if(theModel.clientMessageRecieved() == 6){
+                    if(theFrame.getContentPane() == theDrawerRoundPanel){
+                        theDrawerRoundPanel.updateTimer(theModel.getTimeRemPer());
+                    }
+                }
             }
         }
         //Pushing Regular Updates
