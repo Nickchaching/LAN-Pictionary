@@ -10,19 +10,19 @@ import javax.swing.*;
 
 public class drawerRoundPanel extends JPanel implements ActionListener{
     //Properties
-    JButton ClearButton = new JButton("X");
-    JButton SSizeButton = new JButton("✎");
-    JButton LSizeButton = new JButton("✎");
-    JButton YellowButton = new JButton();
-    JButton GreenButton = new JButton();
-    JButton BlueButton = new JButton();
-    JButton PurpleButton = new JButton();
-    JButton RedButton = new JButton();
-    JButton OrangeButton = new JButton();
-    JButton BlackButton = new JButton();
-    JLabel ItemLabel = new JLabel("Item");
-    JTextArea ChatArea = new JTextArea();
-    JTextField ChatField = new JTextField();
+    public JButton ClearButton = new JButton("X");
+    public JButton SSizeButton = new JButton("✎");
+    public JButton LSizeButton = new JButton("✎");
+    public JButton YellowButton = new JButton();
+    public JButton GreenButton = new JButton();
+    public JButton BlueButton = new JButton();
+    public JButton PurpleButton = new JButton();
+    public JButton RedButton = new JButton();
+    public JButton OrangeButton = new JButton();
+    public JButton BlackButton = new JButton();
+    public JLabel ItemLabel = new JLabel("Item");
+    public JTextArea ChatArea = new JTextArea();
+    public JTextField ChatField = new JTextField();
     public Timer theTimer = new Timer(1000/60, this);
     int intWidth = 1280;
     boolean blnClearPressed = false;
@@ -240,7 +240,6 @@ public class drawerRoundPanel extends JPanel implements ActionListener{
         add(RedButton);
         add(OrangeButton);
         add(BlackButton);
-
         add(ItemLabel);
         add(ChatArea);
         add(ChatField);

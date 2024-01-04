@@ -22,6 +22,8 @@ public class View implements ActionListener, MouseMotionListener, KeyListener{
     clientLobbyPanel theClientLobbyPanel = new clientLobbyPanel();
     drawerPRPanel theDrawerPRPanel = new drawerPRPanel();
     nonDrawerPRPanel theNonDrawerPRPanel = new nonDrawerPRPanel();
+    drawerRoundPanel theDrawerRoundPanel = new drawerRoundPanel();
+
 
     //Methods
     public void actionPerformed(ActionEvent evt){
@@ -131,7 +133,9 @@ public class View implements ActionListener, MouseMotionListener, KeyListener{
                 intButton = 2;
             }
             theModel.choseObject(intButton);
-            //Change Panel To Drawing Frame
+            //Change Panel to Drawing Frame
+            theFrame.setContentPane(theDrawerRoundPanel);
+            theFrame.pack();
             System.out.println("Changing Frame");
             System.out.println(theModel.intObjectLength);
             System.out.println(theModel.strObject);
@@ -140,6 +144,8 @@ public class View implements ActionListener, MouseMotionListener, KeyListener{
         else if(evt.getSource() == theModel.preRoundTimer){
             theModel.choseObject(1);
             //Change Panel to Drawing Frame
+            theFrame.setContentPane(theDrawerRoundPanel);
+            theFrame.pack();
             System.out.println("Changing Frame");
             System.out.println(theModel.intObjectLength);
             System.out.println(theModel.strObject);
@@ -152,6 +158,8 @@ public class View implements ActionListener, MouseMotionListener, KeyListener{
                         theServerLobbyPanel.updatePlayerList(theModel.getPlayerList());
                     case 2:
                         //Change Panel to Drawing Frame
+                        theFrame.setContentPane(theDrawerRoundPanel);
+                        theFrame.pack();
                         System.out.println("Changing Frame");
                         System.out.println(theModel.intObjectLength);
                         System.out.println(theModel.strObject);
@@ -184,6 +192,8 @@ public class View implements ActionListener, MouseMotionListener, KeyListener{
                         }
                     case 4:
                         //Change Panel to Drawing Frame
+                        theFrame.setContentPane(theDrawerRoundPanel);
+                        theFrame.pack();
                 }
             }
         }
@@ -200,10 +210,46 @@ public class View implements ActionListener, MouseMotionListener, KeyListener{
             }
             //Responsible for Procesing and Sending out Telemetry
         }
+
+        //Drawing Telemetry
+        if(evt.getSource() == theDrawerRoundPanel.ClearButton){
+            theDrawerRoundPanel.clearScreen();
+        }
+        else if(evt.getSource() == theDrawerRoundPanel.SSizeButton){
+            theDrawerRoundPanel.updateSize(6);
+        }
+        else if(evt.getSource() == theDrawerRoundPanel.LSizeButton){
+            theDrawerRoundPanel.updateSize(10);
+        }
+        else if(evt.getSource() == theDrawerRoundPanel.YellowButton){
+            theDrawerRoundPanel.updateColour(1);
+        }
+        else if(evt.getSource() == theDrawerRoundPanel.GreenButton){
+            theDrawerRoundPanel.updateColour(2);
+        }
+        else if(evt.getSource() == theDrawerRoundPanel.BlueButton){
+            theDrawerRoundPanel.updateColour(3);
+        }
+        else if(evt.getSource() == theDrawerRoundPanel.PurpleButton){
+            theDrawerRoundPanel.updateColour(4);
+        }
+        else if(evt.getSource() == theDrawerRoundPanel.RedButton){
+            theDrawerRoundPanel.updateColour(5);
+        }
+        else if(evt.getSource() == theDrawerRoundPanel.OrangeButton){
+            theDrawerRoundPanel.updateColour(6);
+        }
+        else if(evt.getSource() == theDrawerRoundPanel.BlackButton){
+            theDrawerRoundPanel.updateColour(7);
+        }
     }
 
     public void mouseDragged(MouseEvent evt){
-        
+        int intX = evt.getX();
+        int intY = evt.getY();
+        if(intX > 15 && intX < 800 && intY > 25 && intY < 695){
+            theDrawerRoundPanel.updateDraw(intX, intY);
+        }
     }
 
     public void keyTyped(KeyEvent evt){
@@ -261,6 +307,19 @@ public class View implements ActionListener, MouseMotionListener, KeyListener{
         //Adding DrawingPR Panel Action Listeners
         theDrawerPRPanel.Choice1Button.addActionListener(this);
         theDrawerPRPanel.Choice2Button.addActionListener(this);
+
+        //Adding DrawingRound Panel Action Listeners
+        theDrawerRoundPanel.ClearButton.addActionListener(this);
+        theDrawerRoundPanel.SSizeButton.addActionListener(this);
+        theDrawerRoundPanel.LSizeButton.addActionListener(this);
+        theDrawerRoundPanel.YellowButton.addActionListener(this);
+        theDrawerRoundPanel.GreenButton.addActionListener(this);
+        theDrawerRoundPanel.BlueButton.addActionListener(this);
+        theDrawerRoundPanel.PurpleButton.addActionListener(this);
+        theDrawerRoundPanel.RedButton.addActionListener(this);
+        theDrawerRoundPanel.OrangeButton.addActionListener(this);
+        theDrawerRoundPanel.BlackButton.addActionListener(this);
+        theDrawerRoundPanel.addMouseMotionListener(this);
 
         //Initialzing the Frame
         theFrame.setContentPane(theHomePanel);

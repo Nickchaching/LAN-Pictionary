@@ -72,7 +72,6 @@ public class paneltest implements ActionListener, MouseMotionListener{
         theDrawerRoundPanel.RedButton.addActionListener(this);
         theDrawerRoundPanel.OrangeButton.addActionListener(this);
         theDrawerRoundPanel.BlackButton.addActionListener(this);
-
         theDrawerRoundPanel.addMouseMotionListener(this);
     }
 
