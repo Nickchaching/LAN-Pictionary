@@ -55,7 +55,7 @@ public class Model{
     String strChoiceObjects[];
     String strObject;
     int intObjectLength;
-    int intTempDraw[] = new int[3];
+    int intTempDraw[] = new int[4];
     
     //Server Properties
     SuperSocketMaster HostSocket;
@@ -228,6 +228,7 @@ public class Model{
     //(RE)-Broadcasts Drawing Data to Clients
     public void sendDrawData(int intDrawData[]){
         HostSocket.sendText("1,5,"+HostSocket.getMyAddress()+","+intDrawData[0]+","+intDrawData[1]+","+intDrawData[2]+","+intDrawData[3]);
+        System.out.println("Sending Data");
     }
 
     //Get Object Choices

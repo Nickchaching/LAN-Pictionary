@@ -263,7 +263,7 @@ public class View implements ActionListener, MouseMotionListener, KeyListener{
         int intX = evt.getX();
         int intY = evt.getY();
         if(intX > 15 && intX < 800 && intY > 25 && intY < 695){
-            theDrawerRoundPanel.updateDraw(intX, intY);
+            theModel.newDrawData(theDrawerRoundPanel.updateDraw(intX, intY));
         }
     }
 
