@@ -9,7 +9,7 @@
         //Initial Connection: 0, 0, IP, ClientName
         //Chat Telemetry: 0, 1, IP, Message
         //Object Choice Telemetry: 0, 2, IP, Object
-        //Drawing Telemetry: 0, 2, IP, PosX, PosY, BrushSize, BrushColor
+        //Drawing Telemetry: 0, 3, IP, PosX, PosY, BrushSize, BrushColor
 
     //Client Intended Messages
         //Terminating Connection: 1, -1, IP
@@ -31,6 +31,7 @@
 
 import java.io.*;
 import javax.swing.*;
+import java.util.Arrays;
 
 public class Model{
     //Properties
@@ -223,6 +224,10 @@ public class Model{
         roundTimer.start();
     }
 
+    public void sendDrawData(int intDrawData){
+        HostSocket.sendText("1,5,"+HostSocket.getMyAddress()+","+intDrawData);
+    }
+
     //Get Object Choices
     public String[] getObjectChoices(){
         return strChoiceObjects;
@@ -257,6 +262,11 @@ public class Model{
         else if(strIncomingSplit[1].equals("2")){
             strObject = strIncomingSplit[3];
             startRound();
+        }
+        //Message Type 3: Drawing Telemetry
+        else if(strIncomingSplit[1].equals("3")){
+            //Get the drawing data and save it in a temp variable
+            //Run a method to rebroadcast data to clients
         }
 
         return Integer.parseInt(strIncomingSplit[1]);
@@ -440,6 +450,21 @@ public class Model{
         else{
             ClientSocket.sendText("0,2,"+ClientSocket.getMyAddress()+","+strObject);
         }
+    }
+
+    //Send New Drawing Data
+    public void newDrawData(int intDrawData[]){
+        if(blnHost){
+
+        }
+        else{
+            ClientSocket.sendText("1,3,"+ClientSocket.getMyAddress()+","+Arrays.toString(intDrawData));
+        }
+    }
+
+    //Retrieve Item Drawing
+    public String getObject(){
+        return strObject;
     }
 
 

@@ -1,5 +1,6 @@
 package Panels;
 
+
 //Importing Graphics Dependencies
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -24,11 +25,9 @@ public class drawerRoundPanel extends JPanel implements ActionListener{
     public JTextField ChatField = new JTextField();
     public Timer theTimer = new Timer(1000/60, this);
     int intWidth = 1280;
-    
-    int intDraw[][] = new int[536520][4];;
+
+    int intDraw[][];
     int intCounter = 0;
-    int intPenSize = 10;
-    int intPenColour = 7;
 
     
     //Methods
@@ -46,15 +45,13 @@ public class drawerRoundPanel extends JPanel implements ActionListener{
         intWidth = (int)(1280 * dblPercent/100);
     }
 
-    public int[] updateDraw(int intX, int intY){
-        int intDrawData[] = new int[4];
-        intDrawData[0] = intX;
-        intDrawData[1] = intY;
-        intDrawData[2] = intPenSize;
-        intDrawData[3] = intPenColour;
-        intDraw[intCounter] = intDrawData;
+    public void updateDraw(int intX, int intY){
+        intDraw[intCounter][0] = intX; 
+        intDraw[intCounter][1] = intY; 
+        intDraw[intCounter][2] = intPenSize;
+        intDraw[intCounter][3] = intPenColour;
+        //Increase intCount
         intCounter++;
-        return intDrawData;
     }
 
     public void clearScreen(){
@@ -68,14 +65,6 @@ public class drawerRoundPanel extends JPanel implements ActionListener{
             }
         }
         intCounter = 0;
-    }
-
-    public void updateSize(int intSize){
-        this.intPenSize = intSize;
-    }
-
-    public void updateColour(int intColour){
-        this.intPenColour = intColour;
     }
 
     public void redrawComponents(Graphics g){
@@ -146,60 +135,6 @@ public class drawerRoundPanel extends JPanel implements ActionListener{
         setPreferredSize(new Dimension(1280, 720));
         setLayout(null);
         setBackground(assets.clrBackground);
-        
-        
-        ClearButton.setSize(54, 54);
-        ClearButton.setLocation(825, 25);
-        ClearButton.setFont(assets.fntHelvetica30);
-        ClearButton.setBackground(assets.clrLightGrey);
-        ClearButton.setBorder(null);
-        
-        SSizeButton.setSize(54, 54);
-        SSizeButton.setLocation(825, 93);
-        SSizeButton.setFont(assets.fntHelvetica20);
-        SSizeButton.setBackground(assets.clrLightGrey);
-        SSizeButton.setBorder(null);
-
-        LSizeButton.setSize(54, 54);
-        LSizeButton.setLocation(825, 162);
-        LSizeButton.setFont(assets.fntHelvetica30);
-        LSizeButton.setBackground(assets.clrLightGrey);
-        LSizeButton.setBorder(null);
-
-        YellowButton.setSize(54, 54);
-        YellowButton.setLocation(825, 231);
-        YellowButton.setBackground(assets.clrDrawYellow);
-        YellowButton.setBorder(null);
-
-        GreenButton.setSize(54, 54);
-        GreenButton.setLocation(825, 301);
-        GreenButton.setBackground(assets.clrDrawGreen);
-        GreenButton.setBorder(null);
-        
-        BlueButton.setSize(54, 54);
-        BlueButton.setLocation(825, 371);
-        BlueButton.setBackground(assets.clrDrawBlue);
-        BlueButton.setBorder(null);
-
-        PurpleButton.setSize(54, 54);
-        PurpleButton.setLocation(825, 441);
-        PurpleButton.setBackground(assets.clrDrawPurple);
-        PurpleButton.setBorder(null);
-
-        RedButton.setSize(54, 54);
-        RedButton.setLocation(825, 511);
-        RedButton.setBackground(assets.clrDrawRed);
-        RedButton.setBorder(null);
-
-        OrangeButton.setSize(54, 54);
-        OrangeButton.setLocation(825, 581);
-        OrangeButton.setBackground(assets.clrDrawOrange);
-        OrangeButton.setBorder(null);
-
-        BlackButton.setSize(54, 54);
-        BlackButton.setLocation(825, 651);
-        BlackButton.setBackground(assets.clrDrawBlack);
-        BlackButton.setBorder(null);
 
         ItemLabel.setSize(365, 50);
         ItemLabel.setLocation(900, 305);
@@ -215,17 +150,6 @@ public class drawerRoundPanel extends JPanel implements ActionListener{
         ChatField.setLocation(910, 641);
         ChatField.setBackground(assets.clrWhite);
 
-        
-        add(ClearButton);
-        add(SSizeButton);
-        add(LSizeButton);
-        add(YellowButton);
-        add(GreenButton);
-        add(BlueButton);
-        add(PurpleButton);
-        add(RedButton);
-        add(OrangeButton);
-        add(BlackButton);
         add(ItemLabel);
         add(ChatArea);
         add(ChatField);

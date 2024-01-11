@@ -136,6 +136,7 @@ public class View implements ActionListener, MouseMotionListener, KeyListener{
             //Change Panel to Drawing Frame
             theFrame.setContentPane(theDrawerRoundPanel);
             theFrame.pack();
+            theDrawerRoundPanel.updateItemLabel(theModel.getObject());
             System.out.println("Changing Frame");
             System.out.println(theModel.intObjectLength);
             System.out.println(theModel.strObject);
@@ -146,6 +147,7 @@ public class View implements ActionListener, MouseMotionListener, KeyListener{
             //Change Panel to Drawing Frame
             theFrame.setContentPane(theDrawerRoundPanel);
             theFrame.pack();
+            theDrawerRoundPanel.updateItemLabel(theModel.getObject());
             System.out.println("Changing Frame");
             System.out.println(theModel.intObjectLength);
             System.out.println(theModel.strObject);
