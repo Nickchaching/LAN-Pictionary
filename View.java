@@ -153,6 +153,14 @@ public class View implements ActionListener, MouseMotionListener, KeyListener{
                 if(theModel.serverMessageRecieved() == 0){
                     theServerLobbyPanel.updatePlayerList(theModel.getPlayerList());
                 }
+                else if(theModel.serverMessageRecieved() == 1){
+                    if(theFrame.getContentPane() == theDrawerRoundPanel){
+                        theDrawerRoundPanel.updateChatArea(theModel.getMessageData());
+                    }
+                    else{
+                        theNonDrawerRoundPanel.updateChatArea(theModel.getMessageData());
+                    }
+                }
                 else if(theModel.serverMessageRecieved() == 2){
                     //Change Panel to Drawing Frame
                     theFrame.setContentPane(theNonDrawerRoundPanel);
@@ -169,6 +177,14 @@ public class View implements ActionListener, MouseMotionListener, KeyListener{
             if(theModel.ClientSocket.readText().substring(0,1).equals("1")){
                 if(theModel.clientMessageRecieved() == 0){
                     theClientLobbyPanel.updatePlayerList(theModel.getPlayers());
+                }
+                else if(theModel.clientMessageRecieved() == 1){
+                    if(theFrame.getContentPane() == theDrawerRoundPanel){
+                        theDrawerRoundPanel.updateChatArea(theModel.getMessageData());
+                    }
+                    else{
+                        theNonDrawerRoundPanel.updateChatArea(theModel.getMessageData());
+                    }
                 }
                 else if(theModel.clientMessageRecieved() == 2){
                     if(theModel.isDrawing()){
@@ -269,6 +285,15 @@ public class View implements ActionListener, MouseMotionListener, KeyListener{
         else if(evt.getSource() == theDrawerRoundPanel.BlackButton){
             theDrawerRoundPanel.updateColour(7);
         }
+        //Chat Message Handling
+        else if(evt.getSource() == theDrawerRoundPanel.ChatField || evt.getSource() == theNonDrawerRoundPanel.ChatField){
+            if(evt.getSource() == theDrawerRoundPanel.ChatField){
+                theModel.newMessage(theDrawerRoundPanel.getChatField());
+            }
+            else{
+                theModel.newMessage(theNonDrawerRoundPanel.getChatField());
+            }
+        }
     }
 
     public void mouseDragged(MouseEvent evt){
@@ -346,7 +371,11 @@ public class View implements ActionListener, MouseMotionListener, KeyListener{
         theDrawerRoundPanel.RedButton.addActionListener(this);
         theDrawerRoundPanel.OrangeButton.addActionListener(this);
         theDrawerRoundPanel.BlackButton.addActionListener(this);
+        theDrawerRoundPanel.ChatField.addActionListener(this);
         theDrawerRoundPanel.addMouseMotionListener(this);
+
+        //Adding NonDrawerRound Panel Action Listeners
+        theNonDrawerRoundPanel.ChatField.addActionListener(this);
 
         //Initialzing the Frame
         theFrame.setContentPane(theHomePanel);

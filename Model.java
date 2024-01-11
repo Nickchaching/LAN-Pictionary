@@ -56,6 +56,7 @@ public class Model{
     String strObject;
     int intObjectLength;
     int intTempDraw[] = new int[4];
+    String strTempMessage;
     
     //Server Properties
     SuperSocketMaster HostSocket;
@@ -231,6 +232,21 @@ public class Model{
         System.out.println("Test 2");
     }
 
+    //(RE)-Broadcasts Chat Data to Clients
+    public String sendChatData(String strIP, String strChatData){
+        int intCount;
+        String strFormattedChatData = "";
+        for(intCount = 0; intCount < strPlayerList.length; intCount++){
+            if(strPlayerList[intCount][0] == strIP){
+                strFormattedChatData = strPlayerList[intCount][1];
+                break;
+            }
+        }
+        strFormattedChatData = strFormattedChatData + ": " + strChatData;
+        HostSocket.sendText("1,1,"+HostSocket.getMyAddress()+","+strFormattedChatData);
+        return strFormattedChatData;
+    }
+
     //Get Object Choices
     public String[] getObjectChoices(){
         return strChoiceObjects;
@@ -259,7 +275,7 @@ public class Model{
         }
         //Message Type 1: Chat Telemetry
         else if(strIncomingSplit[1].equals("1")){
-
+            strTempMessage = sendChatData(strIncomingSplit[2], strIncomingSplit[3]);
         }
         //Message Type 2: Object Choice Telemetry
         else if(strIncomingSplit[1].equals("2")){
@@ -395,8 +411,13 @@ public class Model{
             strPlayers = strDecode;
         }
 
+        //Message Type 1: Chat Telemetry
+        else if(strIncomingSplit[1].equals("1")){
+            strTempMessage = strIncomingSplit[3];
+        }
+
         //Message Type 2: Start of a New Round
-        if(strIncomingSplit[1].equals("2")){
+        else if(strIncomingSplit[1].equals("2")){
             intRound = Integer.parseInt(strIncomingSplit[3]);
             if(strIncomingSplit[4].equals(ClientSocket.getMyAddress())){
                 blnDrawing = true;
@@ -410,17 +431,17 @@ public class Model{
         }
 
         //Message Type 3: Pre-Round Timer Update Ping
-        if(strIncomingSplit[1].equals("3")){
+        else if(strIncomingSplit[1].equals("3")){
             dblTimePerRemaining = Double.parseDouble(strIncomingSplit[3]);
         }
 
         //Message Type 4: Start of a Round
-        if(strIncomingSplit[1].equals("4")){
+        else if(strIncomingSplit[1].equals("4")){
             intObjectLength = Integer.parseInt(strIncomingSplit[3]);
         }
 
         //Message Type 5: Drawing Telemetry
-        if(strIncomingSplit[1].equals("5")){
+        else if(strIncomingSplit[1].equals("5")){
             intTempDraw[0] = Integer.parseInt(strIncomingSplit[3]); 
             intTempDraw[1] = Integer.parseInt(strIncomingSplit[4]); 
             intTempDraw[2] = Integer.parseInt(strIncomingSplit[5]); 
@@ -428,7 +449,7 @@ public class Model{
         }
 
         //Message Type 6: Round Timer Update Ping
-        if(strIncomingSplit[1].equals("6")){
+        else if(strIncomingSplit[1].equals("6")){
             dblTimePerRemaining = Double.parseDouble(strIncomingSplit[3]);
         }
 
@@ -477,6 +498,16 @@ public class Model{
         }
     }
 
+    //Send Chat Message
+    public void newMessage(String strMessage){
+        if(blnHost){
+            strTempMessage = sendChatData(HostSocket.getMyAddress(), strMessage);
+        }
+        else{
+            ClientSocket.sendText("0,1,"+ClientSocket.getMyAddress()+","+strMessage);
+        }
+    }
+
     //Retrieve Item Drawing
     public String getObject(){
         return strObject;
@@ -485,6 +516,11 @@ public class Model{
     //Retrieve Drawing Data
     public int[] getDrawingData(){
         return intTempDraw;
+    }
+
+    //Retrieve Message Data
+    public String getMessageData(){
+        return strTempMessage;
     }
 
     //Retrieve Object Length

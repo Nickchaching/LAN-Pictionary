@@ -19,8 +19,8 @@ public class drawerRoundPanel extends JPanel implements ActionListener{
     public JButton RedButton = new JButton();
     public JButton OrangeButton = new JButton();
     public JButton BlackButton = new JButton();
-    public JLabel ItemLabel = new JLabel("Item");
-    public JTextArea ChatArea = new JTextArea();
+    public JLabel ItemLabel = new JLabel("");
+    public JTextArea ChatArea = new JTextArea("");
     public JTextField ChatField = new JTextField();
     public Timer theTimer = new Timer(1000/60, this);
     int intWidth = 1280;
@@ -36,6 +36,16 @@ public class drawerRoundPanel extends JPanel implements ActionListener{
         if(evt.getSource() == theTimer){
             repaint();
         }
+    }
+
+    public String getChatField(){
+        String strText = ChatField.getText();
+        ChatField.setText("");
+        return strText;
+    }
+
+    public void updateChatArea(String strContent){
+        ChatArea.append(strContent + "\n");
     }
 
     public void updateItemLabel(String strContent){

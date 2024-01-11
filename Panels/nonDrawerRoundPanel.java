@@ -11,7 +11,7 @@ import javax.swing.*;
 public class nonDrawerRoundPanel extends JPanel implements ActionListener{
     //Properties
     public JLabel ItemLabel = new JLabel("");
-    public JTextArea ChatArea = new JTextArea();
+    public JTextArea ChatArea = new JTextArea("");
     public JTextField ChatField = new JTextField();
     public Timer theTimer = new Timer(1000/60, this);
     int intWidth = 1280;
@@ -25,6 +25,16 @@ public class nonDrawerRoundPanel extends JPanel implements ActionListener{
         if(evt.getSource() == theTimer){
             repaint();
         }
+    }
+
+    public String getChatField(){
+        String strText = ChatField.getText();
+        ChatField.setText("");
+        return strText;
+    }
+
+    public void updateChatArea(String strContent){
+        ChatArea.append(strContent + "\n");
     }
 
     public void updateItemLabel(int intObjectLength){
