@@ -228,7 +228,7 @@ public class Model{
     //(RE)-Broadcasts Drawing Data to Clients
     public void sendDrawData(int intDrawData[]){
         HostSocket.sendText("1,5,"+HostSocket.getMyAddress()+","+intDrawData[0]+","+intDrawData[1]+","+intDrawData[2]+","+intDrawData[3]);
-        System.out.println("Sending Data");
+        System.out.println("Test 2");
     }
 
     //Get Object Choices
@@ -273,6 +273,7 @@ public class Model{
             intDrawData[1] = Integer.parseInt(strIncomingSplit[4]);
             intDrawData[2] = Integer.parseInt(strIncomingSplit[5]);
             intDrawData[3] = Integer.parseInt(strIncomingSplit[6]);
+            System.out.println("Test1");
             sendDrawData(intDrawData);
         }
 

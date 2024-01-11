@@ -25,7 +25,7 @@ public class drawerRoundPanel extends JPanel implements ActionListener{
     public Timer theTimer = new Timer(1000/60, this);
     int intWidth = 1280;
     
-    int intDraw[][] = new int[536520][4];;
+    int intDraw[][] = new int[536520][4];
     int intCounter = 0;
     int intPenSize = 10;
     int intPenColour = 7;
