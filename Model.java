@@ -474,7 +474,7 @@ public class Model{
             sendDrawData(intDrawData);
         }
         else{
-            ClientSocket.sendText("0,3,"+ClientSocket.getMyAddress()+","+intDrawData[0]+","+intDrawData[1]+","+intDrawData[2]+","+intDrawData[3]);
+            ClientSocket.sendText("0,5,"+ClientSocket.getMyAddress()+","+intDrawData[0]+","+intDrawData[1]+","+intDrawData[2]+","+intDrawData[3]);
         }
     }
 
