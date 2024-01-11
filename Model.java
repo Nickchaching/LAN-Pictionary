@@ -268,13 +268,11 @@ public class Model{
         }
         //Message Type 3: Drawing Telemetry
         else if(strIncomingSplit[1].equals("3")){
-            int intDrawData[] = new int[4];
-            intDrawData[0] = Integer.parseInt(strIncomingSplit[3]);
-            intDrawData[1] = Integer.parseInt(strIncomingSplit[4]);
-            intDrawData[2] = Integer.parseInt(strIncomingSplit[5]);
-            intDrawData[3] = Integer.parseInt(strIncomingSplit[6]);
-            System.out.println("Test1");
-            sendDrawData(intDrawData);
+            intTempDraw[0] = Integer.parseInt(strIncomingSplit[3]);
+            intTempDraw[1] = Integer.parseInt(strIncomingSplit[4]);
+            intTempDraw[2] = Integer.parseInt(strIncomingSplit[5]);
+            intTempDraw[3] = Integer.parseInt(strIncomingSplit[6]);
+            sendDrawData(intTempDraw);
         }
 
         return Integer.parseInt(strIncomingSplit[1]);

@@ -206,6 +206,9 @@ public class View implements ActionListener, MouseMotionListener, KeyListener{
                     if(theFrame.getContentPane() == theDrawerRoundPanel){
                         theDrawerRoundPanel.updateTimer(theModel.getTimeRemPer());
                     }
+                    else{
+                        theNonDrawerRoundPanel.updateTimer(theModel.getTimeRemPer());
+                    }
                 }
             }
         }
@@ -222,6 +225,9 @@ public class View implements ActionListener, MouseMotionListener, KeyListener{
             }
             else if(theFrame.getContentPane() == theDrawerRoundPanel){
                 theDrawerRoundPanel.updateTimer(Double.parseDouble(theModel.sendPing(2)));
+            }
+            else if(theFrame.getContentPane() == theNonDrawerRoundPanel){
+                theNonDrawerRoundPanel.updateTimer(Double.parseDouble(theModel.sendPing(2)));
             }
             //Responsible for Procesing and Sending out Telemetry
         }

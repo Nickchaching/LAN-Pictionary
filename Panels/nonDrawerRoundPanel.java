@@ -31,7 +31,7 @@ public class nonDrawerRoundPanel extends JPanel implements ActionListener{
         String strLabel = "";
         int intCount;
         for(intCount = 0; intCount < intObjectLength; intCount++){
-            strLabel = strLabel + "_";
+            strLabel = strLabel + "-";
         }
         ItemLabel.setText(strLabel);
     }
