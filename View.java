@@ -235,6 +235,12 @@ public class View implements ActionListener, MouseMotionListener, KeyListener{
         //Drawing Telemetry
         if(evt.getSource() == theDrawerRoundPanel.ClearButton){
             theDrawerRoundPanel.clearScreen();
+            int intDrawClear[] = new int[4];
+            intDrawClear[0] = -1;
+            intDrawClear[1] = -1;
+            intDrawClear[2] = -1;
+            intDrawClear[3] = -1;
+            theModel.newDrawData(intDrawClear);
         }
         else if(evt.getSource() == theDrawerRoundPanel.SSizeButton){
             theDrawerRoundPanel.updateSize(6);

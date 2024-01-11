@@ -41,12 +41,17 @@ public class nonDrawerRoundPanel extends JPanel implements ActionListener{
     }
 
     public void updateDraw(int intDrawData[]){
-        intDraw[intCounter][0] = intDrawData[0]; 
-        intDraw[intCounter][1] = intDrawData[1]; 
-        intDraw[intCounter][2] = intDrawData[2];
-        intDraw[intCounter][3] = intDrawData[3];
-        //Increase intCount
-        intCounter++;
+        if(intDrawData[0] == -1){
+            clearScreen();
+        }
+        else{
+            intDraw[intCounter][0] = intDrawData[0]; 
+            intDraw[intCounter][1] = intDrawData[1]; 
+            intDraw[intCounter][2] = intDrawData[2];
+            intDraw[intCounter][3] = intDrawData[3];
+            //Increase intCount
+            intCounter++;
+        }
     }
 
     public void clearScreen(){
