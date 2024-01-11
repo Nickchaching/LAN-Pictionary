@@ -268,7 +268,7 @@ public class Model{
         }
         //Message Type 3: Drawing Telemetry
         else if(strIncomingSplit[1].equals("3")){
-            int intDrawData[] = new int[3];
+            int intDrawData[] = new int[4];
             intDrawData[0] = Integer.parseInt(strIncomingSplit[3]);
             intDrawData[1] = Integer.parseInt(strIncomingSplit[4]);
             intDrawData[2] = Integer.parseInt(strIncomingSplit[5]);
@@ -474,7 +474,7 @@ public class Model{
             sendDrawData(intDrawData);
         }
         else{
-            ClientSocket.sendText("0,5,"+ClientSocket.getMyAddress()+","+intDrawData[0]+","+intDrawData[1]+","+intDrawData[2]+","+intDrawData[3]);
+            ClientSocket.sendText("0,3,"+ClientSocket.getMyAddress()+","+intDrawData[0]+","+intDrawData[1]+","+intDrawData[2]+","+intDrawData[3]);
         }
     }
 
