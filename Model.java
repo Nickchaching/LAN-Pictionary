@@ -528,6 +528,9 @@ public class Model{
         return intObjectLength;
     }
 
+    public boolean isHost(){
+        return blnHost;
+    }
 
     //Constuctor
     public Model(View theView){
