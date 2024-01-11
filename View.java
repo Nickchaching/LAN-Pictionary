@@ -23,6 +23,7 @@ public class View implements ActionListener, MouseMotionListener, KeyListener{
     drawerPRPanel theDrawerPRPanel = new drawerPRPanel();
     nonDrawerPRPanel theNonDrawerPRPanel = new nonDrawerPRPanel();
     drawerRoundPanel theDrawerRoundPanel = new drawerRoundPanel();
+    nonDrawerRoundPanel theNonDrawerRoundPanel = new nonDrawerRoundPanel();
 
 
     //Methods
@@ -137,9 +138,6 @@ public class View implements ActionListener, MouseMotionListener, KeyListener{
             theFrame.setContentPane(theDrawerRoundPanel);
             theFrame.pack();
             theDrawerRoundPanel.updateItemLabel(theModel.getObject());
-            System.out.println("Changing Frame");
-            System.out.println(theModel.intObjectLength);
-            System.out.println(theModel.strObject);
         }
         //Pre-Round Timer Completed
         else if(evt.getSource() == theModel.preRoundTimer){
@@ -148,9 +146,6 @@ public class View implements ActionListener, MouseMotionListener, KeyListener{
             theFrame.setContentPane(theDrawerRoundPanel);
             theFrame.pack();
             theDrawerRoundPanel.updateItemLabel(theModel.getObject());
-            System.out.println("Changing Frame");
-            System.out.println(theModel.intObjectLength);
-            System.out.println(theModel.strObject);
         }
         //Server Message Handling
         else if(evt.getSource() == theModel.HostSocket){
@@ -160,11 +155,12 @@ public class View implements ActionListener, MouseMotionListener, KeyListener{
                 }
                 else if(theModel.serverMessageRecieved() == 2){
                     //Change Panel to Drawing Frame
-                    theFrame.setContentPane(theDrawerRoundPanel);
+                    theFrame.setContentPane(theNonDrawerRoundPanel);
                     theFrame.pack();
-                    System.out.println("Changing Frame");
-                    System.out.println(theModel.intObjectLength);
-                    System.out.println(theModel.strObject);
+                    theNonDrawerRoundPanel.updateItemLabel(theModel.getObjectLength());
+                }
+                else if(theModel.serverMessageRecieved() == 3){
+                    theNonDrawerRoundPanel.updateDraw(theModel.getDrawingData());
                 }
             }
         }
@@ -195,9 +191,16 @@ public class View implements ActionListener, MouseMotionListener, KeyListener{
                     }
                 }
                 else if(theModel.clientMessageRecieved() == 4){
-                    //Change Panel to Drawing Frame
-                    theFrame.setContentPane(theDrawerRoundPanel);
-                    theFrame.pack();
+                    if(!theModel.isDrawing()){
+                        theFrame.setContentPane(theNonDrawerRoundPanel);
+                        theFrame.pack();
+                        theNonDrawerRoundPanel.updateItemLabel(theModel.getObjectLength());
+                    }
+                }
+                else if(theModel.clientMessageRecieved() == 5){
+                    if(theFrame.getContentPane() == theNonDrawerRoundPanel){
+                        theNonDrawerRoundPanel.updateDraw(theModel.getDrawingData());
+                    }
                 }
                 else if(theModel.clientMessageRecieved() == 6){
                     if(theFrame.getContentPane() == theDrawerRoundPanel){

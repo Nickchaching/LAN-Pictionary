@@ -1,5 +1,5 @@
+//Associating under the Panels Directory (or package)
 package Panels;
-
 
 //Importing Graphics Dependencies
 import java.awt.*;
@@ -8,19 +8,9 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
-public class drawerRoundPanel extends JPanel implements ActionListener{
+public class nonDrawerRoundPanel extends JPanel implements ActionListener{
     //Properties
-    public JButton ClearButton = new JButton("X");
-    public JButton SSizeButton = new JButton("✎");
-    public JButton LSizeButton = new JButton("✎");
-    public JButton YellowButton = new JButton();
-    public JButton GreenButton = new JButton();
-    public JButton BlueButton = new JButton();
-    public JButton PurpleButton = new JButton();
-    public JButton RedButton = new JButton();
-    public JButton OrangeButton = new JButton();
-    public JButton BlackButton = new JButton();
-    public JLabel ItemLabel = new JLabel("Item");
+    public JLabel ItemLabel = new JLabel("");
     public JTextArea ChatArea = new JTextArea();
     public JTextField ChatField = new JTextField();
     public Timer theTimer = new Timer(1000/60, this);
@@ -37,19 +27,24 @@ public class drawerRoundPanel extends JPanel implements ActionListener{
         }
     }
 
-    public void updateItemLabel(String strContent){
-        ItemLabel.setText(strContent);
+    public void updateItemLabel(int intObjectLength){
+        String strLabel = "";
+        int intCount;
+        for(intCount = 0; intCount < intObjectLength; intCount++){
+            strLabel = strLabel + "_";
+        }
+        ItemLabel.setText(strLabel);
     }
 
     public void updateTimer(double dblPercent){
         intWidth = (int)(1280 * dblPercent/100);
     }
 
-    public void updateDraw(int intX, int intY){
-        intDraw[intCounter][0] = intX; 
-        intDraw[intCounter][1] = intY; 
-        intDraw[intCounter][2] = intPenSize;
-        intDraw[intCounter][3] = intPenColour;
+    public void updateDraw(int intDrawData[]){
+        intDraw[intCounter][0] = intDrawData[0]; 
+        intDraw[intCounter][1] = intDrawData[1]; 
+        intDraw[intCounter][2] = intDrawData[2];
+        intDraw[intCounter][3] = intDrawData[3];
         //Increase intCount
         intCounter++;
     }
@@ -131,7 +126,7 @@ public class drawerRoundPanel extends JPanel implements ActionListener{
     }
     
     //Constructor
-    public drawerRoundPanel(){
+    public nonDrawerRoundPanel(){
         setPreferredSize(new Dimension(1280, 720));
         setLayout(null);
         setBackground(assets.clrBackground);

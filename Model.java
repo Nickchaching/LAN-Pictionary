@@ -55,6 +55,7 @@ public class Model{
     String strChoiceObjects[];
     String strObject;
     int intObjectLength;
+    int intTempDraw[] = new int[3];
     
     //Server Properties
     SuperSocketMaster HostSocket;
@@ -224,8 +225,9 @@ public class Model{
         roundTimer.start();
     }
 
-    public void sendDrawData(int intDrawData){
-        HostSocket.sendText("1,5,"+HostSocket.getMyAddress()+","+intDrawData);
+    //(RE)-Broadcasts Drawing Data to Clients
+    public void sendDrawData(int intDrawData[]){
+        HostSocket.sendText("1,5,"+HostSocket.getMyAddress()+","+intDrawData[0]+","+intDrawData[1]+","+intDrawData[2]+","+intDrawData[3]);
     }
 
     //Get Object Choices
@@ -265,8 +267,12 @@ public class Model{
         }
         //Message Type 3: Drawing Telemetry
         else if(strIncomingSplit[1].equals("3")){
-            //Get the drawing data and save it in a temp variable
-            //Run a method to rebroadcast data to clients
+            int intDrawData[] = new int[3];
+            intDrawData[0] = Integer.parseInt(strIncomingSplit[3]);
+            intDrawData[1] = Integer.parseInt(strIncomingSplit[4]);
+            intDrawData[2] = Integer.parseInt(strIncomingSplit[5]);
+            intDrawData[3] = Integer.parseInt(strIncomingSplit[6]);
+            sendDrawData(intDrawData);
         }
 
         return Integer.parseInt(strIncomingSplit[1]);
@@ -378,7 +384,7 @@ public class Model{
     public int clientMessageRecieved(){
         strIncomingSplit = ClientSocket.readText().split(",");
 
-        //Lobby Player Info Ping
+        //Message Type 0: Lobby Player Info Ping
         if(strIncomingSplit[1].equals("0")){
             int intLength = strIncomingSplit.length - 3;
             int intCount;
@@ -389,7 +395,7 @@ public class Model{
             strPlayers = strDecode;
         }
 
-        //Start of a New Round
+        //Message Type 2: Start of a New Round
         if(strIncomingSplit[1].equals("2")){
             intRound = Integer.parseInt(strIncomingSplit[3]);
             if(strIncomingSplit[4].equals(ClientSocket.getMyAddress())){
@@ -403,16 +409,25 @@ public class Model{
             }
         }
 
-        //Round Timer Update Ping
+        //Message Type 3: Pre-Round Timer Update Ping
         if(strIncomingSplit[1].equals("3")){
             dblTimePerRemaining = Double.parseDouble(strIncomingSplit[3]);
         }
 
-        //Round Start
+        //Message Type 4: Start of a Round
         if(strIncomingSplit[1].equals("4")){
             intObjectLength = Integer.parseInt(strIncomingSplit[3]);
         }
 
+        //Message Type 5: Drawing Telemetry
+        if(strIncomingSplit[1].equals("5")){
+            intTempDraw[0] = Integer.parseInt(strIncomingSplit[3]); 
+            intTempDraw[1] = Integer.parseInt(strIncomingSplit[4]); 
+            intTempDraw[2] = Integer.parseInt(strIncomingSplit[5]); 
+            intTempDraw[3] = Integer.parseInt(strIncomingSplit[6]); 
+        }
+
+        //Message Type 6: Round Timer Update Ping
         if(strIncomingSplit[1].equals("6")){
             dblTimePerRemaining = Double.parseDouble(strIncomingSplit[3]);
         }
@@ -455,16 +470,26 @@ public class Model{
     //Send New Drawing Data
     public void newDrawData(int intDrawData[]){
         if(blnHost){
-
+            sendDrawData(intDrawData);
         }
         else{
-            ClientSocket.sendText("1,3,"+ClientSocket.getMyAddress()+","+Arrays.toString(intDrawData));
+            ClientSocket.sendText("0,3,"+ClientSocket.getMyAddress()+","+intDrawData[0]+","+intDrawData[1]+","+intDrawData[2]+","+intDrawData[3]);
         }
     }
 
     //Retrieve Item Drawing
     public String getObject(){
         return strObject;
+    }
+
+    //Retrieve Drawing Data
+    public int[] getDrawingData(){
+        return intTempDraw;
+    }
+
+    //Retrieve Object Length
+    public int getObjectLength(){
+        return intObjectLength;
     }
 
 
