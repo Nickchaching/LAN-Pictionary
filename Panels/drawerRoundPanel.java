@@ -45,7 +45,29 @@ public class drawerRoundPanel extends JPanel implements ActionListener{
     }
 
     public void updateChatArea(String strContent){
-        ChatArea.append(strContent + "\n");
+        String strChat[] = ChatArea.getText().split("\n");
+        int intMessages = strChat.length;
+        int intCount;
+        if(intMessages < 11){
+            ChatArea.append(strContent + "\n");
+        }
+        else{
+            try{
+                //Shift Old Messages Up
+                for(intCount = 0; intCount < 11; intCount++){
+                    strChat[intCount] = strChat[intCount + 1];
+                }
+                //Display Messages with Shift
+                ChatArea.setText("");
+                for(intCount = 0; intCount < 11; intCount++){
+                    ChatArea.append(strChat[intCount] + "\n");
+                }
+            }catch(ArrayIndexOutOfBoundsException e){
+                System.out.println("Array index out of bounds");
+            }
+            //Display New Message
+            ChatArea.append(strContent + "\n");
+        }
     }
 
     public void updateItemLabel(String strContent){
@@ -216,9 +238,10 @@ public class drawerRoundPanel extends JPanel implements ActionListener{
         ItemLabel.setHorizontalAlignment(SwingConstants.CENTER);
         ItemLabel.setFont(assets.fntHelvetica40);
         
-        ChatArea.setSize(365, 266);
-        ChatArea.setLocation(900, 365);
+        ChatArea.setSize(350, 252);
+        ChatArea.setLocation(915, 379);
         ChatArea.setBackground(assets.clrWhite);
+        ChatArea.setFont(assets.fntHelvetica15);
         ChatArea.setEditable(false);
 
         ChatField.setSize(345, 54);
