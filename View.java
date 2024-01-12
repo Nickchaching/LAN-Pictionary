@@ -150,10 +150,12 @@ public class View implements ActionListener, MouseMotionListener, KeyListener{
         //Server Message Handling
         else if(evt.getSource() == theModel.HostSocket){
             if(theModel.HostSocket.readText().substring(0,1).equals("0")){
-                if(theModel.serverMessageRecieved() == 0){
+                int intType = theModel.serverMessageRecieved();
+                
+                if(intType == 0){
                     theServerLobbyPanel.updatePlayerList(theModel.getPlayerList());
                 }
-                else if(theModel.serverMessageRecieved() == 1){
+                else if(intType == 1){
                     if(theFrame.getContentPane() == theDrawerRoundPanel){
                         theDrawerRoundPanel.updateChatArea(theModel.getMessageData());
                     }
@@ -161,13 +163,13 @@ public class View implements ActionListener, MouseMotionListener, KeyListener{
                         theNonDrawerRoundPanel.updateChatArea(theModel.getMessageData());
                     }
                 }
-                else if(theModel.serverMessageRecieved() == 2){
+                else if(intType == 2){
                     //Change Panel to Drawing Frame
                     theFrame.setContentPane(theNonDrawerRoundPanel);
                     theFrame.pack();
                     theNonDrawerRoundPanel.updateItemLabel(theModel.getObjectLength());
                 }
-                else if(theModel.serverMessageRecieved() == 3){
+                else if(intType == 3){
                     theNonDrawerRoundPanel.updateDraw(theModel.getDrawingData());
                 }
             }
@@ -175,10 +177,12 @@ public class View implements ActionListener, MouseMotionListener, KeyListener{
         //Client Message Handling
         else if(evt.getSource() == theModel.ClientSocket){
             if(theModel.ClientSocket.readText().substring(0,1).equals("1")){
-                if(theModel.clientMessageRecieved() == 0){
+                int intType = theModel.clientMessageRecieved();
+
+                if(intType == 0){
                     theClientLobbyPanel.updatePlayerList(theModel.getPlayers());
                 }
-                else if(theModel.clientMessageRecieved() == 1){
+                else if(intType == 1){
                     if(theFrame.getContentPane() == theDrawerRoundPanel){
                         theDrawerRoundPanel.updateChatArea(theModel.getMessageData());
                     }
@@ -186,7 +190,7 @@ public class View implements ActionListener, MouseMotionListener, KeyListener{
                         theNonDrawerRoundPanel.updateChatArea(theModel.getMessageData());
                     }
                 }
-                else if(theModel.clientMessageRecieved() == 2){
+                else if(intType == 2){
                     if(theModel.isDrawing()){
                         theDrawerPRPanel.initializePanel(theModel.getRound(), theModel.getObjectChoices());
                         theFrame.setContentPane(theDrawerPRPanel);
@@ -198,7 +202,7 @@ public class View implements ActionListener, MouseMotionListener, KeyListener{
                         theFrame.pack();
                     }
                 }
-                else if(theModel.clientMessageRecieved() == 3){
+                else if(intType == 3){
                     if(theFrame.getContentPane() == theDrawerPRPanel){
                         theDrawerPRPanel.updateTimer(theModel.getTimeRemPer());
                     }
@@ -206,19 +210,19 @@ public class View implements ActionListener, MouseMotionListener, KeyListener{
                         theNonDrawerPRPanel.updateTimer(theModel.getTimeRemPer());
                     }
                 }
-                else if(theModel.clientMessageRecieved() == 4){
+                else if(intType == 4){
                     if(!theModel.isDrawing()){
                         theFrame.setContentPane(theNonDrawerRoundPanel);
                         theFrame.pack();
                         theNonDrawerRoundPanel.updateItemLabel(theModel.getObjectLength());
                     }
                 }
-                else if(theModel.clientMessageRecieved() == 5){
+                else if(intType == 5){
                     if(theFrame.getContentPane() == theNonDrawerRoundPanel){
                         theNonDrawerRoundPanel.updateDraw(theModel.getDrawingData());
                     }
                 }
-                else if(theModel.clientMessageRecieved() == 6){
+                else if(intType == 6){
                     if(theFrame.getContentPane() == theDrawerRoundPanel){
                         theDrawerRoundPanel.updateTimer(theModel.getTimeRemPer());
                     }

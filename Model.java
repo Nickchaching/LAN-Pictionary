@@ -229,7 +229,6 @@ public class Model{
     //(RE)-Broadcasts Drawing Data to Clients
     public void sendDrawData(int intDrawData[]){
         HostSocket.sendText("1,5,"+HostSocket.getMyAddress()+","+intDrawData[0]+","+intDrawData[1]+","+intDrawData[2]+","+intDrawData[3]);
-        System.out.println("Test 2");
     }
 
     //(RE)-Broadcasts Chat Data to Clients
