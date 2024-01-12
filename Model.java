@@ -237,7 +237,7 @@ public class Model{
         int intCount;
         String strFormattedChatData = "";
         for(intCount = 0; intCount < strPlayerList.length; intCount++){
-            if(strPlayerList[intCount][0] == strIP){
+            if(strPlayerList[intCount][0].equals(strIP)){
                 strFormattedChatData = strPlayerList[intCount][1];
                 break;
             }
