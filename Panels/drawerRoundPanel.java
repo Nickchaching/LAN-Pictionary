@@ -48,23 +48,21 @@ public class drawerRoundPanel extends JPanel implements ActionListener{
         String strChat[] = ChatArea.getText().split("\n");
         int intMessages = strChat.length;
         int intCount;
-        if(intMessages < 11){
+        if(intMessages < 12){
             ChatArea.append(strContent + "\n");
         }
         else{
-            try{
-                //Shift Old Messages Up
-                for(intCount = 0; intCount < 11; intCount++){
-                    strChat[intCount] = strChat[intCount + 1];
-                }
-                //Display Messages with Shift
-                ChatArea.setText("");
-                for(intCount = 0; intCount < 11; intCount++){
-                    ChatArea.append(strChat[intCount] + "\n");
-                }
-            }catch(ArrayIndexOutOfBoundsException e){
-                System.out.println("Array index out of bounds");
+            //Shift Old Messages Up
+            for(intCount = 0; intCount < 11; intCount++){
+                strChat[intCount] = strChat[intCount + 1];
             }
+            
+            //Display Messages with Shift
+            ChatArea.setText("");
+            for(intCount = 0; intCount < 11; intCount++){
+                ChatArea.append(strChat[intCount] + "\n");
+            }
+
             //Display New Message
             ChatArea.append(strContent + "\n");
         }
