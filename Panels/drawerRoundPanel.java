@@ -20,7 +20,7 @@ public class drawerRoundPanel extends JPanel implements ActionListener{
     public JButton OrangeButton = new JButton();
     public JButton BlackButton = new JButton();
     public JLabel ItemLabel = new JLabel("");
-    public JLabel CharLabel = new JLabel("Characters: ");
+    public JLabel CharLabel = new JLabel("0/50");
     public JTextArea ChatArea = new JTextArea("");
     public JTextField ChatField = new JTextField();
     public Timer theTimer = new Timer(1000/60, this);
@@ -75,13 +75,25 @@ public class drawerRoundPanel extends JPanel implements ActionListener{
 
     public void updateChar(int intChange){
         int intCharCount = ChatField.getText().length();
-        if(intChange == 1){
+        CharLabel.setText(intCharCount + "/30");
+        if(intChange == 1 && intCharCount <= 31){
             intCharCount++;
         }
         else{
             intCharCount--;
         }
-        CharLabel.setText("Characters: " + intCharCount);
+        if(intCharCount < 31){
+            CharLabel.setForeground(assets.clrButtonFGDefault);
+        }
+        else{
+            CharLabel.setForeground(assets.clrRed);
+        }
+    }
+
+    public void limitChar(){
+        if(ChatField.getText().length() >= 31){
+            ChatField.setText(ChatField.getText().substring(0, ChatField.getText().length() - 1));
+        }
     }
 
     public void updateTimer(double dblPercent){
@@ -181,6 +193,9 @@ public class drawerRoundPanel extends JPanel implements ActionListener{
 
         //Drawing Live Update Code
         redrawComponents(g);
+
+        //Updating Chat Field
+        limitChar();
     }
     
     //Constructor
@@ -248,10 +263,10 @@ public class drawerRoundPanel extends JPanel implements ActionListener{
         ItemLabel.setHorizontalAlignment(SwingConstants.CENTER);
         ItemLabel.setFont(assets.fntHelvetica40);
 
-        CharLabel.setSize(365, 50);
-        CharLabel.setLocation(900, 340);
-        CharLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        CharLabel.setFont(assets.fntHelvetica20);
+        CharLabel.setSize(50, 50);
+        CharLabel.setLocation(1200, 658);
+        CharLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+        CharLabel.setFont(assets.fntHelvetica13);
         
         ChatArea.setSize(350, 252);
         ChatArea.setLocation(915, 379);
@@ -262,6 +277,7 @@ public class drawerRoundPanel extends JPanel implements ActionListener{
         ChatField.setSize(345, 54);
         ChatField.setLocation(910, 641);
         ChatField.setBackground(assets.clrWhite);
+        ChatField.setFont(assets.fntHelvetica15);
 
         
         add(ClearButton);

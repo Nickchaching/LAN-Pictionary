@@ -22,6 +22,7 @@ public class assets{
     static Color clrDrawBlack = new Color(0, 0, 0);
 
     //Fonts
+    static Font fntHelvetica13 = new Font("Helvetica", Font.PLAIN, 13);
     static Font fntHelvetica15 = new Font("Helvetica", Font.BOLD, 15);
     static Font fntHelvetica20 = new Font("Helvetica", Font.BOLD, 20);
     static Font fntHelvetica30 = new Font("Helvetica", Font.BOLD, 30);

@@ -13,6 +13,7 @@ public class nonDrawerRoundPanel extends JPanel implements ActionListener{
     public JLabel ItemLabel = new JLabel("");
     public JTextArea ChatArea = new JTextArea("");
     public JTextField ChatField = new JTextField();
+    public JLabel CharLabel = new JLabel("0/50");
     public Timer theTimer = new Timer(1000/60, this);
     int intWidth = 1280;
 
@@ -64,6 +65,29 @@ public class nonDrawerRoundPanel extends JPanel implements ActionListener{
             strLabel = strLabel + "-";
         }
         ItemLabel.setText(strLabel);
+    }
+
+    public void updateChar(int intChange){
+        int intCharCount = ChatField.getText().length();
+        CharLabel.setText(intCharCount + "/30");
+        if(intChange == 1 && intCharCount <= 31){
+            intCharCount++;
+        }
+        else{
+            intCharCount--;
+        }
+        if(intCharCount < 31){
+            CharLabel.setForeground(assets.clrButtonFGDefault);
+        }
+        else{
+            CharLabel.setForeground(assets.clrRed);
+        }
+    }
+
+    public void limitChar(){
+        if(ChatField.getText().length() >= 31){
+            ChatField.setText(ChatField.getText().substring(0, ChatField.getText().length() - 1));
+        }
     }
 
     public void updateTimer(double dblPercent){
@@ -158,6 +182,9 @@ public class nonDrawerRoundPanel extends JPanel implements ActionListener{
 
         //Drawing Live Update Code
         redrawComponents(g);
+
+        //Updating Chat Field
+        limitChar();
     }
     
     //Constructor
@@ -170,6 +197,11 @@ public class nonDrawerRoundPanel extends JPanel implements ActionListener{
         ItemLabel.setLocation(900, 305);
         ItemLabel.setHorizontalAlignment(SwingConstants.CENTER);
         ItemLabel.setFont(assets.fntHelvetica40);
+
+        CharLabel.setSize(50, 50);
+        CharLabel.setLocation(900, 300);
+        CharLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+        CharLabel.setFont(assets.fntHelvetica13);
         
         ChatArea.setSize(350, 252);
         ChatArea.setLocation(915, 379);
@@ -180,10 +212,12 @@ public class nonDrawerRoundPanel extends JPanel implements ActionListener{
         ChatField.setSize(345, 54);
         ChatField.setLocation(910, 641);
         ChatField.setBackground(assets.clrWhite);
+        ChatField.setFont(assets.fntHelvetica15);
 
         add(ItemLabel);
         add(ChatArea);
         add(ChatField);
+        add(CharLabel);
 
         theTimer.start();
     }

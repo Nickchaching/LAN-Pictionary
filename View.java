@@ -322,10 +322,12 @@ public class View implements ActionListener, MouseMotionListener, KeyListener, D
 
     public void insertUpdate(DocumentEvent evt){
         theDrawerRoundPanel.updateChar(1);
+        theNonDrawerRoundPanel.updateChar(1);
     }
 
     public void removeUpdate(DocumentEvent evt){
         theDrawerRoundPanel.updateChar(0);
+        theNonDrawerRoundPanel.updateChar(0);
     }
 
     public void keyTyped(KeyEvent evt){
@@ -401,6 +403,7 @@ public class View implements ActionListener, MouseMotionListener, KeyListener, D
 
         //Adding NonDrawerRound Panel Action Listeners
         theNonDrawerRoundPanel.ChatField.addActionListener(this);
+        theNonDrawerRoundPanel.ChatField.getDocument().addDocumentListener(this);
 
         //Initialzing the Frame
         theFrame.setContentPane(theHomePanel);
