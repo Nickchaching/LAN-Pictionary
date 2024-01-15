@@ -4,13 +4,15 @@ import Panels.*;
 //Importing Dependencies
 import java.awt.event.*;
 import javax.swing.*;
+import javax.swing.event.*;
+
 
 //When Project is complete, create ClientModel and ServerModel classes, then, create the object within the controller that is necessary
 
 //Panel Identifier
 //1 - MAIN MENU
 
-public class View implements ActionListener, MouseMotionListener, KeyListener{
+public class View implements ActionListener, MouseMotionListener, KeyListener, DocumentListener{
     //Properties
     Model theModel = new Model(this);
 
@@ -314,6 +316,18 @@ public class View implements ActionListener, MouseMotionListener, KeyListener{
         }
     }
 
+    public void changedUpdate(DocumentEvent evt){
+        
+    }
+
+    public void insertUpdate(DocumentEvent evt){
+        theDrawerRoundPanel.updateChar(1);
+    }
+
+    public void removeUpdate(DocumentEvent evt){
+        theDrawerRoundPanel.updateChar(0);
+    }
+
     public void keyTyped(KeyEvent evt){
         
     }
@@ -383,6 +397,7 @@ public class View implements ActionListener, MouseMotionListener, KeyListener{
         theDrawerRoundPanel.BlackButton.addActionListener(this);
         theDrawerRoundPanel.ChatField.addActionListener(this);
         theDrawerRoundPanel.addMouseMotionListener(this);
+        theDrawerRoundPanel.ChatField.getDocument().addDocumentListener(this);
 
         //Adding NonDrawerRound Panel Action Listeners
         theNonDrawerRoundPanel.ChatField.addActionListener(this);

@@ -20,6 +20,7 @@ public class drawerRoundPanel extends JPanel implements ActionListener{
     public JButton OrangeButton = new JButton();
     public JButton BlackButton = new JButton();
     public JLabel ItemLabel = new JLabel("");
+    public JLabel CharLabel = new JLabel("Characters: ");
     public JTextArea ChatArea = new JTextArea("");
     public JTextField ChatField = new JTextField();
     public Timer theTimer = new Timer(1000/60, this);
@@ -70,6 +71,17 @@ public class drawerRoundPanel extends JPanel implements ActionListener{
 
     public void updateItemLabel(String strContent){
         ItemLabel.setText(strContent);
+    }
+
+    public void updateChar(int intChange){
+        int intCharCount = ChatField.getText().length();
+        if(intChange == 1){
+            intCharCount++;
+        }
+        else{
+            intCharCount--;
+        }
+        CharLabel.setText("Characters: " + intCharCount);
     }
 
     public void updateTimer(double dblPercent){
@@ -235,6 +247,11 @@ public class drawerRoundPanel extends JPanel implements ActionListener{
         ItemLabel.setLocation(900, 305);
         ItemLabel.setHorizontalAlignment(SwingConstants.CENTER);
         ItemLabel.setFont(assets.fntHelvetica40);
+
+        CharLabel.setSize(365, 50);
+        CharLabel.setLocation(900, 340);
+        CharLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        CharLabel.setFont(assets.fntHelvetica20);
         
         ChatArea.setSize(350, 252);
         ChatArea.setLocation(915, 379);
@@ -258,6 +275,7 @@ public class drawerRoundPanel extends JPanel implements ActionListener{
         add(OrangeButton);
         add(BlackButton);
         add(ItemLabel);
+        add(CharLabel);
         add(ChatArea);
         add(ChatField);
 
