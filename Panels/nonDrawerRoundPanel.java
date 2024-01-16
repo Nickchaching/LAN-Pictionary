@@ -41,7 +41,7 @@ public class nonDrawerRoundPanel extends JPanel implements ActionListener{
         int intMessages = strChat.length;
         int intCount;
         if(intMessages < 11){
-            if(assets.fntHelvetica13.getStringBounds(strContent, new FontRenderContext(new AffineTransform(), true, true)).getWidth() < 300){
+            if(assets.fntHelvetica13.getStringBounds(strContent, new FontRenderContext(new AffineTransform(), true, true)).getWidth() < 290){
                 //Displaying New Content
                 ChatArea.append(strContent + "\n");
             }
@@ -49,7 +49,7 @@ public class nonDrawerRoundPanel extends JPanel implements ActionListener{
                 //Displaying New Content
                 String strLine1 = strContent;
                 String strLine2 = "";
-                while(assets.fntHelvetica13.getStringBounds(strLine1, new FontRenderContext(new AffineTransform(), true, true)).getWidth() >= 300){
+                while(assets.fntHelvetica13.getStringBounds(strLine1, new FontRenderContext(new AffineTransform(), true, true)).getWidth() >= 290){
                     strLine2 = strLine1.substring(strLine1.lastIndexOf(" ") + 1, strLine1.length()) + " " + strLine2;
 			        strLine1 = strLine1.substring(0, strLine1.lastIndexOf(" "));
                 }
@@ -58,7 +58,7 @@ public class nonDrawerRoundPanel extends JPanel implements ActionListener{
             }
         }
         else if(intMessages == 11){
-            if(assets.fntHelvetica13.getStringBounds(strContent, new FontRenderContext(new AffineTransform(), true, true)).getWidth() < 300){
+            if(assets.fntHelvetica13.getStringBounds(strContent, new FontRenderContext(new AffineTransform(), true, true)).getWidth() < 290){
                 //Displaying New Content
                 ChatArea.append(strContent + "\n");
             }
@@ -77,7 +77,7 @@ public class nonDrawerRoundPanel extends JPanel implements ActionListener{
                 //Displaying New Content
                 String strLine1 = strContent;
                 String strLine2 = "";
-                while(assets.fntHelvetica13.getStringBounds(strLine1, new FontRenderContext(new AffineTransform(), true, true)).getWidth() >= 300){
+                while(assets.fntHelvetica13.getStringBounds(strLine1, new FontRenderContext(new AffineTransform(), true, true)).getWidth() >= 290){
                     strLine2 = strLine1.substring(strLine1.lastIndexOf(" ") + 1, strLine1.length()) + " " + strLine2;
 			        strLine1 = strLine1.substring(0, strLine1.lastIndexOf(" "));
                 }
@@ -92,7 +92,7 @@ public class nonDrawerRoundPanel extends JPanel implements ActionListener{
             }
 
             //Display New Message
-            if(assets.fntHelvetica13.getStringBounds(strContent, new FontRenderContext(new AffineTransform(), true, true)).getWidth() < 300){
+            if(assets.fntHelvetica13.getStringBounds(strContent, new FontRenderContext(new AffineTransform(), true, true)).getWidth() < 290){
                 //Display Messages with Shift
                 ChatArea.setText("");
                 for(intCount = 0; intCount < 11; intCount++){
@@ -117,7 +117,7 @@ public class nonDrawerRoundPanel extends JPanel implements ActionListener{
                 //Displaying New Content
                 String strLine1 = strContent;
                 String strLine2 = "";
-                while(assets.fntHelvetica13.getStringBounds(strLine1, new FontRenderContext(new AffineTransform(), true, true)).getWidth() >= 300){
+                while(assets.fntHelvetica13.getStringBounds(strLine1, new FontRenderContext(new AffineTransform(), true, true)).getWidth() >= 290){
                     strLine2 = strLine1.substring(strLine1.lastIndexOf(" ") + 1, strLine1.length()) + " " + strLine2;
 			        strLine1 = strLine1.substring(0, strLine1.lastIndexOf(" "));
                 }
