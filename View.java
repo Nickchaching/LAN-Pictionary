@@ -316,10 +316,6 @@ public class View implements ActionListener, MouseMotionListener, KeyListener, D
         }
     }
 
-    public void changedUpdate(DocumentEvent evt){
-        
-    }
-
     public void insertUpdate(DocumentEvent evt){
         theDrawerRoundPanel.updateChar(1);
         theNonDrawerRoundPanel.updateChar(1);
@@ -415,6 +411,10 @@ public class View implements ActionListener, MouseMotionListener, KeyListener, D
     }
 
     //Unused Methods
+    public void changedUpdate(DocumentEvent evt){
+        
+    }
+
     public void keyPressed(KeyEvent evt){
 
     }

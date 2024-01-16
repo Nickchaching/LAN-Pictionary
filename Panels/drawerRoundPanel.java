@@ -4,6 +4,8 @@ package Panels;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.font.FontRenderContext;
+import java.awt.geom.AffineTransform;
 
 import javax.swing.*;
 
@@ -49,23 +51,90 @@ public class drawerRoundPanel extends JPanel implements ActionListener{
         String strChat[] = ChatArea.getText().split("\n");
         int intMessages = strChat.length;
         int intCount;
-        if(intMessages < 12){
-            ChatArea.append(strContent + "\n");
+        if(intMessages < 11){
+            if(assets.fntHelvetica13.getStringBounds(strContent, new FontRenderContext(new AffineTransform(), true, true)).getWidth() < 300){
+                //Displaying New Content
+                ChatArea.append(strContent + "\n");
+            }
+            else{
+                //Displaying New Content
+                String strLine1 = strContent;
+                String strLine2 = "";
+                while(assets.fntHelvetica13.getStringBounds(strLine1, new FontRenderContext(new AffineTransform(), true, true)).getWidth() >= 300){
+                    strLine2 = strLine1.substring(strLine1.lastIndexOf(" ") + 1, strLine1.length()) + " " + strLine2;
+			        strLine1 = strLine1.substring(0, strLine1.lastIndexOf(" "));
+                }
+                ChatArea.append(strLine1 + "\n");
+                ChatArea.append(strLine2 + "\n");
+            }
+        }
+        else if(intMessages == 11){
+            if(assets.fntHelvetica13.getStringBounds(strContent, new FontRenderContext(new AffineTransform(), true, true)).getWidth() < 300){
+                //Displaying New Content
+                ChatArea.append(strContent + "\n");
+            }
+            else{
+                //Shift Old Messages Up by 1
+                for(intCount = 0; intCount < 10; intCount++){
+                    strChat[intCount] = strChat[intCount + 1];
+                }
+
+                //Display Messages with Shift
+                ChatArea.setText("");
+                for(intCount = 0; intCount < 10; intCount++){
+                    ChatArea.append(strChat[intCount] + "\n");
+                }
+
+                //Displaying New Content
+                String strLine1 = strContent;
+                String strLine2 = "";
+                while(assets.fntHelvetica13.getStringBounds(strLine1, new FontRenderContext(new AffineTransform(), true, true)).getWidth() >= 300){
+                    strLine2 = strLine1.substring(strLine1.lastIndexOf(" ") + 1, strLine1.length()) + " " + strLine2;
+			        strLine1 = strLine1.substring(0, strLine1.lastIndexOf(" "));
+                }
+                ChatArea.append(strLine1 + "\n");
+                ChatArea.append(strLine2 + "\n");
+            }
         }
         else{
-            //Shift Old Messages Up
+            //Shift Old Messages Up by 1
             for(intCount = 0; intCount < 11; intCount++){
                 strChat[intCount] = strChat[intCount + 1];
             }
-            
-            //Display Messages with Shift
-            ChatArea.setText("");
-            for(intCount = 0; intCount < 11; intCount++){
-                ChatArea.append(strChat[intCount] + "\n");
-            }
 
             //Display New Message
-            ChatArea.append(strContent + "\n");
+            if(assets.fntHelvetica13.getStringBounds(strContent, new FontRenderContext(new AffineTransform(), true, true)).getWidth() < 300){
+                //Display Messages with Shift
+                ChatArea.setText("");
+                for(intCount = 0; intCount < 11; intCount++){
+                    ChatArea.append(strChat[intCount] + "\n");
+                }
+
+                //Displaying New Content
+                ChatArea.append(strContent + "\n");
+            }
+            else{
+                //Shift Old Messages Up by 1 more
+                for(intCount = 0; intCount < 10; intCount++){
+                    strChat[intCount] = strChat[intCount + 1];
+                }
+
+                //Display Messages with Shift
+                ChatArea.setText("");
+                for(intCount = 0; intCount < 10; intCount++){
+                    ChatArea.append(strChat[intCount] + "\n");
+                }
+
+                //Displaying New Content
+                String strLine1 = strContent;
+                String strLine2 = "";
+                while(assets.fntHelvetica13.getStringBounds(strLine1, new FontRenderContext(new AffineTransform(), true, true)).getWidth() >= 300){
+                    strLine2 = strLine1.substring(strLine1.lastIndexOf(" ") + 1, strLine1.length()) + " " + strLine2;
+			        strLine1 = strLine1.substring(0, strLine1.lastIndexOf(" "));
+                }
+                ChatArea.append(strLine1 + "\n");
+                ChatArea.append(strLine2 + "\n");
+            }
         }
     }
 
@@ -75,14 +144,14 @@ public class drawerRoundPanel extends JPanel implements ActionListener{
 
     public void updateChar(int intChange){
         int intCharCount = ChatField.getText().length();
-        CharLabel.setText(intCharCount + "/30");
-        if(intChange == 1 && intCharCount <= 31){
+        CharLabel.setText(intCharCount + "/50");
+        if(intChange == 1 && intCharCount <= 51){
             intCharCount++;
         }
         else{
             intCharCount--;
         }
-        if(intCharCount < 31){
+        if(intCharCount < 51){
             CharLabel.setForeground(assets.clrButtonFGDefault);
         }
         else{
@@ -91,7 +160,7 @@ public class drawerRoundPanel extends JPanel implements ActionListener{
     }
 
     public void limitChar(){
-        if(ChatField.getText().length() >= 31){
+        if(ChatField.getText().length() >= 51){
             ChatField.setText(ChatField.getText().substring(0, ChatField.getText().length() - 1));
         }
     }
@@ -278,7 +347,6 @@ public class drawerRoundPanel extends JPanel implements ActionListener{
         ChatField.setLocation(910, 641);
         ChatField.setBackground(assets.clrWhite);
         ChatField.setFont(assets.fntHelvetica15);
-
         
         add(ClearButton);
         add(SSizeButton);
