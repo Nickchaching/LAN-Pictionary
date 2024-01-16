@@ -264,7 +264,7 @@ public class Model{
             System.out.println("The server has accepted a new client, "+strIncomingSplit[3]+", at "+strIncomingSplit[2]);
             int intCount;
             strPlayerTemp = strPlayerList;
-            strPlayerList = new String[strPlayerTemp.length + 1][2];
+            strPlayerList = new String[strPlayerTemp.length + 1][4];
             for(intCount = 0; intCount < strPlayerTemp.length; intCount++){
                 strPlayerList[intCount] = strPlayerTemp[intCount];
             }
@@ -498,13 +498,16 @@ public class Model{
     }
 
     //Send Chat Message
-    public void newMessage(String strMessage){
-        if(blnHost){
-            strTempMessage = sendChatData(HostSocket.getMyAddress(), strMessage);
+    public boolean newMessage(String strMessage){
+        if(!strMessage.equals("")){
+            if(blnHost){
+                strTempMessage = sendChatData(HostSocket.getMyAddress(), strMessage);
+            }
+            else{
+                ClientSocket.sendText("0,1,"+ClientSocket.getMyAddress()+","+strMessage);
+            }
         }
-        else{
-            ClientSocket.sendText("0,1,"+ClientSocket.getMyAddress()+","+strMessage);
-        }
+        return strMessage.equals("");
     }
 
     //Retrieve Item Drawing

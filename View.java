@@ -294,18 +294,21 @@ public class View implements ActionListener, MouseMotionListener, KeyListener, D
         //Chat Message Handling
         else if(evt.getSource() == theDrawerRoundPanel.ChatField || evt.getSource() == theNonDrawerRoundPanel.ChatField){
             if(evt.getSource() == theDrawerRoundPanel.ChatField){
-                theModel.newMessage(theDrawerRoundPanel.getChatField());
-                if(theModel.isHost()){
-                    theDrawerRoundPanel.updateChatArea(theModel.getMessageData());
+                if(!theModel.newMessage(theDrawerRoundPanel.getChatField())){
+                    if(theModel.isHost()){
+                        theDrawerRoundPanel.updateChatArea(theModel.getMessageData());
+                    }
                 }
             }
             else{
-                theModel.newMessage(theNonDrawerRoundPanel.getChatField());
-                if(theModel.isHost()){
-                    theNonDrawerRoundPanel.updateChatArea(theModel.getMessageData());
+                if(!theModel.newMessage(theNonDrawerRoundPanel.getChatField())){
+                    if(theModel.isHost()){
+                        theNonDrawerRoundPanel.updateChatArea(theModel.getMessageData());
+                    }
                 }
             }
         }
+
         //Round Timer Completed
         else if(evt.getSource() == theModel.roundTimer){
             
