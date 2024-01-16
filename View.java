@@ -255,7 +255,7 @@ public class View implements ActionListener, MouseMotionListener, KeyListener, D
         }
 
         //Drawing Telemetry
-        if(evt.getSource() == theDrawerRoundPanel.ClearButton){
+        else if(evt.getSource() == theDrawerRoundPanel.ClearButton){
             theDrawerRoundPanel.clearScreen();
             int intDrawClear[] = new int[4];
             intDrawClear[0] = -1;
@@ -305,6 +305,10 @@ public class View implements ActionListener, MouseMotionListener, KeyListener, D
                     theNonDrawerRoundPanel.updateChatArea(theModel.getMessageData());
                 }
             }
+        }
+        //Round Timer Completed
+        else if(evt.getSource() == theModel.roundTimer){
+            
         }
     }
 

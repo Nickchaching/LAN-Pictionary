@@ -31,7 +31,6 @@
 
 import java.io.*;
 import javax.swing.*;
-import java.util.Arrays;
 
 public class Model{
     //Properties
@@ -60,7 +59,6 @@ public class Model{
     
     //Server Properties
     SuperSocketMaster HostSocket;
-    int intPlayers = 0;
     Thread broadcastIP = new Thread(new broadcastIP(this));
     String strPlayerList[][];
     String strPlayerTemp[][];
@@ -86,7 +84,7 @@ public class Model{
         if(!strNameField.equals("")){
             strUsername = strNameField;
             blnHost = true;
-            HostSocket = new SuperSocketMaster(6000, theView, this);
+            HostSocket = new SuperSocketMaster(6000, theView);
             blnConnected = HostSocket.connect();
             if(blnConnected){
                 broadcastIP.start();
@@ -104,7 +102,7 @@ public class Model{
 
     //BroadcastIP Message Recall
     public String getStatus(){
-        return HostSocket.getMyAddress()+","+strUsername+","+intPlayers;
+        return HostSocket.getMyAddress()+","+strUsername+","+strPlayerList.length;
     }
 
     //Retrieve Player List
