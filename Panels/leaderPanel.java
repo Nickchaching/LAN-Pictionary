@@ -106,9 +106,9 @@ public class leaderPanel extends JPanel implements ActionListener{
         }
 
         try{
-            PlayerLabels[1].setBackground(assets.clrNumber1);
-            PlayerLabels[2].setBackground(assets.clrNumber2);
-            PlayerLabels[3].setBackground(assets.clrNumber3);
+            PlayerLabels[0].setBackground(assets.clrNumber1);
+            PlayerLabels[1].setBackground(assets.clrNumber2);
+            PlayerLabels[2].setBackground(assets.clrNumber3);
         }
         catch(ArrayIndexOutOfBoundsException e){
 
