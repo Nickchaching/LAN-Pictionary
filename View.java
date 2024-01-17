@@ -27,6 +27,7 @@ public class View implements ActionListener, MouseMotionListener, KeyListener, D
     drawerRoundPanel theDrawerRoundPanel = new drawerRoundPanel();
     nonDrawerRoundPanel theNonDrawerRoundPanel = new nonDrawerRoundPanel();
     postRoundPanel thePostRoundPanel = new postRoundPanel();
+    leaderPanel theLeaderPanel = new leaderPanel();
 
 
     //Methods
@@ -273,6 +274,11 @@ public class View implements ActionListener, MouseMotionListener, KeyListener, D
                 else if(intType == 9){
                     thePostRoundPanel.updateTimer(theModel.getTimeRemPer());
                 }
+                else if(intType == 10){
+                    theLeaderPanel.updatePlayerList(theModel.getScores());
+                    theFrame.setContentPane(theLeaderPanel);
+                    theFrame.pack();
+                }
             }
         }
         //Pushing Regular Updates
@@ -386,7 +392,9 @@ public class View implements ActionListener, MouseMotionListener, KeyListener, D
                 }
             }
             else{
-                //Show Leaderboard
+                theLeaderPanel.updatePlayerList(theModel.changedScore());
+                theFrame.setContentPane(theLeaderPanel);
+                theFrame.pack();
             }
         }
     }
