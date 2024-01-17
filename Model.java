@@ -665,6 +665,9 @@ public class Model{
             strObject = strChoiceObjects[1];
         }
         if(blnHost){
+            if(!isDrawing()){
+                outTimeObjectPing();
+            }
             startRound();
         }
         else{

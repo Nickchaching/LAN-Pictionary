@@ -149,7 +149,6 @@ public class View implements ActionListener, MouseMotionListener, KeyListener, D
         }
         //Pre-Round Timer Completed
         else if(evt.getSource() == theModel.preRoundTimer){
-            theModel.outTimeObjectPing();
             theModel.choseObject(1);
             //Change Panel to Drawing Panel
             if(theModel.isDrawing()){
