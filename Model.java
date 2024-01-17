@@ -461,6 +461,11 @@ public class Model{
         }
     }
 
+    //Out of Time Send Object
+    public void outTimeObjectPing(){
+        HostSocket.sendText("1,11,"+HostSocket.getMyAddress()+","+strObject);
+    }
+
     //Client Methods
     //Initial Client Connection
     public boolean initializeClient(String strNameField){
@@ -620,6 +625,11 @@ public class Model{
             }
             
             strTempScores = strDecode;
+        }
+
+        //Message Type 11: Chat Telemetry
+        else if(strIncomingSplit[1].equals("11")){
+            strObject = strIncomingSplit[3];
         }
 
         return Integer.parseInt(strIncomingSplit[1]);
