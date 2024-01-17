@@ -137,7 +137,6 @@ public class View implements ActionListener, MouseMotionListener, KeyListener, D
                 intButton = 2;
             }
             theModel.choseObject(intButton);
-            theModel.changedScore();
             //Change Panel to Drawing Frame
             theFrame.setContentPane(theDrawerRoundPanel);
             theFrame.pack();
