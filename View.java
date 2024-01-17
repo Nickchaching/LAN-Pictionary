@@ -137,10 +137,19 @@ public class View implements ActionListener, MouseMotionListener, KeyListener, D
                 intButton = 2;
             }
             theModel.choseObject(intButton);
+            theModel.changedScore();
             //Change Panel to Drawing Frame
             theFrame.setContentPane(theDrawerRoundPanel);
             theFrame.pack();
             theDrawerRoundPanel.updateItemLabel(theModel.getObject());
+            if(theModel.isHost()){
+                theDrawerRoundPanel.updatePlayerList(theModel.changedScore());
+                theNonDrawerRoundPanel.updatePlayerList(theModel.changedScore());
+            }
+            else{
+                theDrawerRoundPanel.updatePlayerList(theModel.getScores());
+                theNonDrawerRoundPanel.updatePlayerList(theModel.getScores());
+            }
         }
         //Pre-Round Timer Completed
         else if(evt.getSource() == theModel.preRoundTimer){
@@ -149,6 +158,14 @@ public class View implements ActionListener, MouseMotionListener, KeyListener, D
             theFrame.setContentPane(theDrawerRoundPanel);
             theFrame.pack();
             theDrawerRoundPanel.updateItemLabel(theModel.getObject());
+            if(theModel.isHost()){
+                theDrawerRoundPanel.updatePlayerList(theModel.changedScore());
+                theNonDrawerRoundPanel.updatePlayerList(theModel.changedScore());
+            }
+            else{
+                theDrawerRoundPanel.updatePlayerList(theModel.getScores());
+                theNonDrawerRoundPanel.updatePlayerList(theModel.getScores());
+            }
         }
         //Server Message Handling
         else if(evt.getSource() == theModel.HostSocket){
@@ -177,6 +194,14 @@ public class View implements ActionListener, MouseMotionListener, KeyListener, D
                     theFrame.setContentPane(theNonDrawerRoundPanel);
                     theFrame.pack();
                     theNonDrawerRoundPanel.updateItemLabel(theModel.getObjectLength());
+                    if(theModel.isHost()){
+                        theDrawerRoundPanel.updatePlayerList(theModel.changedScore());
+                        theNonDrawerRoundPanel.updatePlayerList(theModel.changedScore());
+                    }
+                    else{
+                        theDrawerRoundPanel.updatePlayerList(theModel.getScores());
+                        theNonDrawerRoundPanel.updatePlayerList(theModel.getScores());
+                    }
                 }
                 else if(intType == 3){
                     theNonDrawerRoundPanel.updateDraw(theModel.getDrawingData());
@@ -225,6 +250,14 @@ public class View implements ActionListener, MouseMotionListener, KeyListener, D
                         theFrame.pack();
                         theNonDrawerRoundPanel.updateItemLabel(theModel.getObjectLength());
                     }
+                    if(theModel.isHost()){
+                        theDrawerRoundPanel.updatePlayerList(theModel.changedScore());
+                        theNonDrawerRoundPanel.updatePlayerList(theModel.changedScore());
+                    }
+                    else{
+                        theDrawerRoundPanel.updatePlayerList(theModel.getScores());
+                        theNonDrawerRoundPanel.updatePlayerList(theModel.getScores());
+                    }
                 }
                 else if(intType == 5){
                     if(theFrame.getContentPane() == theNonDrawerRoundPanel){
@@ -251,6 +284,8 @@ public class View implements ActionListener, MouseMotionListener, KeyListener, D
                     thePostRoundPanel.initializePanel(theModel.getObject());
                     theFrame.setContentPane(thePostRoundPanel);
                     theFrame.pack();
+                    theDrawerRoundPanel.clearScreen();
+                    theNonDrawerRoundPanel.clearScreen();
                 }
                 else if(intType == 9){
                     thePostRoundPanel.updateTimer(theModel.getTimeRemPer());
@@ -351,6 +386,9 @@ public class View implements ActionListener, MouseMotionListener, KeyListener, D
         //Post-Round Timer Completed
         else if(evt.getSource() == theModel.postRoundTimer){
             if(theModel.resetRound()){
+                theDrawerRoundPanel.clearScreen();
+                theNonDrawerRoundPanel.clearScreen();
+
                 if(theModel.newRound()){
                     //Host is drawing
                     theDrawerPRPanel.initializePanel(theModel.getRound(), theModel.getObjectChoices());

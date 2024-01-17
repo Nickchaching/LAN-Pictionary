@@ -250,7 +250,7 @@ public class Model{
             }
         }
 
-        strPlayerList[intDrawer][2] = strPlayerList[intDrawer][2] + (int)(intAnsScore * 2 * (intDrawer/strPlayerList.length - 1));
+        strPlayerList[intDrawer][2] = ""+(Integer.parseInt(strPlayerList[intDrawer][2]) + Math.abs((int)(intAnsScore * 2 * (intDrawer/strPlayerList.length - 1))));
         HostSocket.sendText("1,8,"+HostSocket.getMyAddress()+","+strObject);
         postRoundTimer.start();
     }
@@ -290,7 +290,7 @@ public class Model{
             strFormattedChatData = strFormattedChatData + " got the right answer";
 
             //Score Increment
-            strPlayerList[intCount][2] = "" + Integer.parseInt(strPlayerList[intCount][2]) + intAnsScore;
+            strPlayerList[intCount][2] = "" + (Integer.parseInt(strPlayerList[intCount][2]) + intAnsScore);
             strPlayerList[intCount][3] = "1";
         }
         else if(strChatData.equalsIgnoreCase(strObject)){
@@ -390,7 +390,7 @@ public class Model{
         String[] strTemp = new String[strPlayerList.length];
         int intCount;
         for(intCount = 0; intCount < strPlayerList.length; intCount++){
-            strTemp[intCount] = (strPlayerList[intCount][2]+" PTS: "+strPlayerList[intCount][1]).substring(1, (strPlayerList[intCount][2]+"PTS: "+strPlayerList[intCount][1]).length() + 1);
+            strTemp[intCount] = strPlayerList[intCount][2]+" PTS: "+strPlayerList[intCount][1];
             //Display Edge Buffering
             strTemp[intCount] = "  " + strTemp[intCount];
         }
@@ -578,6 +578,8 @@ public class Model{
 
     //Retrieve Player Scores
     public String[] getScores(){
+        System.out.println(strTempScores[0]);
+        System.out.println(strTempScores[1]);
         return strTempScores;
     }
 
