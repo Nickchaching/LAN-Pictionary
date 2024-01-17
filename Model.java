@@ -389,11 +389,30 @@ public class Model{
     public String[] changedScore(){
         String[] strTemp = new String[strPlayerList.length];
         int intCount;
+        int intCount2;
+        int intScoreAbove;
+        int intScoreBelow;
+
         for(intCount = 0; intCount < strPlayerList.length; intCount++){
             strTemp[intCount] = strPlayerList[intCount][2]+" PTS: "+strPlayerList[intCount][1];
             //Display Edge Buffering
             strTemp[intCount] = "  " + strTemp[intCount];
         }
+
+        //Bubble Sorting Scores
+        String strTemp2;
+        for(intCount = 0; intCount < strPlayerList.length - 1; intCount++){
+            for(intCount2 = 0; intCount2 < strPlayerList.length - intCount - 1; intCount2++){
+                intScoreAbove = Integer.parseInt(strPlayerList[intCount2][2]);
+                intScoreBelow = Integer.parseInt(strPlayerList[intCount2 + 1][2]);
+                if(intScoreBelow > intScoreAbove){
+                    strTemp2 = strTemp[intCount2 + 1];
+                    strTemp[intCount2 + 1] = strTemp[intCount2];
+                    strTemp[intCount2] = strTemp2;
+                }
+            }
+        }
+
         HostSocket.sendText("1,7,"+HostSocket.getMyAddress()+","+String.join(",", strTemp));
         return strTemp;
     }
