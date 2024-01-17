@@ -46,6 +46,7 @@ public class nonDrawerRoundPanel extends JPanel implements ActionListener{
         int intCount;
 
         if(strPlayerList.length <= 4){
+            PlayersPanel.removeAll();
             PlayersPanel.setBounds(0, 0, 345, 60 * strPlayerList.length);
             PlayersPanel.setPreferredSize(new Dimension(345, 60 * strPlayerList.length));
             PlayerLabels = new JLabel[strPlayerList.length];
@@ -59,34 +60,6 @@ public class nonDrawerRoundPanel extends JPanel implements ActionListener{
                 PlayerLabels[intCount].setBackground(assets.clrLightGrey);
                 PlayerLabels[intCount].setOpaque(true);
                 PlayersPanel.add(PlayerLabels[intCount]);
-            }
-        }
-        else if(strPlayerList.length == 5){
-            theTimer.start();
-            PlayersPanel.removeAll();
-            PlayersPanel.setBounds(0, 0, 345, 60 * 2 * strPlayerList.length);
-            PlayersPanel.setPreferredSize(new Dimension(345, 60 * 2 * strPlayerList.length));
-            intScrollHeight = (int)PlayersPanel.getPreferredSize().getHeight();
-            PlayerLabels = new JLabel[strPlayerList.length];
-            PlayerLabels2 = new JLabel[strPlayerList.length];
-
-            for(intCount = 0; intCount < strPlayerList.length; intCount++){
-                PlayerLabels[intCount] = new JLabel(strPlayerList[intCount]);
-                PlayerLabels[intCount].setSize(345,50);
-                PlayerLabels[intCount].setLocation(0, intCount * 60);
-                PlayerLabels[intCount].setHorizontalAlignment(SwingConstants.LEFT);
-                PlayerLabels[intCount].setFont(assets.fntHelvetica20);
-                PlayerLabels[intCount].setBackground(assets.clrLightGrey);
-                PlayerLabels[intCount].setOpaque(true);
-                PlayersPanel.add(PlayerLabels[intCount]);
-                PlayerLabels2[intCount] = new JLabel(strPlayerList[intCount]);
-                PlayerLabels2[intCount].setSize(345,50);
-                PlayerLabels2[intCount].setLocation(0, 60 * strPlayerList.length + intCount * 60);
-                PlayerLabels2[intCount].setHorizontalAlignment(SwingConstants.LEFT);
-                PlayerLabels2[intCount].setFont(assets.fntHelvetica20);
-                PlayerLabels2[intCount].setBackground(assets.clrLightGrey);
-                PlayerLabels2[intCount].setOpaque(true);
-                PlayersPanel.add(PlayerLabels2[intCount]);
             }
         }
         else if(strPlayerList.length > 5){
