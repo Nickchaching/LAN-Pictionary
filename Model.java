@@ -286,14 +286,14 @@ public class Model{
             }
         }
 
-        if(strChatData.equalsIgnoreCase(strObject) && strPlayerList[intCount][3].equals("0") && !strPlayerList[intCount][0].equals(strDrawer)){
+        if(strChatData.toLowerCase().contains(strObject.toLowerCase()) && strPlayerList[intCount][3].equals("0") && !strPlayerList[intCount][0].equals(strDrawer)){
             strFormattedChatData = strFormattedChatData + " got the right answer";
 
             //Score Increment
             strPlayerList[intCount][2] = "" + (Integer.parseInt(strPlayerList[intCount][2]) + intAnsScore);
             strPlayerList[intCount][3] = "1";
         }
-        else if(strChatData.equalsIgnoreCase(strObject)){
+        else if(strChatData.toLowerCase().contains(strObject.toLowerCase())){
             strFormattedChatData = strFormattedChatData + " is trying to ruin the fun";
         }
         else{
