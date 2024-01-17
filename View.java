@@ -189,15 +189,9 @@ public class View implements ActionListener, MouseMotionListener, KeyListener, D
                 }
                 else if(intType == 2){
                     //Change Panel to Drawing Frame
-                    if(theModel.isDrawing()){
-                        theFrame.setContentPane(theDrawerRoundPanel);
-                        theDrawerRoundPanel.updateItemLabel(theModel.getObject());
-                    }
-                    else{
-                        theFrame.setContentPane(theNonDrawerRoundPanel);
-                        theNonDrawerRoundPanel.updateItemLabel(theModel.getObjectLength());
-                    }
+                    theFrame.setContentPane(theNonDrawerRoundPanel);
                     theFrame.pack();
+                    theNonDrawerRoundPanel.updateItemLabel(theModel.getObjectLength());
                     if(theModel.isHost()){
                         theDrawerRoundPanel.updatePlayerList(theModel.changedScore());
                         theNonDrawerRoundPanel.updatePlayerList(theModel.changedScore());
@@ -247,9 +241,15 @@ public class View implements ActionListener, MouseMotionListener, KeyListener, D
                 else if(intType == 4){
                     if(!theModel.isDrawing()){
                         theFrame.setContentPane(theNonDrawerRoundPanel);
-                        theFrame.pack();
                         theNonDrawerRoundPanel.updateItemLabel(theModel.getObjectLength());
                     }
+                    else{
+                        theFrame.setContentPane(theDrawerRoundPanel);
+                        theDrawerRoundPanel.updateItemLabel(theModel.getObject());
+                    }
+
+                    theFrame.pack();
+
                     if(theModel.isHost()){
                         theDrawerRoundPanel.updatePlayerList(theModel.changedScore());
                         theNonDrawerRoundPanel.updatePlayerList(theModel.changedScore());
