@@ -38,8 +38,8 @@ public class Model{
     View theView;
 
     //Game Settings
-    int intPreRoundDuration = 5000;
-    int intRoundDuration = 10000;
+    int intPreRoundDuration = 15000;
+    int intRoundDuration = 90000;
     int intPostRoundDuration = 5000;
     int intRounds = 5;
     int intAnsScore = 50;
