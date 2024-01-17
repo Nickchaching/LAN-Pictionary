@@ -95,7 +95,7 @@ public class Model{
                 strPlayerList = new String[1][4];
                 strPlayerList[0][0] = HostSocket.getMyAddress();
                 strPlayerList[0][1] = strUsername;
-                strPlayerList[0][2] = "0";
+                strPlayerList[0][2] = "00";
             }
             return blnConnected;
         }
@@ -293,7 +293,7 @@ public class Model{
             }
             strPlayerList[strPlayerTemp.length][0] = strIncomingSplit[2];
             strPlayerList[strPlayerTemp.length][1] = strIncomingSplit[3];
-            strPlayerList[strPlayerTemp.length][2] = "0";
+            strPlayerList[strPlayerTemp.length][2] = "00";
         }
         //Message Type 1: Chat Telemetry
         else if(strIncomingSplit[1].equals("1")){
