@@ -145,10 +145,6 @@ public class View implements ActionListener, MouseMotionListener, KeyListener, D
                 theDrawerRoundPanel.updatePlayerList(theModel.changedScore());
                 theNonDrawerRoundPanel.updatePlayerList(theModel.changedScore());
             }
-            else{
-                theDrawerRoundPanel.updatePlayerList(theModel.getScores());
-                theNonDrawerRoundPanel.updatePlayerList(theModel.getScores());
-            }
         }
         //Pre-Round Timer Completed
         else if(evt.getSource() == theModel.preRoundTimer){
@@ -160,10 +156,6 @@ public class View implements ActionListener, MouseMotionListener, KeyListener, D
             if(theModel.isHost()){
                 theDrawerRoundPanel.updatePlayerList(theModel.changedScore());
                 theNonDrawerRoundPanel.updatePlayerList(theModel.changedScore());
-            }
-            else{
-                theDrawerRoundPanel.updatePlayerList(theModel.getScores());
-                theNonDrawerRoundPanel.updatePlayerList(theModel.getScores());
             }
         }
         //Server Message Handling
@@ -196,10 +188,6 @@ public class View implements ActionListener, MouseMotionListener, KeyListener, D
                     if(theModel.isHost()){
                         theDrawerRoundPanel.updatePlayerList(theModel.changedScore());
                         theNonDrawerRoundPanel.updatePlayerList(theModel.changedScore());
-                    }
-                    else{
-                        theDrawerRoundPanel.updatePlayerList(theModel.getScores());
-                        theNonDrawerRoundPanel.updatePlayerList(theModel.getScores());
                     }
                 }
                 else if(intType == 3){
@@ -252,10 +240,6 @@ public class View implements ActionListener, MouseMotionListener, KeyListener, D
                     if(theModel.isHost()){
                         theDrawerRoundPanel.updatePlayerList(theModel.changedScore());
                         theNonDrawerRoundPanel.updatePlayerList(theModel.changedScore());
-                    }
-                    else{
-                        theDrawerRoundPanel.updatePlayerList(theModel.getScores());
-                        theNonDrawerRoundPanel.updatePlayerList(theModel.getScores());
                     }
                 }
                 else if(intType == 5){
