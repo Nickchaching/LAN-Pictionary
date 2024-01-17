@@ -178,12 +178,26 @@ public class View implements ActionListener, MouseMotionListener, KeyListener, D
                         theDrawerRoundPanel.updateChatArea(theModel.getMessageData());
                         if(theModel.checkScoreUpdated()){
                             theDrawerRoundPanel.updatePlayerList(theModel.changedScore());
+                            if(theModel.roundisComplete()){
+                                theModel.endRound();
+                                //Change Panel to Post-Round Panel
+                                thePostRoundPanel.initializePanel(theModel.getObject());
+                                theFrame.setContentPane(thePostRoundPanel);
+                                theFrame.pack();
+                            }
                         }
                     }
                     else{
                         theNonDrawerRoundPanel.updateChatArea(theModel.getMessageData());
                         if(theModel.checkScoreUpdated()){
                             theNonDrawerRoundPanel.updatePlayerList(theModel.changedScore());
+                            if(theModel.roundisComplete()){
+                                theModel.endRound();
+                                //Change Panel to Post-Round Panel
+                                thePostRoundPanel.initializePanel(theModel.getObject());
+                                theFrame.setContentPane(thePostRoundPanel);
+                                theFrame.pack();
+                            }
                         }
                     }
                 }
@@ -361,6 +375,13 @@ public class View implements ActionListener, MouseMotionListener, KeyListener, D
                         theDrawerRoundPanel.updateChatArea(theModel.getMessageData());
                         if(theModel.checkScoreUpdated()){
                             theDrawerRoundPanel.updatePlayerList(theModel.changedScore());
+                            if(theModel.roundisComplete()){
+                                theModel.endRound();
+                                //Change Panel to Post-Round Panel
+                                thePostRoundPanel.initializePanel(theModel.getObject());
+                                theFrame.setContentPane(thePostRoundPanel);
+                                theFrame.pack();
+                            }
                         }
                     }
                 }
@@ -371,6 +392,13 @@ public class View implements ActionListener, MouseMotionListener, KeyListener, D
                         theNonDrawerRoundPanel.updateChatArea(theModel.getMessageData());
                         if(theModel.checkScoreUpdated()){
                             theNonDrawerRoundPanel.updatePlayerList(theModel.changedScore());
+                            if(theModel.roundisComplete()){
+                                theModel.endRound();
+                                //Change Panel to Post-Round Panel
+                                thePostRoundPanel.initializePanel(theModel.getObject());
+                                theFrame.setContentPane(thePostRoundPanel);
+                                theFrame.pack();
+                            }
                         }
                     }
                 }

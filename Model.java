@@ -418,6 +418,19 @@ public class Model{
         return strTemp;
     }
 
+    //Check Answer Status
+    public boolean roundisComplete(){
+        int intCount;
+        int intCounter = 0;
+        for(intCount = 0; intCount < strPlayerList.length; intCount++){
+            if(strPlayerList[intCount][3].equals("1")){
+                intCounter++;
+            }
+        }
+
+        return (intCounter == (strPlayerList.length - 1));
+    }
+
     //Game End Update Ping
     public String[] endGamePing(){
         String strPlayerListTemp[][] = strPlayerList;
