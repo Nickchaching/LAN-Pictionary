@@ -160,9 +160,15 @@ public class View implements ActionListener, MouseMotionListener, KeyListener, D
                 else if(intType == 1){
                     if(theFrame.getContentPane() == theDrawerRoundPanel){
                         theDrawerRoundPanel.updateChatArea(theModel.getMessageData());
+                        if(theModel.checkScoreUpdated()){
+                            theDrawerRoundPanel.updatePlayerList(theModel.changedScore());
+                        }
                     }
                     else{
                         theNonDrawerRoundPanel.updateChatArea(theModel.getMessageData());
+                        if(theModel.checkScoreUpdated()){
+                            theNonDrawerRoundPanel.updatePlayerList(theModel.changedScore());
+                        }
                     }
                 }
                 else if(intType == 2){
@@ -232,6 +238,14 @@ public class View implements ActionListener, MouseMotionListener, KeyListener, D
                         theNonDrawerRoundPanel.updateTimer(theModel.getTimeRemPer());
                     }
                 }
+                else if(intType == 7){
+                    if(theFrame.getContentPane() == theDrawerRoundPanel){
+                        theDrawerRoundPanel.updatePlayerList(theModel.getScores());
+                    }
+                    else{
+                        theNonDrawerRoundPanel.updatePlayerList(theModel.getScores());
+                    }
+                }
             }
         }
         //Pushing Regular Updates
@@ -297,6 +311,9 @@ public class View implements ActionListener, MouseMotionListener, KeyListener, D
                 if(!theModel.newMessage(theDrawerRoundPanel.getChatField())){
                     if(theModel.isHost()){
                         theDrawerRoundPanel.updateChatArea(theModel.getMessageData());
+                        if(theModel.checkScoreUpdated()){
+                            theDrawerRoundPanel.updatePlayerList(theModel.changedScore());
+                        }
                     }
                 }
             }
@@ -304,6 +321,9 @@ public class View implements ActionListener, MouseMotionListener, KeyListener, D
                 if(!theModel.newMessage(theNonDrawerRoundPanel.getChatField())){
                     if(theModel.isHost()){
                         theNonDrawerRoundPanel.updateChatArea(theModel.getMessageData());
+                        if(theModel.checkScoreUpdated()){
+                            theNonDrawerRoundPanel.updatePlayerList(theModel.changedScore());
+                        }
                     }
                 }
             }

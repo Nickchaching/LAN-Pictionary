@@ -19,9 +19,10 @@
         //Round Initializaton Telemetry: 1, 3, IP, TimeRemaining
         //Round Initialization2 (Done Choosing): 1, 4, IP, Object.charlength
         //Drawing Telemetry: 1, 5, IP, PosX, PosY, BrushSize, BrushColor
-        //Game Telemetry: 1, 6, IP, TimeRemaining, PlayerScores[][]
-        //Round Completion: 1, 7, IP, Object
-        //Round Initializaton Telemetry: 1, 8, IP, TimeRemaining
+        //Game Telemetry: 1, 6, IP, TimeRemaining
+        //Score Update Telemetry: 1, 7, IP, PlayerScores[][]
+        //Round Completion: 1, 8, IP, Object
+        //Round Initializaton Telemetry: 1, 9, IP, TimeRemaining
 
 //6001 - INITIAL SERVER CONNECTION
     //Server Ping: IP, ServerName, PlayerCount
@@ -41,6 +42,7 @@ public class Model{
     int intRoundDuration = 90000;
     int intPostRoundDuration = 5000;
     int intRounds = 5;
+    int intAnsScore = 50;
 
     //Shared Properties
     boolean blnConnected = false;
@@ -77,6 +79,7 @@ public class Model{
     Thread findServer = new Thread(new findServer(this));
     String strPlayers[];
     double dblTimePerRemaining;
+    String strTempScores[];
 
     //Server Methods
     //Initial Host Connection
@@ -221,6 +224,12 @@ public class Model{
     public void startRound(){
         preRoundTimer.stop();
         intObjectLength = strObject.length();
+        
+        int intCount;
+        for(intCount = 0; intCount < strPlayerList.length; intCount++){
+            strPlayerList[intCount][3] = "0";
+        }
+
         HostSocket.sendText("1,4,"+HostSocket.getMyAddress()+","+intObjectLength);
         roundTimer.start();
     }
@@ -240,7 +249,21 @@ public class Model{
                 break;
             }
         }
-        strFormattedChatData = strFormattedChatData + ": " + strChatData;
+
+        if(strChatData.equalsIgnoreCase(strObject) && strPlayerList[intCount][3].equals("0")){
+            strFormattedChatData = strFormattedChatData + " got the right answer";
+
+            //Score Increment
+            strPlayerList[intCount][2] = "" + Integer.parseInt(strPlayerList[intCount][2]) + intAnsScore;
+            strPlayerList[intCount][3] = "1";
+        }
+        else if(strChatData.equalsIgnoreCase(strObject)){
+            strFormattedChatData = strFormattedChatData + " is trying to ruin the fun";
+        }
+        else{
+            strFormattedChatData = strFormattedChatData + ": " + strChatData;
+        }
+
         HostSocket.sendText("1,1,"+HostSocket.getMyAddress()+","+strFormattedChatData);
         return strFormattedChatData;
     }
@@ -322,6 +345,28 @@ public class Model{
         return null;
     }
 
+    //Score Change Update Ping
+    public String[] changedScore(){
+        String[] strTemp = new String[strPlayerList.length];
+        int intCount;
+        for(intCount = 0; intCount < strPlayerList.length; intCount++){
+            strTemp[intCount] = (strPlayerList[intCount][2]+" PTS: "+strPlayerList[intCount][1]).substring(1, (strPlayerList[intCount][2]+"PTS: "+strPlayerList[intCount][1]).length() + 1);
+            //Display Edge Buffering
+            strTemp[intCount] = "  " + strTemp[intCount];
+        }
+        HostSocket.sendText("1,7,"+HostSocket.getMyAddress()+","+String.join(",", strTemp));
+        return strTemp;
+    }
+
+    //Score Updated Check
+    public boolean checkScoreUpdated(){
+        if(strTempMessage.split(":").length == 1){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
 
     //Client Methods
     //Initial Client Connection
@@ -452,6 +497,17 @@ public class Model{
             dblTimePerRemaining = Double.parseDouble(strIncomingSplit[3]);
         }
 
+        //Message Type 7: Score Update Telemetry
+        else if(strIncomingSplit[1].equals("7")){
+            int intCount;
+            String strDecode[] = new String[strIncomingSplit.length - 3];
+            for(intCount = 0; intCount < strIncomingSplit.length - 3; intCount++){
+                strDecode[intCount] = strIncomingSplit[intCount + 3];
+            }
+            
+            strTempScores = strDecode;
+        }
+
         return Integer.parseInt(strIncomingSplit[1]);
     }
 
@@ -468,6 +524,11 @@ public class Model{
     //Retrieve Time Remaining Percentage
     public double getTimeRemPer(){
         return dblTimePerRemaining;
+    }
+
+    //Retrieve Player Scores
+    public String[] getScores(){
+        return strTempScores;
     }
 
     //Shared Methods

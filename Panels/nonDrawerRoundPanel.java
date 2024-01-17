@@ -16,8 +16,14 @@ public class nonDrawerRoundPanel extends JPanel implements ActionListener{
     public JTextArea ChatArea = new JTextArea("");
     public JTextField ChatField = new JTextField();
     public JLabel CharLabel = new JLabel("0/50");
+    public JPanel PlayersPanel = new JPanel();
+    public JScrollPane PlayersScroll = new JScrollPane(PlayersPanel);
+    public JLabel PlayerLabels[];
+    public JLabel PlayerLabels2[];
     public Timer theTimer = new Timer(1000/60, this);
     int intWidth = 1280;
+    private int intScrollVelo = 2;
+    private int intScrollHeight;
 
     int intDraw[][] = new int[536520][4];
     int intCounter = 0;
@@ -26,8 +32,91 @@ public class nonDrawerRoundPanel extends JPanel implements ActionListener{
     //Methods
     public void actionPerformed(ActionEvent evt){
         if(evt.getSource() == theTimer){
+            if(PlayersPanel.getPreferredSize().getHeight() > 250){
+                if(PlayersScroll.getViewport().getViewPosition().getY() >= intScrollHeight/2){
+                    PlayersScroll.getViewport().setViewPosition(new Point(0, 0));
+                }
+                PlayersScroll.getViewport().setViewPosition(new Point(0, (int)PlayersScroll.getViewport().getViewPosition().getY() + intScrollVelo));
+            }
             repaint();
         }
+    }
+
+    public void updatePlayerList(String strPlayerList[]){
+        int intCount;
+
+        if(strPlayerList.length <= 4){
+            PlayersPanel.setBounds(0, 0, 345, 60 * strPlayerList.length);
+            PlayersPanel.setPreferredSize(new Dimension(345, 60 * strPlayerList.length));
+            PlayerLabels = new JLabel[strPlayerList.length];
+
+            for(intCount = 0; intCount < strPlayerList.length; intCount++){
+                PlayerLabels[intCount] = new JLabel(strPlayerList[intCount]);
+                PlayerLabels[intCount].setSize(345,50);
+                PlayerLabels[intCount].setLocation(0, intCount * 60);
+                PlayerLabels[intCount].setHorizontalAlignment(SwingConstants.LEFT);
+                PlayerLabels[intCount].setFont(assets.fntHelvetica20);
+                PlayerLabels[intCount].setBackground(assets.clrLightGrey);
+                PlayerLabels[intCount].setOpaque(true);
+                PlayersPanel.add(PlayerLabels[intCount]);
+            }
+        }
+        else if(strPlayerList.length == 5){
+            theTimer.start();
+            PlayersPanel.removeAll();
+            PlayersPanel.setBounds(0, 0, 345, 60 * 2 * strPlayerList.length);
+            PlayersPanel.setPreferredSize(new Dimension(345, 60 * 2 * strPlayerList.length));
+            intScrollHeight = (int)PlayersPanel.getPreferredSize().getHeight();
+            PlayerLabels = new JLabel[strPlayerList.length];
+            PlayerLabels2 = new JLabel[strPlayerList.length];
+
+            for(intCount = 0; intCount < strPlayerList.length; intCount++){
+                PlayerLabels[intCount] = new JLabel(strPlayerList[intCount]);
+                PlayerLabels[intCount].setSize(345,50);
+                PlayerLabels[intCount].setLocation(0, intCount * 60);
+                PlayerLabels[intCount].setHorizontalAlignment(SwingConstants.LEFT);
+                PlayerLabels[intCount].setFont(assets.fntHelvetica20);
+                PlayerLabels[intCount].setBackground(assets.clrLightGrey);
+                PlayerLabels[intCount].setOpaque(true);
+                PlayersPanel.add(PlayerLabels[intCount]);
+                PlayerLabels2[intCount] = new JLabel(strPlayerList[intCount]);
+                PlayerLabels2[intCount].setSize(345,50);
+                PlayerLabels2[intCount].setLocation(0, 60 * strPlayerList.length + intCount * 60);
+                PlayerLabels2[intCount].setHorizontalAlignment(SwingConstants.LEFT);
+                PlayerLabels2[intCount].setFont(assets.fntHelvetica20);
+                PlayerLabels2[intCount].setBackground(assets.clrLightGrey);
+                PlayerLabels2[intCount].setOpaque(true);
+                PlayersPanel.add(PlayerLabels2[intCount]);
+            }
+        }
+        else if(strPlayerList.length > 5){
+            PlayersPanel.removeAll();
+            PlayersPanel.setBounds(0, 0, 345, 60 * 2 * strPlayerList.length);
+            PlayersPanel.setPreferredSize(new Dimension(345, 60 * 2 * strPlayerList.length));
+            intScrollHeight = (int)PlayersPanel.getPreferredSize().getHeight();
+            PlayerLabels = new JLabel[strPlayerList.length];
+            PlayerLabels2 = new JLabel[strPlayerList.length];
+
+            for(intCount = 0; intCount < strPlayerList.length; intCount++){
+                PlayerLabels[intCount] = new JLabel(strPlayerList[intCount]);
+                PlayerLabels[intCount].setSize(345,50);
+                PlayerLabels[intCount].setLocation(0, intCount * 60);
+                PlayerLabels[intCount].setHorizontalAlignment(SwingConstants.LEFT);
+                PlayerLabels[intCount].setFont(assets.fntHelvetica20);
+                PlayerLabels[intCount].setBackground(assets.clrLightGrey);
+                PlayerLabels[intCount].setOpaque(true);
+                PlayersPanel.add(PlayerLabels[intCount]);
+                PlayerLabels2[intCount] = new JLabel(strPlayerList[intCount]);
+                PlayerLabels2[intCount].setSize(345,50);
+                PlayerLabels2[intCount].setLocation(0, 60 * strPlayerList.length + intCount * 60);
+                PlayerLabels2[intCount].setHorizontalAlignment(SwingConstants.LEFT);
+                PlayerLabels2[intCount].setFont(assets.fntHelvetica20);
+                PlayerLabels2[intCount].setBackground(assets.clrLightGrey);
+                PlayerLabels2[intCount].setOpaque(true);
+                PlayersPanel.add(PlayerLabels2[intCount]);
+            }
+        }
+        PlayersPanel.repaint();
     }
 
     public String getChatField(){
@@ -283,11 +372,19 @@ public class nonDrawerRoundPanel extends JPanel implements ActionListener{
         ChatField.setBackground(assets.clrWhite);
         ChatField.setFont(assets.fntHelvetica15);
 
+        PlayersPanel.setBackground(assets.clrWhite);
+        PlayersPanel.setLayout(null);
+        PlayersScroll.setSize(new Dimension(345, 250));
+        PlayersScroll.setLocation(910, 35);
+        PlayersScroll.setBorder(null);
+        PlayersScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
+        PlayersScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+
         add(ItemLabel);
         add(CharLabel);
         add(ChatArea);
         add(ChatField);
-        
+        add(PlayersScroll);
 
         theTimer.start();
     }
