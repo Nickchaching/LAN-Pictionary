@@ -250,7 +250,7 @@ public class Model{
             }
         }
 
-        strPlayerList[intDrawer][2] = ""+(Integer.parseInt(strPlayerList[intDrawer][2]) + (int)(intAnsScore * 2 * (intCounter/(strPlayerList.length - 1))));
+        strPlayerList[intDrawer][2] = ""+(Integer.parseInt(strPlayerList[intDrawer][2]) + (int)(intAnsScore * 2 * (intCounter/(double)(strPlayerList.length - 1))));
         HostSocket.sendText("1,8,"+HostSocket.getMyAddress()+","+strObject);
         postRoundTimer.start();
     }
@@ -387,14 +387,67 @@ public class Model{
 
     //Score Change Update Ping
     public String[] changedScore(){
-        String[] strTemp = new String[strPlayerList.length];
+        String strPlayerListTemp[][] = strPlayerList;
+        String strTemp[] = new String[strPlayerList.length];
         int intCount;
+        int intCount2;
+        int intScoreAbove;
+        int intScoreBelow;
+
+        //Bubble Sorting Scores
+        String strTemp2[];
         for(intCount = 0; intCount < strPlayerList.length; intCount++){
-            strTemp[intCount] = strPlayerList[intCount][2]+" PTS: "+strPlayerList[intCount][1];
+            for(intCount2 = 0; intCount2 < strPlayerList.length - intCount - 1; intCount2++){
+                intScoreAbove = Integer.parseInt(strPlayerListTemp[intCount2][2]);
+                intScoreBelow = Integer.parseInt(strPlayerListTemp[intCount2 + 1][2]);
+                if(intScoreBelow > intScoreAbove){
+                    strTemp2 = strPlayerListTemp[intCount2 + 1];
+                    strPlayerListTemp[intCount2 + 1] = strPlayerListTemp[intCount2];
+                    strPlayerListTemp[intCount2] = strTemp2;
+                }
+            }
+        }
+
+        for(intCount = 0; intCount < strPlayerList.length; intCount++){
+            strTemp[intCount] = strPlayerListTemp[intCount][2]+" PTS: "+strPlayerListTemp[intCount][1];
             //Display Edge Buffering
             strTemp[intCount] = "  " + strTemp[intCount];
         }
+
         HostSocket.sendText("1,7,"+HostSocket.getMyAddress()+","+String.join(",", strTemp));
+        return strTemp;
+    }
+
+    //Game End Update Ping
+    public String[] endGamePing(){
+        String strPlayerListTemp[][] = strPlayerList;
+        String strTemp[] = new String[strPlayerList.length];
+        int intCount;
+        int intCount2;
+        int intScoreAbove;
+        int intScoreBelow;
+
+        //Bubble Sorting Scores
+        String strTemp2[];
+        for(intCount = 0; intCount < strPlayerList.length; intCount++){
+            for(intCount2 = 0; intCount2 < strPlayerList.length - intCount - 1; intCount2++){
+                intScoreAbove = Integer.parseInt(strPlayerListTemp[intCount2][2]);
+                intScoreBelow = Integer.parseInt(strPlayerListTemp[intCount2 + 1][2]);
+                if(intScoreBelow > intScoreAbove){
+                    strTemp2 = strPlayerListTemp[intCount2 + 1];
+                    strPlayerListTemp[intCount2 + 1] = strPlayerListTemp[intCount2];
+                    strPlayerListTemp[intCount2] = strTemp2;
+                }
+            }
+        }
+
+        for(intCount = 0; intCount < strPlayerList.length; intCount++){
+            strTemp[intCount] = strPlayerListTemp[intCount][2]+" PTS: "+strPlayerListTemp[intCount][1];
+            //Display Edge Buffering
+            strTemp[intCount] = "  " + strTemp[intCount];
+        }
+
+        HostSocket.sendText("1,10,"+HostSocket.getMyAddress()+","+String.join(",", strTemp));
         return strTemp;
     }
 
@@ -406,6 +459,11 @@ public class Model{
         else{
             return false;
         }
+    }
+
+    //Out of Time Send Object
+    public void outTimeObjectPing(){
+        HostSocket.sendText("1,11,"+HostSocket.getMyAddress()+","+strObject);
     }
 
     //Client Methods
@@ -558,6 +616,22 @@ public class Model{
             dblTimePerRemaining = Double.parseDouble(strIncomingSplit[3]);
         }
 
+        //Message Type 10: Leaderboard Ping
+        else if(strIncomingSplit[1].equals("10")){
+            int intCount;
+            String strDecode[] = new String[strIncomingSplit.length - 3];
+            for(intCount = 0; intCount < strIncomingSplit.length - 3; intCount++){
+                strDecode[intCount] = strIncomingSplit[intCount + 3];
+            }
+            
+            strTempScores = strDecode;
+        }
+
+        //Message Type 11: Chat Telemetry
+        else if(strIncomingSplit[1].equals("11")){
+            strObject = strIncomingSplit[3];
+        }
+
         return Integer.parseInt(strIncomingSplit[1]);
     }
 
@@ -591,6 +665,9 @@ public class Model{
             strObject = strChoiceObjects[1];
         }
         if(blnHost){
+            if(!isDrawing()){
+                outTimeObjectPing();
+            }
             startRound();
         }
         else{

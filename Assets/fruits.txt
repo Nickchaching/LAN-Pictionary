@@ -32,7 +32,7 @@ Lychee
 Passionfruit
 Nectarine
 Mango
-Dragon Fruit
+DragonFruit
 Jackfruit
 Blackcurrant
 Starfruit

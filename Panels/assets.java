@@ -21,6 +21,11 @@ public class assets{
     static Color clrDrawOrange = new Color(255, 145, 77);
     static Color clrDrawBlack = new Color(0, 0, 0);
 
+    //Leaderboard Colours
+    static Color clrNumber1 = new Color(251, 182, 54);
+    static Color clrNumber2 = new Color(180, 203, 216);
+    static Color clrNumber3 = new Color(240, 161, 61);
+
     //Fonts
     static Font fntHelvetica13 = new Font("Helvetica", Font.PLAIN, 13);
     static Font fntHelvetica15 = new Font("Helvetica", Font.BOLD, 15);

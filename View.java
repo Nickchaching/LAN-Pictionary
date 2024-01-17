@@ -27,6 +27,7 @@ public class View implements ActionListener, MouseMotionListener, KeyListener, D
     drawerRoundPanel theDrawerRoundPanel = new drawerRoundPanel();
     nonDrawerRoundPanel theNonDrawerRoundPanel = new nonDrawerRoundPanel();
     postRoundPanel thePostRoundPanel = new postRoundPanel();
+    leaderPanel theLeaderPanel = new leaderPanel();
 
 
     //Methods
@@ -150,9 +151,15 @@ public class View implements ActionListener, MouseMotionListener, KeyListener, D
         else if(evt.getSource() == theModel.preRoundTimer){
             theModel.choseObject(1);
             //Change Panel to Drawing Panel
-            theFrame.setContentPane(theDrawerRoundPanel);
+            if(theModel.isDrawing()){
+                theFrame.setContentPane(theDrawerRoundPanel);
+                theDrawerRoundPanel.updateItemLabel(theModel.getObject());
+            }
+            else{
+                theFrame.setContentPane(theNonDrawerRoundPanel);
+                theNonDrawerRoundPanel.updateItemLabel(theModel.getObjectLength());
+            }
             theFrame.pack();
-            theDrawerRoundPanel.updateItemLabel(theModel.getObject());
             if(theModel.isHost()){
                 theDrawerRoundPanel.updatePlayerList(theModel.changedScore());
                 theNonDrawerRoundPanel.updatePlayerList(theModel.changedScore());
@@ -234,9 +241,15 @@ public class View implements ActionListener, MouseMotionListener, KeyListener, D
                 else if(intType == 4){
                     if(!theModel.isDrawing()){
                         theFrame.setContentPane(theNonDrawerRoundPanel);
-                        theFrame.pack();
                         theNonDrawerRoundPanel.updateItemLabel(theModel.getObjectLength());
                     }
+                    else{
+                        theFrame.setContentPane(theDrawerRoundPanel);
+                        theDrawerRoundPanel.updateItemLabel(theModel.getObject());
+                    }
+
+                    theFrame.pack();
+
                     if(theModel.isHost()){
                         theDrawerRoundPanel.updatePlayerList(theModel.changedScore());
                         theNonDrawerRoundPanel.updatePlayerList(theModel.changedScore());
@@ -272,6 +285,11 @@ public class View implements ActionListener, MouseMotionListener, KeyListener, D
                 }
                 else if(intType == 9){
                     thePostRoundPanel.updateTimer(theModel.getTimeRemPer());
+                }
+                else if(intType == 10){
+                    theLeaderPanel.updatePlayerList(theModel.getScores());
+                    theFrame.setContentPane(theLeaderPanel);
+                    theFrame.pack();
                 }
             }
         }
@@ -386,7 +404,9 @@ public class View implements ActionListener, MouseMotionListener, KeyListener, D
                 }
             }
             else{
-                //Show Leaderboard
+                theLeaderPanel.updatePlayerList(theModel.endGamePing());
+                theFrame.setContentPane(theLeaderPanel);
+                theFrame.pack();
             }
         }
     }
