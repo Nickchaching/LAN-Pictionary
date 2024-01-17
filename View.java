@@ -26,6 +26,7 @@ public class View implements ActionListener, MouseMotionListener, KeyListener, D
     nonDrawerPRPanel theNonDrawerPRPanel = new nonDrawerPRPanel();
     drawerRoundPanel theDrawerRoundPanel = new drawerRoundPanel();
     nonDrawerRoundPanel theNonDrawerRoundPanel = new nonDrawerRoundPanel();
+    postRoundPanel thePostRoundPanel = new postRoundPanel();
 
 
     //Methods
@@ -144,7 +145,7 @@ public class View implements ActionListener, MouseMotionListener, KeyListener, D
         //Pre-Round Timer Completed
         else if(evt.getSource() == theModel.preRoundTimer){
             theModel.choseObject(1);
-            //Change Panel to Drawing Frame
+            //Change Panel to Drawing Panel
             theFrame.setContentPane(theDrawerRoundPanel);
             theFrame.pack();
             theDrawerRoundPanel.updateItemLabel(theModel.getObject());
@@ -246,6 +247,14 @@ public class View implements ActionListener, MouseMotionListener, KeyListener, D
                         theNonDrawerRoundPanel.updatePlayerList(theModel.getScores());
                     }
                 }
+                else if(intType == 8){
+                    thePostRoundPanel.initializePanel(theModel.getObject());
+                    theFrame.setContentPane(thePostRoundPanel);
+                    theFrame.pack();
+                }
+                else if(intType == 9){
+                    thePostRoundPanel.updateTimer(theModel.getTimeRemPer());
+                }
             }
         }
         //Pushing Regular Updates
@@ -264,6 +273,9 @@ public class View implements ActionListener, MouseMotionListener, KeyListener, D
             }
             else if(theFrame.getContentPane() == theNonDrawerRoundPanel){
                 theNonDrawerRoundPanel.updateTimer(Double.parseDouble(theModel.sendPing(2)));
+            }
+            else if(theFrame.getContentPane() == thePostRoundPanel){
+                thePostRoundPanel.updateTimer(Double.parseDouble(theModel.sendPing(3)));
             }
             //Responsible for Procesing and Sending out Telemetry
         }
@@ -328,10 +340,33 @@ public class View implements ActionListener, MouseMotionListener, KeyListener, D
                 }
             }
         }
-
         //Round Timer Completed
         else if(evt.getSource() == theModel.roundTimer){
-            
+            theModel.endRound();
+            //Change Panel to Post-Round Panel
+            thePostRoundPanel.initializePanel(theModel.getObject());
+            theFrame.setContentPane(thePostRoundPanel);
+            theFrame.pack();
+        }
+        //Post-Round Timer Completed
+        else if(evt.getSource() == theModel.postRoundTimer){
+            if(theModel.resetRound()){
+                if(theModel.newRound()){
+                    //Host is drawing
+                    theDrawerPRPanel.initializePanel(theModel.getRound(), theModel.getObjectChoices());
+                    theFrame.setContentPane(theDrawerPRPanel);
+                    theFrame.pack();
+                }
+                else{
+                    //Host is not drawing
+                    theNonDrawerPRPanel.initializePanel(theModel.getRound());
+                    theFrame.setContentPane(theNonDrawerPRPanel);
+                    theFrame.pack();
+                }
+            }
+            else{
+                //Show Leaderboard
+            }
         }
     }
 

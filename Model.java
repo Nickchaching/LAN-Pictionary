@@ -38,8 +38,8 @@ public class Model{
     View theView;
 
     //Game Settings
-    int intPreRoundDuration = 15000;
-    int intRoundDuration = 90000;
+    int intPreRoundDuration = 5000;
+    int intRoundDuration = 10000;
     int intPostRoundDuration = 5000;
     int intRounds = 5;
     int intAnsScore = 50;
@@ -234,6 +234,42 @@ public class Model{
         roundTimer.start();
     }
 
+    //Ending a Round
+    public void endRound(){
+        roundTimer.stop();
+
+        int intCount;
+        int intCounter = 0;
+        int intDrawer = -1;
+        for(intCount = 0; intCount < strPlayerList.length; intCount++){
+            if(strPlayerList[intCount][3].equals("1")){
+                intCounter++;
+            }
+            if(strPlayerList[intCount][0].equals(strDrawer)){
+                intDrawer = intCount;
+            }
+        }
+
+        strPlayerList[intDrawer][2] = strPlayerList[intDrawer][2] + (int)(intAnsScore * 2 * (intDrawer/strPlayerList.length - 1));
+        HostSocket.sendText("1,8,"+HostSocket.getMyAddress()+","+strObject);
+        postRoundTimer.start();
+    }
+
+    public boolean resetRound(){
+        postRoundTimer.stop();
+        
+        //Reset Properties
+
+        if(intRound == intRounds){
+            //Show Leaderboard and Send Client Message
+            return false;
+        }
+        else{
+            intRound++;
+            return true;
+        }
+    }
+
     //(RE)-Broadcasts Drawing Data to Clients
     public void sendDrawData(int intDrawData[]){
         HostSocket.sendText("1,5,"+HostSocket.getMyAddress()+","+intDrawData[0]+","+intDrawData[1]+","+intDrawData[2]+","+intDrawData[3]);
@@ -250,7 +286,7 @@ public class Model{
             }
         }
 
-        if(strChatData.equalsIgnoreCase(strObject) && strPlayerList[intCount][3].equals("0")){
+        if(strChatData.equalsIgnoreCase(strObject) && strPlayerList[intCount][3].equals("0") && !strPlayerList[intCount][0].equals(strDrawer)){
             strFormattedChatData = strFormattedChatData + " got the right answer";
 
             //Score Increment
@@ -340,7 +376,11 @@ public class Model{
             HostSocket.sendText("1,6,"+HostSocket.getMyAddress()+","+(roundTimer.getRemainingTime()*100.0/intRoundDuration));
             return (roundTimer.getRemainingTime()*100.0/intRoundDuration)+"";
         }
-        
+        else if(intType == 3){
+            HostSocket.sendText("1,9,"+HostSocket.getMyAddress()+","+(postRoundTimer.getRemainingTime()*100.0/intPostRoundDuration));
+            return (postRoundTimer.getRemainingTime()*100.0/intPostRoundDuration)+"";
+        }
+
         //Defualt Return
         return null;
     }
@@ -508,6 +548,16 @@ public class Model{
             strTempScores = strDecode;
         }
 
+        //Message Type 8: End of a Round
+        else if(strIncomingSplit[1].equals("8")){
+            strObject = strIncomingSplit[3];
+        }
+
+        //Message Type 9: Post-Round Timer Update Ping
+        else if(strIncomingSplit[1].equals("9")){
+            dblTimePerRemaining = Double.parseDouble(strIncomingSplit[3]);
+        }
+
         return Integer.parseInt(strIncomingSplit[1]);
     }
 
@@ -591,6 +641,7 @@ public class Model{
         return intObjectLength;
     }
 
+    //Retrieve Host Status
     public boolean isHost(){
         return blnHost;
     }
