@@ -250,7 +250,7 @@ public class Model{
             }
         }
 
-        strPlayerList[intDrawer][2] = ""+(Integer.parseInt(strPlayerList[intDrawer][2]) + Math.abs((int)(intAnsScore * 2 * (intDrawer/strPlayerList.length - 1))));
+        strPlayerList[intDrawer][2] = ""+(Integer.parseInt(strPlayerList[intDrawer][2]) + (int)(intAnsScore * 2 * (intCounter/strPlayerList.length - 1)));
         HostSocket.sendText("1,8,"+HostSocket.getMyAddress()+","+strObject);
         postRoundTimer.start();
     }
@@ -578,8 +578,6 @@ public class Model{
 
     //Retrieve Player Scores
     public String[] getScores(){
-        System.out.println(strTempScores[0]);
-        System.out.println(strTempScores[1]);
         return strTempScores;
     }
 
