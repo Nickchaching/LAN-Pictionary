@@ -12,6 +12,7 @@ import javax.swing.event.*;
 
 public class demoPanel extends JPanel implements ActionListener{
     //Properties
+    JButton BackButton = new JButton("Back to Menu");
     //Drawing Buttons
     public JButton ClearButton = new JButton("X");
     public JButton SSizeButton = new JButton("✎");
@@ -34,22 +35,19 @@ public class demoPanel extends JPanel implements ActionListener{
     //Chat
     public JTextArea ChatArea = new JTextArea("");
     public JTextField ChatField = new JTextField();
-    //Leaderboard
-    public JPanel PlayersPanel = new JPanel();
-    public JScrollPane PlayersScroll = new JScrollPane(PlayersPanel);
-    public JLabel PlayerLabels[];
-    public JLabel PlayerLabels2[];
     //Demo Labels
-    JLabel TimerLabel = new JLabel("Timer");
+    JLabel DemoLabel = new JLabel("DEMO");
+    JLabel TimerLabel = new JLabel("Top bar shows remaining time.");
     JLabel DrawLabel = new JLabel("Draw something here.");
     JLabel ClearLabel = new JLabel("Clear");
     JLabel SSizeLabel = new JLabel("Small Pen");
     JLabel LSizeLabel = new JLabel("Large Pen");
     JLabel ColourLabel = new JLabel("Colour Selection");
-    JLabel LeaderboardLabel = new JLabel("Earn points for guessing right.");
+    JLabel LeaderboardLabel = new JLabel("Earn points for guessing correctly.");
     JLabel HintLabel = new JLabel("Hints for guessing");
-    JLabel ChatAreaLabel = new JLabel("Guesses and messages");
-    JLabel ChatFieldLabel = new JLabel("Enter guess or message.");
+    JLabel ChatAreaLabel = new JLabel("Read and messages here.");
+    JLabel ChatFieldLabel = new JLabel("Type a guess or message here.");
+    JLabel PlayerLabel = new JLabel("Name");
 
     //Methods
     public void actionPerformed(ActionEvent evt){
@@ -68,7 +66,7 @@ public class demoPanel extends JPanel implements ActionListener{
         String strChat[] = ChatArea.getText().split("\n");
         int intMessages = strChat.length;
         int intCount;
-        if(intMessages < 11){
+        if(intMessages < 9){
             if(assets.fntHelvetica13.getStringBounds(strContent, new FontRenderContext(new AffineTransform(), true, true)).getWidth() < 290){
                 //Displaying New Content
                 ChatArea.append(strContent + "\n");
@@ -85,20 +83,20 @@ public class demoPanel extends JPanel implements ActionListener{
                 ChatArea.append(strLine2 + "\n");
             }
         }
-        else if(intMessages == 11){
+        else if(intMessages == 9){
             if(assets.fntHelvetica13.getStringBounds(strContent, new FontRenderContext(new AffineTransform(), true, true)).getWidth() < 290){
                 //Displaying New Content
                 ChatArea.append(strContent + "\n");
             }
             else{
                 //Shift Old Messages Up by 1
-                for(intCount = 0; intCount < 10; intCount++){
+                for(intCount = 0; intCount < 9; intCount++){
                     strChat[intCount] = strChat[intCount + 1];
                 }
 
                 //Display Messages with Shift
                 ChatArea.setText("");
-                for(intCount = 0; intCount < 10; intCount++){
+                for(intCount = 0; intCount < 9; intCount++){
                     ChatArea.append(strChat[intCount] + "\n");
                 }
 
@@ -115,7 +113,7 @@ public class demoPanel extends JPanel implements ActionListener{
         }
         else{
             //Shift Old Messages Up by 1
-            for(intCount = 0; intCount < 11; intCount++){
+            for(intCount = 0; intCount < 9; intCount++){
                 strChat[intCount] = strChat[intCount + 1];
             }
 
@@ -123,7 +121,7 @@ public class demoPanel extends JPanel implements ActionListener{
             if(assets.fntHelvetica13.getStringBounds(strContent, new FontRenderContext(new AffineTransform(), true, true)).getWidth() < 290){
                 //Display Messages with Shift
                 ChatArea.setText("");
-                for(intCount = 0; intCount < 11; intCount++){
+                for(intCount = 0; intCount < 9; intCount++){
                     ChatArea.append(strChat[intCount] + "\n");
                 }
 
@@ -132,13 +130,13 @@ public class demoPanel extends JPanel implements ActionListener{
             }
             else{
                 //Shift Old Messages Up by 1 more
-                for(intCount = 0; intCount < 10; intCount++){
+                for(intCount = 0; intCount < 9; intCount++){
                     strChat[intCount] = strChat[intCount + 1];
                 }
 
                 //Display Messages with Shift
                 ChatArea.setText("");
-                for(intCount = 0; intCount < 10; intCount++){
+                for(intCount = 0; intCount < 9; intCount++){
                     ChatArea.append(strChat[intCount] + "\n");
                 }
 
@@ -261,10 +259,14 @@ public class demoPanel extends JPanel implements ActionListener{
     }
 
     public void paintComponent(Graphics g){
+        //Background
         g.setColor(assets.clrBackground);
         g.fillRect(0, 0, 1280, 720);
+        //Drawing Area
         g.setColor(assets.clrWhite);
         g.fillRect(15, 25, 789, 680);
+        //804 is end x coordinate, +65 is y
+        //789 - width
 
         
         g.setColor(assets.clrWhite);
@@ -292,6 +294,14 @@ public class demoPanel extends JPanel implements ActionListener{
         setLayout(null);
         setBackground(assets.clrBackground);
         
+        //Buttons
+
+        BackButton.setSize(150, 45);
+        BackButton.setLocation(30, 645);
+        BackButton.setFont(assets.fntHelvetica20);
+        BackButton.setHorizontalAlignment(SwingConstants.CENTER);
+        BackButton.setBackground(assets.clrLightGrey);
+        BackButton.setBorder(null);
         
         ClearButton.setSize(54, 54);
         ClearButton.setLocation(825, 25);
@@ -346,6 +356,8 @@ public class demoPanel extends JPanel implements ActionListener{
         BlackButton.setBackground(assets.clrDrawBlack);
         BlackButton.setBorder(null);
 
+        //Labels
+
         ItemLabel.setSize(365, 50);
         ItemLabel.setLocation(900, 305);
         ItemLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -355,9 +367,94 @@ public class demoPanel extends JPanel implements ActionListener{
         CharLabel.setLocation(1200, 658);
         CharLabel.setHorizontalAlignment(SwingConstants.RIGHT);
         CharLabel.setFont(assets.fntHelvetica13);
+
+        TimerLabel.setSize(250, 30);
+        TimerLabel.setLocation(30, 40);
+        TimerLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        TimerLabel.setFont(assets.fntHelvetica15);
+        TimerLabel.setOpaque(true);
+        TimerLabel.setBackground(assets.clrDrawYellow);
+
+        DrawLabel.setSize(180, 30);
+        DrawLabel.setLocation(30, 140);
+        DrawLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        DrawLabel.setFont(assets.fntHelvetica15);
+        DrawLabel.setOpaque(true);
+        DrawLabel.setBackground(assets.clrDrawYellow);
+
+        ClearLabel.setSize(60, 30);
+        ClearLabel.setLocation(729, 40);
+        ClearLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        ClearLabel.setFont(assets.fntHelvetica15);
+        ClearLabel.setOpaque(true);
+        ClearLabel.setBackground(assets.clrDrawYellow);
+
+        SSizeLabel.setSize(100, 30);
+        SSizeLabel.setLocation(689, 105);
+        SSizeLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        SSizeLabel.setFont(assets.fntHelvetica15);
+        SSizeLabel.setOpaque(true);
+        SSizeLabel.setBackground(assets.clrDrawYellow);
+
+        LSizeLabel.setSize(100, 30);
+        LSizeLabel.setLocation(689, 170);
+        LSizeLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        LSizeLabel.setFont(assets.fntHelvetica15);
+        LSizeLabel.setOpaque(true);
+        LSizeLabel.setBackground(assets.clrDrawYellow);
+
+        ColourLabel.setSize(140, 30);
+        ColourLabel.setLocation(649, 441);
+        ColourLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        ColourLabel.setFont(assets.fntHelvetica15);
+        ColourLabel.setOpaque(true);
+        ColourLabel.setBackground(assets.clrDrawYellow);
+
+        LeaderboardLabel.setSize(325, 30);
+        LeaderboardLabel.setLocation(920, 245);
+        LeaderboardLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        LeaderboardLabel.setFont(assets.fntHelvetica15);
+        LeaderboardLabel.setOpaque(true);
+        LeaderboardLabel.setBackground(assets.clrDrawYellow);
+
+        HintLabel.setSize(325, 30);
+        HintLabel.setLocation(920, 315);
+        HintLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        HintLabel.setFont(assets.fntHelvetica15);
+        HintLabel.setOpaque(true);
+        HintLabel.setBackground(assets.clrDrawYellow);
+
+        ChatAreaLabel.setSize(325, 30);
+        ChatAreaLabel.setLocation(920, 387);
+        ChatAreaLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        ChatAreaLabel.setFont(assets.fntHelvetica15);
+        ChatAreaLabel.setOpaque(true);
+        ChatAreaLabel.setBackground(assets.clrDrawYellow);
+
+        ChatFieldLabel.setSize(325,30);
+        ChatFieldLabel.setLocation(920, 590);
+        ChatFieldLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        ChatFieldLabel.setFont(assets.fntHelvetica15);
+        ChatFieldLabel.setOpaque(true);
+        ChatFieldLabel.setBackground(assets.clrDrawYellow);
+
+        DemoLabel.setSize(789, 100);
+        DemoLabel.setLocation(15, 25);
+        DemoLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        DemoLabel.setFont(assets.fntHelvetica50);
+        DemoLabel.setBorder(null);
+
+        PlayerLabel.setSize(325,50);
+        PlayerLabel.setLocation(920, 40);
+        PlayerLabel.setHorizontalAlignment(SwingConstants.LEFT);
+        PlayerLabel.setFont(assets.fntHelvetica30);
+        PlayerLabel.setBackground(assets.clrLightGrey);
+        PlayerLabel.setOpaque(true);
+
+        //Chat and Panel
         
-        ChatArea.setSize(350, 252);
-        ChatArea.setLocation(915, 379);
+        ChatArea.setSize(350, 195);
+        ChatArea.setLocation(915, 432);
         ChatArea.setBackground(assets.clrWhite);
         ChatArea.setFont(assets.fntHelvetica15);
         ChatArea.setEditable(false);
@@ -367,14 +464,9 @@ public class demoPanel extends JPanel implements ActionListener{
         ChatField.setBackground(assets.clrWhite);
         ChatField.setFont(assets.fntHelvetica15);
 
-        PlayersPanel.setBackground(assets.clrWhite);
-        PlayersPanel.setLayout(null);
-        PlayersScroll.setSize(new Dimension(345, 250));
-        PlayersScroll.setLocation(910, 35);
-        PlayersScroll.setBorder(null);
-        PlayersScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
-        PlayersScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        //Add Components to Panel
 
+        add(BackButton);
         add(ClearButton);
         add(SSizeButton);
         add(LSizeButton);
@@ -387,9 +479,21 @@ public class demoPanel extends JPanel implements ActionListener{
         add(BlackButton);
         add(ItemLabel);
         add(CharLabel);
+        add(DemoLabel);
+        add(TimerLabel);
+        add(DrawLabel);
+        add(ClearLabel);
+        add(SSizeLabel);
+        add(LSizeLabel);
+        add(ColourLabel);
+        add(LeaderboardLabel);
+        add(HintLabel);
+        add(ChatAreaLabel);
+        add(ChatFieldLabel);
+        add(PlayerLabel);
+
         add(ChatArea);
         add(ChatField);
-        add(PlayersScroll);
 
         theTimer.start();
     }

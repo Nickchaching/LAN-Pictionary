@@ -11,7 +11,7 @@ public class demotest implements MouseMotionListener, ActionListener, DocumentLi
     //Properties
     JFrame theFrame = new JFrame();
     demoPanel theDemoPanel = new demoPanel();
-    String strName = "Name";
+    static String strName = "Name";
 
     //Methods
 
