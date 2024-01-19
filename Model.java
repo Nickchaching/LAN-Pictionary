@@ -33,43 +33,85 @@
 import java.io.*;
 import javax.swing.*;
 
+/**
+ * <h1>Pictionary Model</h1>
+ * This class deals with the data to play pictionary<br>
+ * It loads data from word list files into arrays<br>
+ * It has methods to control server messaging and score data  
+ * <p>
+ * 
+ * @author Nicholas Ching, Ryan Song, Erin Hu
+ * @version 1.0.0
+ * @since 2024-01-21
+ */
+
 public class Model{
     //Properties
+    /** Provides access to methods for UX graphics */
     View theView;
 
     //Game Settings
+    //* Time duration when drawer is choosing object to draw */
     int intPreRoundDuration = 15000;
+    //* Time duration when drawer is drawing and other players are guessing */
     int intRoundDuration = 90000;
+    //* Time duration to display correct word after drawing */
     int intPostRoundDuration = 5000;
+    //* Total number of drawing turns */
     int intRounds = 5;
+    //* Number of points for guessing corectly */
     int intAnsScore = 50;
 
     //Shared Properties
+    //* Indicates whether host or client is connected*/
     boolean blnConnected = false;
+    //* Indicates whether user is host or client */
     boolean blnHost;
+    //* Indicates whether game has started */
     boolean blnGameStarted = false;
+    //* Player's username */
     String strUsername;
+    //* Message received*/
     String strIncomingSplit[];
+    //* Chosen theme for drawing */
     String strTheme;
+    //* Round number */
     int intRound;
+    //* Indicates whether player is the drawer*/
     boolean blnDrawing;
+    //* Options for objects that the drawer will draw*/
     String strChoiceObjects[];
+    //* Object that the drawer chooses to draw */
     String strObject;
+    //* Length of object name*/
     int intObjectLength;
+    //* Stores drawing data temporarily for view to retrieve*/
     int intTempDraw[] = new int[4];
+    //* Stores incoming chat message data temporarily for view to retrieve*/
     String strTempMessage;
     
     //Server Properties
+    //* Socket for host*/
     SuperSocketMaster HostSocket;
+    //* Thread for broadcasting IP*/
     Thread broadcastIP = new Thread(new broadcastIP(this));
+    //* List of players */
     String strPlayerList[][];
+    //* Temporarily stores the list of players for it to be resorted */
     String strPlayerTemp[][];
+    //* Stores the 8 themes from themes text file */
     String strThemes[] = new String[8];
+    //* Stores objects from the selected theme file */
     String strObjects[];
+    //* Stores the IP address of the drawer */
     String strDrawer;
+    //* Timer used to ping data to clients periodically */
     Timer pingTimer;
+    //* Timer used for object selection containing a special method that allows you to retrieve time remaining*/
     SuperTimer preRoundTimer;
+    //* Timer used for drawer to draw object */
     SuperTimer roundTimer;
+    //* Timer used to display the correct object after drawing */
     SuperTimer postRoundTimer;
 
     //Client Only Properties
@@ -83,6 +125,7 @@ public class Model{
 
     //Server Methods
     //Initial Host Connection
+    /** Allows host to broadcast IP */
     public boolean initializeHost(String strNameField){
         if(!strNameField.equals("")){
             strUsername = strNameField;
