@@ -28,6 +28,7 @@ public class View implements ActionListener, MouseMotionListener, KeyListener, D
     nonDrawerRoundPanel theNonDrawerRoundPanel = new nonDrawerRoundPanel();
     postRoundPanel thePostRoundPanel = new postRoundPanel();
     leaderPanel theLeaderPanel = new leaderPanel();
+    demoPanel theDemoPanel = new demoPanel();
 
 
     //Methods
@@ -56,7 +57,8 @@ public class View implements ActionListener, MouseMotionListener, KeyListener, D
         //Demo Panel Selection
         else if(evt.getSource() == theHomePanel.DemoGameButton){
             if(theModel.initializeDemo(theHomePanel.NameField.getText())){
-                //theFrame.setContentPane(theDemoPanel);
+                theDemoPanel.initializePanel(theModel.strUsername);
+                theFrame.setContentPane(theDemoPanel);
                 theFrame.pack();
             }
             else{
@@ -447,6 +449,10 @@ public class View implements ActionListener, MouseMotionListener, KeyListener, D
                 theFrame.pack();
             }
         }
+        else if(evt.getSource() == theDemoPanel.BackButton){
+            theFrame.setContentPane(theHomePanel);
+            theFrame.pack();
+        }
     }
 
     public void mouseDragged(MouseEvent evt){
@@ -493,7 +499,6 @@ public class View implements ActionListener, MouseMotionListener, KeyListener, D
             theServerSelectionPanel.Server5Button.setVisible(true);
         }
     }
-    
 
     //Constructor
     public View(){
@@ -501,6 +506,9 @@ public class View implements ActionListener, MouseMotionListener, KeyListener, D
         theHomePanel.HostGameButton.addActionListener(this);
         theHomePanel.JoinGameButton.addActionListener(this);
         theHomePanel.DemoGameButton.addActionListener(this);
+
+        //Adding Demo Panel Action Listeners
+        theDemoPanel.BackButton.addActionListener(this);
 
         //Adding Server Selection Panel Action Listeners
         theServerSelectionPanel.Server1Button.addActionListener(this);
