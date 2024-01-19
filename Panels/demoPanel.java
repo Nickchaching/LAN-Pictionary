@@ -66,7 +66,7 @@ public class demoPanel extends JPanel implements ActionListener{
         String strChat[] = ChatArea.getText().split("\n");
         int intMessages = strChat.length;
         int intCount;
-        if(intMessages < 9){
+        if(intMessages < 7){
             if(assets.fntHelvetica13.getStringBounds(strContent, new FontRenderContext(new AffineTransform(), true, true)).getWidth() < 290){
                 //Displaying New Content
                 ChatArea.append(strContent + "\n");
@@ -83,20 +83,20 @@ public class demoPanel extends JPanel implements ActionListener{
                 ChatArea.append(strLine2 + "\n");
             }
         }
-        else if(intMessages == 9){
+        else if(intMessages == 7){
             if(assets.fntHelvetica13.getStringBounds(strContent, new FontRenderContext(new AffineTransform(), true, true)).getWidth() < 290){
                 //Displaying New Content
                 ChatArea.append(strContent + "\n");
             }
             else{
                 //Shift Old Messages Up by 1
-                for(intCount = 0; intCount < 9; intCount++){
+                for(intCount = 0; intCount < 7; intCount++){
                     strChat[intCount] = strChat[intCount + 1];
                 }
 
                 //Display Messages with Shift
                 ChatArea.setText("");
-                for(intCount = 0; intCount < 9; intCount++){
+                for(intCount = 0; intCount < 7; intCount++){
                     ChatArea.append(strChat[intCount] + "\n");
                 }
 
@@ -113,7 +113,7 @@ public class demoPanel extends JPanel implements ActionListener{
         }
         else{
             //Shift Old Messages Up by 1
-            for(intCount = 0; intCount < 9; intCount++){
+            for(intCount = 0; intCount < 7; intCount++){
                 strChat[intCount] = strChat[intCount + 1];
             }
 
@@ -121,7 +121,7 @@ public class demoPanel extends JPanel implements ActionListener{
             if(assets.fntHelvetica13.getStringBounds(strContent, new FontRenderContext(new AffineTransform(), true, true)).getWidth() < 290){
                 //Display Messages with Shift
                 ChatArea.setText("");
-                for(intCount = 0; intCount < 9; intCount++){
+                for(intCount = 0; intCount < 7; intCount++){
                     ChatArea.append(strChat[intCount] + "\n");
                 }
 
@@ -130,13 +130,13 @@ public class demoPanel extends JPanel implements ActionListener{
             }
             else{
                 //Shift Old Messages Up by 1 more
-                for(intCount = 0; intCount < 9; intCount++){
+                for(intCount = 0; intCount < 7; intCount++){
                     strChat[intCount] = strChat[intCount + 1];
                 }
 
                 //Display Messages with Shift
                 ChatArea.setText("");
-                for(intCount = 0; intCount < 9; intCount++){
+                for(intCount = 0; intCount < 7; intCount++){
                     ChatArea.append(strChat[intCount] + "\n");
                 }
 
@@ -444,6 +444,7 @@ public class demoPanel extends JPanel implements ActionListener{
         DemoLabel.setFont(assets.fntHelvetica50);
         DemoLabel.setBorder(null);
 
+        //Fake Name and Score
         PlayerLabel.setSize(325,50);
         PlayerLabel.setLocation(920, 40);
         PlayerLabel.setHorizontalAlignment(SwingConstants.LEFT);
@@ -454,7 +455,7 @@ public class demoPanel extends JPanel implements ActionListener{
         //Chat and Panel
         
         ChatArea.setSize(350, 195);
-        ChatArea.setLocation(915, 432);
+        ChatArea.setLocation(915, 420);
         ChatArea.setBackground(assets.clrWhite);
         ChatArea.setFont(assets.fntHelvetica15);
         ChatArea.setEditable(false);
