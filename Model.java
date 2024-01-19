@@ -124,12 +124,6 @@ public class Model{
     String strTempScores[];
 
     //Server Methods
-<<<<<<< HEAD
-    //Initial Host Connection
-    /** Allows host to broadcast IP */
-=======
-    //Initial Host C3onnection
->>>>>>> 31d8d34cbb8df011a24a76dcf20fb2f608018592
     public boolean initializeHost(String strNameField){
         if(!strNameField.equals("")){
             strUsername = strNameField;
