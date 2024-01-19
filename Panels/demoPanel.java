@@ -3,16 +3,16 @@ package Panels;
 //Importing Graphics Dependencies
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
 import javax.swing.*;
 import javax.swing.event.*;
 
-public class demoPanel extends JPanel implements ActionListener{
+public class demoPanel extends JPanel implements ActionListener, MouseMotionListener, DocumentListener{
     //Properties
     JButton BackButton = new JButton("Back to Menu");
+    JFrame theFrame = new JFrame();
+    static String strName = "Name";
     //Drawing Buttons
     public JButton ClearButton = new JButton("X");
     public JButton SSizeButton = new JButton("✎");
@@ -54,7 +54,66 @@ public class demoPanel extends JPanel implements ActionListener{
         if(evt.getSource() == theTimer){
             repaint();
         }
+        if(evt.getSource() == ClearButton){
+            clearScreen();
+        }
+        else if(evt.getSource() == SSizeButton){
+            updateSize(6);
+        }
+        else if(evt.getSource() == LSizeButton){
+            updateSize(10);
+        }
+        else if(evt.getSource() == YellowButton){
+            updateColour(1);
+        }
+        else if(evt.getSource() == GreenButton){
+            updateColour(2);
+        }
+        else if(evt.getSource() == BlueButton){
+            updateColour(3);
+        }
+        else if(evt.getSource() == PurpleButton){
+            updateColour(4);
+        }
+        else if(evt.getSource() == RedButton){
+            updateColour(5);
+        }
+        else if(evt.getSource() == OrangeButton){
+            updateColour(6);
+        }
+        else if(evt.getSource() == BlackButton){
+            updateColour(7);
+        }
+        //Chat Message Handling
+        else if(evt.getSource() == ChatField){
+            updateChatArea(strName + ": " + getChatField());
+        }
     }
+
+    public void mouseDragged(MouseEvent evt){
+        int intX = evt.getX();
+        int intY = evt.getY();
+        if(intX > 15 && intX < 800 && intY > 25 && intY < 695){
+           updateDraw(intX, intY);
+        }
+    }
+
+    public void insertUpdate(DocumentEvent evt){
+        updateChar(1);
+    }
+
+    public void removeUpdate(DocumentEvent evt){
+        updateChar(0);
+    }
+
+    public void changedUpdate(DocumentEvent evt){
+
+    }
+    
+    public void mouseMoved(MouseEvent evt){
+
+    }
+
 
     public String getChatField(){
         String strText = ChatField.getText();
@@ -465,6 +524,30 @@ public class demoPanel extends JPanel implements ActionListener{
         ChatField.setBackground(assets.clrWhite);
         ChatField.setFont(assets.fntHelvetica15);
 
+        addMouseMotionListener(this);
+
+
+        ClearButton.addActionListener(this);
+        SSizeButton.addActionListener(this);
+        LSizeButton.addActionListener(this);
+        YellowButton.addActionListener(this);
+        GreenButton.addActionListener(this);
+        BlueButton.addActionListener(this);
+        PurpleButton.addActionListener(this);
+        RedButton.addActionListener(this);
+        OrangeButton.addActionListener(this);
+        BlackButton.addActionListener(this);
+        ChatField.addActionListener(this);
+        ChatField.getDocument().addDocumentListener(this);
+        addMouseMotionListener(this);
+
+
+        theFrame.setContentPane(this);
+        theFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        theFrame.setResizable(true);
+        theFrame.pack();
+        theFrame.setVisible(true);
+
         //Add Components to Panel
 
         add(BackButton);
@@ -492,10 +575,13 @@ public class demoPanel extends JPanel implements ActionListener{
         add(ChatAreaLabel);
         add(ChatFieldLabel);
         add(PlayerLabel);
-
         add(ChatArea);
         add(ChatField);
 
         theTimer.start();
+    }
+
+    public static void main(String[] args){
+        new demoPanel();
     }
 }
