@@ -53,6 +53,16 @@ public class View implements ActionListener, MouseMotionListener, KeyListener, D
                 theHomePanel.NameField.setText("Please Enter a Name");
             }
         }
+        //Demo Panel Selection
+        else if(evt.getSource() == theHomePanel.DemoGameButton){
+            if(theModel.initializeDemo(theHomePanel.NameField.getText())){
+                //theFrame.setContentPane(theDemoPanel);
+                theFrame.pack();
+            }
+            else{
+                theHomePanel.NameField.setText("Please Enter a Name");
+            }
+        }
         //Client Server Selection
         else if(evt.getSource() == theServerSelectionPanel.Server1Button || evt.getSource() == theServerSelectionPanel.Server2Button || evt.getSource() == theServerSelectionPanel.Server3Button || evt.getSource() == theServerSelectionPanel.Server4Button || evt.getSource() == theServerSelectionPanel.Server5Button){
             int intButton = 0;
@@ -490,6 +500,7 @@ public class View implements ActionListener, MouseMotionListener, KeyListener, D
         //Adding Home Panel Action Listeners
         theHomePanel.HostGameButton.addActionListener(this);
         theHomePanel.JoinGameButton.addActionListener(this);
+        theHomePanel.DemoGameButton.addActionListener(this);
 
         //Adding Server Selection Panel Action Listeners
         theServerSelectionPanel.Server1Button.addActionListener(this);

@@ -27,7 +27,7 @@ public class broadcastIP implements Runnable{
                 outSocket.send(outPacket);
                 System.out.println("Broadcasted IP");
                 try{
-                    Thread.sleep(5000);
+                    Thread.sleep(1000);
                 }
                 catch(InterruptedException e){
 

@@ -82,7 +82,7 @@ public class Model{
     String strTempScores[];
 
     //Server Methods
-    //Initial Host Connection
+    //Initial Host C3onnection
     public boolean initializeHost(String strNameField){
         if(!strNameField.equals("")){
             strUsername = strNameField;
@@ -709,6 +709,17 @@ public class Model{
             }
         }
         return strMessage.equals("");
+    }
+
+    //Demo Screen
+    public boolean initializeDemo(String strNameField){
+        if(!strNameField.equals("")){
+            strUsername = strNameField;
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 
     //Retrieve Item Drawing

@@ -447,7 +447,7 @@ public class demoPanel extends JPanel implements ActionListener{
         PlayerLabel.setSize(325,50);
         PlayerLabel.setLocation(920, 40);
         PlayerLabel.setHorizontalAlignment(SwingConstants.LEFT);
-        PlayerLabel.setFont(assets.fntHelvetica30);
+        PlayerLabel.setFont(assets.fntHelvetica20);
         PlayerLabel.setBackground(assets.clrLightGrey);
         PlayerLabel.setOpaque(true);
 
