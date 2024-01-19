@@ -10,8 +10,7 @@ import javax.swing.event.*;
 
 public class demoPanel extends JPanel implements ActionListener, MouseMotionListener, DocumentListener{
     //Properties
-    JButton BackButton = new JButton("Back to Menu");
-    JFrame theFrame = new JFrame();
+    public JButton BackButton = new JButton("Back to Menu");
     static String strName = "Name";
     //Drawing Buttons
     public JButton ClearButton = new JButton("X");
@@ -114,6 +113,9 @@ public class demoPanel extends JPanel implements ActionListener, MouseMotionList
 
     }
 
+    public void initializePanel(String strUsername){
+        PlayerLabel.setText("  "+strUsername);
+    }
 
     public String getChatField(){
         String strText = ChatField.getText();
@@ -507,7 +509,7 @@ public class demoPanel extends JPanel implements ActionListener, MouseMotionList
         PlayerLabel.setSize(325,50);
         PlayerLabel.setLocation(920, 40);
         PlayerLabel.setHorizontalAlignment(SwingConstants.LEFT);
-        PlayerLabel.setFont(assets.fntHelvetica30);
+        PlayerLabel.setFont(assets.fntHelvetica20);
         PlayerLabel.setBackground(assets.clrLightGrey);
         PlayerLabel.setOpaque(true);
 
@@ -541,13 +543,6 @@ public class demoPanel extends JPanel implements ActionListener, MouseMotionList
         ChatField.getDocument().addDocumentListener(this);
         addMouseMotionListener(this);
 
-
-        theFrame.setContentPane(this);
-        theFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        theFrame.setResizable(true);
-        theFrame.pack();
-        theFrame.setVisible(true);
-
         //Add Components to Panel
 
         add(BackButton);
@@ -579,9 +574,5 @@ public class demoPanel extends JPanel implements ActionListener, MouseMotionList
         add(ChatField);
 
         theTimer.start();
-    }
-
-    public static void main(String[] args){
-        new demoPanel();
     }
 }

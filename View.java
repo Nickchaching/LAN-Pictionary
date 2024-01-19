@@ -28,6 +28,7 @@ public class View implements ActionListener, MouseMotionListener, KeyListener, D
     nonDrawerRoundPanel theNonDrawerRoundPanel = new nonDrawerRoundPanel();
     postRoundPanel thePostRoundPanel = new postRoundPanel();
     leaderPanel theLeaderPanel = new leaderPanel();
+    demoPanel theDemoPanel = new demoPanel();
 
 
     //Methods
@@ -47,6 +48,17 @@ public class View implements ActionListener, MouseMotionListener, KeyListener, D
         else if(evt.getSource() == theHomePanel.JoinGameButton){
             if(theModel.initializeClient(theHomePanel.NameField.getText())){
                 theFrame.setContentPane(theServerSelectionPanel);
+                theFrame.pack();
+            }
+            else{
+                theHomePanel.NameField.setText("Please Enter a Name");
+            }
+        }
+        //Demo Panel Selection
+        else if(evt.getSource() == theHomePanel.DemoGameButton){
+            if(theModel.initializeDemo(theHomePanel.NameField.getText())){
+                theDemoPanel.initializePanel(theModel.strUsername);
+                theFrame.setContentPane(theDemoPanel);
                 theFrame.pack();
             }
             else{
@@ -437,6 +449,10 @@ public class View implements ActionListener, MouseMotionListener, KeyListener, D
                 theFrame.pack();
             }
         }
+        else if(evt.getSource() == theDemoPanel.BackButton){
+            theFrame.setContentPane(theHomePanel);
+            theFrame.pack();
+        }
     }
 
     public void mouseDragged(MouseEvent evt){
@@ -483,13 +499,16 @@ public class View implements ActionListener, MouseMotionListener, KeyListener, D
             theServerSelectionPanel.Server5Button.setVisible(true);
         }
     }
-    
 
     //Constructor
     public View(){
         //Adding Home Panel Action Listeners
         theHomePanel.HostGameButton.addActionListener(this);
         theHomePanel.JoinGameButton.addActionListener(this);
+        theHomePanel.DemoGameButton.addActionListener(this);
+
+        //Adding Demo Panel Action Listeners
+        theDemoPanel.BackButton.addActionListener(this);
 
         //Adding Server Selection Panel Action Listeners
         theServerSelectionPanel.Server1Button.addActionListener(this);

@@ -13,6 +13,7 @@ public class homePanel extends JPanel{
     public JTextField NameField = new JTextField();
     public JButton HostGameButton = new JButton("Host Game");
     public JButton JoinGameButton = new JButton("Join Game");
+    public JButton DemoGameButton = new JButton("Demo Game");
 
 
     //Methods
@@ -60,11 +61,18 @@ public class homePanel extends JPanel{
         JoinGameButton.setBackground(assets.clrLightGrey);
         JoinGameButton.setBorder(null);
 
+        DemoGameButton.setSize(640, 50);
+        DemoGameButton.setLocation(320, 620);
+        DemoGameButton.setFont(assets.fntHelvetica30);
+        DemoGameButton.setBackground(assets.clrLightGrey);
+        DemoGameButton.setBorder(null);
+
         add(PictionaryLabel);
         add(EnterNameLabel);
         add(NameField);
         add(StartGameLabel);
         add(HostGameButton);
         add(JoinGameButton);
+        add(DemoGameButton);
     }
 }
