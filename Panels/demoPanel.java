@@ -44,7 +44,7 @@ public class demoPanel extends JPanel implements ActionListener, MouseMotionList
     JLabel ColourLabel = new JLabel("Colour Selection");
     JLabel LeaderboardLabel = new JLabel("Earn points for guessing correctly.");
     JLabel HintLabel = new JLabel("Hints for guessing");
-    JLabel ChatAreaLabel = new JLabel("Read and messages here.");
+    JLabel ChatAreaLabel = new JLabel("Read guesses and messages here.");
     JLabel ChatFieldLabel = new JLabel("Type a guess or message here.");
     JLabel PlayerLabel = new JLabel("Name");
 
