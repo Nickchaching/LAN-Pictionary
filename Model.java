@@ -51,79 +51,90 @@ public class Model{
     View theView;
 
     //Game Settings
-    //* Time duration when drawer is choosing object to draw */
+    /** Time duration when drawer is choosing object to draw */
     int intPreRoundDuration = 15000;
-    //* Time duration when drawer is drawing and other players are guessing */
+    /** Time duration when drawer is drawing and other players are guessing */
     int intRoundDuration = 90000;
-    //* Time duration to display correct word after drawing */
+    /** Time duration to display correct word after drawing */
     int intPostRoundDuration = 5000;
-    //* Total number of drawing turns */
+    /** Total number of drawing turns */
     int intRounds = 5;
-    //* Number of points for guessing corectly */
+    /** Number of points for guessing corectly */
     int intAnsScore = 50;
 
     //Shared Properties
-    //* Indicates whether host or client is connected*/
+    /** Indicates whether host or client is connected*/
     boolean blnConnected = false;
-    //* Indicates whether user is host or client */
+    /** Indicates whether user is host or client */
     boolean blnHost;
-    //* Indicates whether game has started */
+    /** Indicates whether game has started */
     boolean blnGameStarted = false;
-    //* Player's username */
+    /** Player's username */
     String strUsername;
-    //* Message received*/
+    /** Message received*/
     String strIncomingSplit[];
-    //* Chosen theme for drawing */
+    /** Chosen theme for drawing */
     String strTheme;
-    //* Round number */
+    /** Round number */
     int intRound;
-    //* Indicates whether player is the drawer*/
+    /** Indicates whether player is the drawer*/
     boolean blnDrawing;
-    //* Options for objects that the drawer will draw*/
+    /** Options for objects that the drawer will draw*/
     String strChoiceObjects[];
-    //* Object that the drawer chooses to draw */
+    /** Object that the drawer chooses to draw */
     String strObject;
-    //* Length of object name*/
+    /** Length of object name*/
     int intObjectLength;
-    //* Stores drawing data temporarily for view to retrieve*/
+    /** Stores drawing data temporarily for view to retrieve*/
     int intTempDraw[] = new int[4];
-    //* Stores incoming chat message data temporarily for view to retrieve*/
+    /** Stores incoming chat message data temporarily for view to retrieve*/
     String strTempMessage;
     
     //Server Properties
-    //* Socket for host*/
+    /** Socket for host*/
     SuperSocketMaster HostSocket;
-    //* Thread for broadcasting IP*/
+    /** Thread for broadcasting IP*/
     Thread broadcastIP = new Thread(new broadcastIP(this));
-    //* List of players */
+    /** List of players */
     String strPlayerList[][];
-    //* Temporarily stores the list of players for it to be resorted */
+    /** Temporarily stores the list of players for it to be resorted */
     String strPlayerTemp[][];
-    //* Stores the 8 themes from themes text file */
+    /** Stores the 8 themes from themes text file */
     String strThemes[] = new String[8];
-    //* Stores objects from the selected theme file */
+    /** Stores objects from the selected theme file */
     String strObjects[];
-    //* Stores the IP address of the drawer */
+    /** Stores the IP address of the drawer */
     String strDrawer;
-    //* Timer used to ping data to clients periodically */
+    /** Timer used to ping data to clients periodically */
     Timer pingTimer;
-    //* Timer used for object selection containing a special method that allows you to retrieve time remaining*/
+    /** Timer used for object selection containing a special method that allows you to retrieve time remaining*/
     SuperTimer preRoundTimer;
-    //* Timer used for drawer to draw object */
+    /** Timer used for drawer to draw object */
     SuperTimer roundTimer;
-    //* Timer used to display the correct object after drawing */
+    /** Timer used to display the correct object after drawing */
     SuperTimer postRoundTimer;
 
     //Client Only Properties
+    /** Socket for client */
     SuperSocketMaster ClientSocket;
+    /** IP address of server */
     String strServerAddress;
+    /** Stores list of available servers to join*/
     String[][] strServerList = new String[5][3];
+    /** Thread for detecting servers */
     Thread findServer = new Thread(new findServer(this));
+    /** List of player names*/
     String strPlayers[];
+    /** % of time remaining for player to guess or draw*/
     double dblTimePerRemaining;
+    /** Stores scores temporarily*/
     String strTempScores[];
 
     //Server Methods
+    /** Set up and connect socket after player enters name 
+      * @param strNameField name inputted by user in text field
+      * @return a boolean of whether the host socket is connected and broadcasting the IP
+      */
     public boolean initializeHost(String strNameField){
         if(!strNameField.equals("")){
             strUsername = strNameField;
@@ -146,16 +157,25 @@ public class Model{
     }
 
     //BroadcastIP Message Recall
+    /** Gets the IP address, username, and length of player list
+      * @return a String with the IP address, username, and length splitted by commas
+      */
     public String getStatus(){
         return HostSocket.getMyAddress()+","+strUsername+","+strPlayerList.length;
     }
 
     //Retrieve Player List
+    /** Gets the player list which includes IP address, username, and score
+      * @return a 2D String array with IP address, username, and score 
+      */
     public String[][] getPlayerList(){
         return strPlayerList;
     }
 
     //Load and Retrieve Themes
+    /** Gets a theme by reading the theme file 
+      * @return a 1D String array with the list of themes
+      */
     public String[] getThemes(){
         int intCount;
         try{
@@ -176,6 +196,10 @@ public class Model{
     }
 
     //Theme Selection Handling
+    /** Determines whether a theme has been selected
+      * @param intTheme integer indicates which theme has been chosen  
+      * @return a boolean indicating whether the user has chosen a theme
+      */
     public boolean selectTheme(int intTheme){
         if(strThemes[intTheme - 1] != strTheme){
             strTheme = strThemes[intTheme - 1];
@@ -187,6 +211,9 @@ public class Model{
     }
 
     //Loading Theme Objects
+    /** Load objects of a theme from a text file
+      * @return a boolean of whether objects have been loaded properly
+      */
     public boolean loadObjects(){
         int intCount;
         int intObjects = 0;
@@ -214,11 +241,18 @@ public class Model{
     }
 
     //Get Random Drawer
+    /** Randomly choose a player to draw
+      * @return a String of a random player's IP address from the player list
+      */
     public String getRandDrawer(){
         return strPlayerList[(int)(Math.random() * strPlayerList.length)][0];
     }
 
     //Get Random Objects
+    /** Randomly choose two different objects from the object list<br>
+      * Drawer will have two options to choose from  
+      * @return a 1D String array with two objects 
+      */
     public String[] getRandObjects(){
         String strRandObjects[] = new String[2];
         strRandObjects[0] = strObjects[(int)(Math.random() * strObjects.length)];
@@ -230,6 +264,10 @@ public class Model{
     }
 
     //Start Game Procedure
+    /** Starts game if game is able to load objects from the text file<br>
+      * Sets the round number to 1
+      * @return a boolean that indicates whether the objects could be loaded
+      */
     public boolean startGame(){
         blnGameStarted = loadObjects();
         if(blnGameStarted){
@@ -239,6 +277,11 @@ public class Model{
     }
 
     //New Round
+    /** Choose random drawer and random objects<br>
+      * Host sends message to clients<br>
+      * Start timer for the drawer to choose an object
+      * @return a boolean that indicates whether the host is the drawer
+      */
     public boolean newRound(){
         //Generating a new Drawer and Objects
         strDrawer = getRandDrawer();
@@ -262,6 +305,10 @@ public class Model{
     }
 
     //Starting a Round (Drawing)
+    /** Allows drawer to start drawing<br>
+      * Displays hint for the guessers<br>
+      * Sets player points to 0
+      */
     public void startRound(){
         preRoundTimer.stop();
         intObjectLength = strObject.length();
@@ -276,6 +323,9 @@ public class Model{
     }
 
     //Ending a Round
+    /** Finishes the drawer's drawing turn<br>
+      * Gives drawer points based on % of correct guesses
+      */
     public void endRound(){
         roundTimer.stop();
 
@@ -296,6 +346,9 @@ public class Model{
         postRoundTimer.start();
     }
 
+    /** Reset current drawing round for the next drawing round
+     * @return a boolean that indicates whether there will be a new drawing round
+     */
     public boolean resetRound(){
         postRoundTimer.stop();
         
@@ -312,6 +365,9 @@ public class Model{
     }
 
     //(RE)-Broadcasts Drawing Data to Clients
+    /** Host sends drawing data to clients
+     * @param intDrawData 1D integer array for x position, y position, brush size, and brush colour
+     */
     public void sendDrawData(int intDrawData[]){
         HostSocket.sendText("1,5,"+HostSocket.getMyAddress()+","+intDrawData[0]+","+intDrawData[1]+","+intDrawData[2]+","+intDrawData[3]);
     }
