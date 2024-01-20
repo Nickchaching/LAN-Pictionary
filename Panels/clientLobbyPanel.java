@@ -4,7 +4,11 @@ package Panels;
 //Importing Graphics Dependencies
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.*;
 import javax.swing.*;
+import java.io.*;
+import javax.imageio.*;
+
 
 public class clientLobbyPanel extends JPanel implements ActionListener{
     //Properties
@@ -17,6 +21,7 @@ public class clientLobbyPanel extends JPanel implements ActionListener{
     public Timer theTimer = new Timer(1000/60, this);
     private int intScrollVelo = 2;
     private int intScrollHeight;
+    private BufferedImage imgTheme;
 
     //Methods
     public void actionPerformed(ActionEvent evt){
@@ -28,6 +33,22 @@ public class clientLobbyPanel extends JPanel implements ActionListener{
                 PlayersScroll.getViewport().setViewPosition(new Point(0, (int)PlayersScroll.getViewport().getViewPosition().getY() + intScrollVelo));
                 repaint();
             }
+        }
+    }
+
+    public void paintComponent(Graphics g){
+        g.setColor(assets.clrBackground);
+        g.fillRect(0, 0, 1280, 720);
+        g.drawImage(imgTheme, 0, 0, null);
+    }
+
+    public void loadImage(String strTextFile){
+        try{
+            imgTheme = ImageIO.read(new File("Assets/"+strTextFile.substring(0, strTextFile.length() - 3) + "png"));
+            repaint();
+        }
+        catch(IOException e){
+            System.out.println("Image Loading Failed");
         }
     }
 

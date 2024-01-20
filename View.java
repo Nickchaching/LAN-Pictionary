@@ -317,6 +317,9 @@ public class View implements ActionListener, MouseMotionListener, KeyListener, D
                     theFrame.setContentPane(theLeaderPanel);
                     theFrame.pack();
                 }
+                else if(intType == 12){
+                    theClientLobbyPanel.loadImage(theModel.getTheme());
+                }
             }
         }
         //Pushing Regular Updates

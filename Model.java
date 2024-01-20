@@ -207,6 +207,7 @@ public class Model{
     public boolean selectTheme(int intTheme){
         if(strThemes[intTheme - 1] != strTheme){
             strTheme = strThemes[intTheme - 1];
+            HostSocket.sendText("1,12,"+HostSocket.getMyAddress()+","+strTheme);
             return true;
         }
         else{
@@ -790,9 +791,14 @@ public class Model{
             strTempScores = strDecode;
         }
 
-        //Message Type 11: Chat Telemetry
+        //Message Type 11: Object Selection Out of Time
         else if(strIncomingSplit[1].equals("11")){
             strObject = strIncomingSplit[3];
+        }
+
+        //Message Type 12: Theme Image Loading
+        else if(strIncomingSplit[1].equals("12")){
+            strTheme = strIncomingSplit[3];
         }
 
         return Integer.parseInt(strIncomingSplit[1]);
@@ -828,6 +834,10 @@ public class Model{
       */
     public String[] getScores(){
         return strTempScores;
+    }
+
+    public String getTheme(){
+        return strTheme;
     }
 
     //Shared Methods

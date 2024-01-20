@@ -1,8 +1,8 @@
 fruits.txt
 geology.txt
 sports.txt
-file4.txt
-file5.txt
-file6.txt
+animals.txt
+cooking.txt
+nationalparks.txt
 random.txt
 Mix of All

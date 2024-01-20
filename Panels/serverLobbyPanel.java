@@ -126,14 +126,14 @@ public class serverLobbyPanel extends JPanel implements ActionListener{
     }
 
     public void displayThemes(String strThemes[]){
-        Theme1Button.setText(strThemes[0]);
-        Theme2Button.setText(strThemes[1]);
-        Theme3Button.setText(strThemes[2]);
-        Theme4Button.setText(strThemes[3]);
-        Theme5Button.setText(strThemes[4]);
-        Theme6Button.setText(strThemes[5]);
-        Theme7Button.setText(strThemes[6]);
-        Theme8Button.setText(strThemes[7]);
+        Theme1Button.setText(strThemes[0].substring(0, strThemes[0].length() - 4));
+        Theme2Button.setText(strThemes[1].substring(0, strThemes[1].length() - 4));
+        Theme3Button.setText(strThemes[2].substring(0, strThemes[2].length() - 4));
+        Theme4Button.setText(strThemes[3].substring(0, strThemes[3].length() - 4));
+        Theme5Button.setText(strThemes[4].substring(0, strThemes[4].length() - 4));
+        Theme6Button.setText(strThemes[5].substring(0, strThemes[5].length() - 4));
+        Theme7Button.setText(strThemes[6].substring(0, strThemes[6].length() - 4));
+        Theme8Button.setText(strThemes[7].substring(0, strThemes[7].length() - 4));
     }
 
     public void updateThemeSelection(int intTheme){
