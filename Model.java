@@ -1,3 +1,7 @@
+//Pictionary
+//Programmers: Nicholas Ching / Ryan Song / Erin Hu
+//Project: ICS4U CPT
+
 //NETWORKING:
 //6000 - MAIN COMMUNICATIONS
     //General Format: DesignationID#, ActionID#, IP, Param1, Param2, Param3, Param4
@@ -174,7 +178,7 @@ public class Model{
 
     //Load and Retrieve Themes
     /** Gets a theme by reading the theme file 
-      * @return a 1D String array with the list of themes
+      * @return a String array with the list of themes
       */
     public String[] getThemes(){
         int intCount;
@@ -251,7 +255,7 @@ public class Model{
     //Get Random Objects
     /** Randomly choose two different objects from the object list<br>
       * Drawer will have two options to choose from  
-      * @return a 1D String array with two objects 
+      * @return a String array with two objects 
       */
     public String[] getRandObjects(){
         String strRandObjects[] = new String[2];
@@ -366,13 +370,18 @@ public class Model{
 
     //(RE)-Broadcasts Drawing Data to Clients
     /** Host sends drawing data to clients
-     * @param intDrawData 1D integer array for x position, y position, brush size, and brush colour
+     * @param intDrawData integer array for x position, y position, brush size, and brush colour
      */
     public void sendDrawData(int intDrawData[]){
         HostSocket.sendText("1,5,"+HostSocket.getMyAddress()+","+intDrawData[0]+","+intDrawData[1]+","+intDrawData[2]+","+intDrawData[3]);
     }
 
     //(RE)-Broadcasts Chat Data to Clients
+    /** Host sends messages for drawing guesses and chat
+      * @param strIP IP address of the host
+      * @param strChatData a guess or a message sent in the chat
+      * @return a String formatted according to chat telemetry
+      */
     public String sendChatData(String strIP, String strChatData){
         int intCount;
         String strFormattedChatData = "";
@@ -402,16 +411,26 @@ public class Model{
     }
 
     //Get Object Choices
+    /** Gets the choices of objects to draw
+     * @return a String array with objects to draw
+     */
     public String[] getObjectChoices(){
         return strChoiceObjects;
     }
 
     //Get Round Info
+    /** Gets the round number
+      * @return an integer of the round number
+      */
     public int getRound(){
         return intRound;
     }
 
     //Server Message Handling
+    /** Manipulates game data depending on the type of message<br>
+      * Message types are used for initial connection, chat, object choice, and drawing
+      * @return an integer for the type of message received
+      */
     public int serverMessageRecieved(){
         strIncomingSplit = HostSocket.readText().split(",");
         
@@ -454,6 +473,10 @@ public class Model{
     }
 
     //Regular Server Data Pings
+    /** Sends server data pings regularly
+     * @param intType type of message
+     * @return String for the percentage of remaining time if applicable
+     */
     public String sendPing(int intType){
         //Lobby Player Info Ping
         if(intType == 0 && strPlayerList != null){
@@ -483,6 +506,9 @@ public class Model{
     }
 
     //Score Change Update Ping
+    /** Provides updated scores after bubble sorting and formatting
+     * @return a String array with the new score data 
+     */
     public String[] changedScore(){
         String strPlayerListTemp[][] = strPlayerList;
         String strTemp[] = new String[strPlayerList.length];
@@ -516,6 +542,11 @@ public class Model{
     }
 
     //Check Answer Status
+    /** Checks if the round is complete<br>
+      * Checks number of players who have answered<br>
+      * If everyone other than the drawer has answered, round is complete
+      * @return boolean to indicate if the round is over
+      */
     public boolean roundisComplete(){
         int intCount;
         int intCounter = 0;
@@ -529,6 +560,9 @@ public class Model{
     }
 
     //Game End Update Ping
+    /** Sorts and formats scores when game is over
+      * @return String array with sorted and formatted scores for each player 
+      */
     public String[] endGamePing(){
         String strPlayerListTemp[][] = strPlayerList;
         String strTemp[] = new String[strPlayerList.length];
@@ -562,6 +596,9 @@ public class Model{
     }
 
     //Score Updated Check
+    /** Checks if score is updated
+      * @return a boolean to indicate if the score was updated
+      */
     public boolean checkScoreUpdated(){
         if(strTempMessage.split(":").length == 1){
             return true;
@@ -572,12 +609,17 @@ public class Model{
     }
 
     //Out of Time Send Object
+    /** Sends the object if there is no more time for the round */
     public void outTimeObjectPing(){
         HostSocket.sendText("1,11,"+HostSocket.getMyAddress()+","+strObject);
     }
 
     //Client Methods
     //Initial Client Connection
+    /** Sets up client connection and looks for broadcasted IP from server
+      * @param strNameField
+      * @return boolean to indicate if user entered a name in the name text field
+      */
     public boolean initializeClient(String strNameField){
         if(!strNameField.equals("")){
             strUsername = strNameField;
@@ -591,6 +633,10 @@ public class Model{
     }
 
     //Client Server Selection
+    /** Sets up and connects client socket
+      * @param intButton button pressed when the user chooses which server to join
+      * @return boolean to indicate whether the client is connected
+      */
     public boolean initializeClientConnection(int intButton){
         strServerAddress = strServerList[intButton - 1][0];
         System.out.println(strServerAddress);
@@ -608,6 +654,9 @@ public class Model{
     }
 
     //FindServer Server List Update
+    /** Update list of servers for the player (client) to join
+     * @param strServerLoad contains the username, IP, player data of servers found
+     */
     public void updateServerList(String[] strServerLoad){
         int intCount = 0;
         
@@ -649,6 +698,10 @@ public class Model{
     }
 
     //Client Message Handling
+    /** Manipulates game data depending on the type of message<br>
+      * Message types are for lobby, chat, starting rounds, timers, and scores
+      * @return integer for type of message received
+      */
     public int clientMessageRecieved(){
         strIncomingSplit = ClientSocket.readText().split(",");
 
@@ -746,27 +799,42 @@ public class Model{
     }
 
     //Retrieve Player List
+    /** Get list of players
+      * @return String array for player list
+      */
     public String[] getPlayers(){
         return strPlayers;
     }
 
     //Retrieve Drawing Status
+    /** Get drawing status
+     * @return boolean to indicate whether the user is drawing
+     */
     public boolean isDrawing(){
         return blnDrawing;
     }
 
     //Retrieve Time Remaining Percentage
+    /** Get the percentage of time remaining
+      * @return double value of the percentage of time remaining
+      */
     public double getTimeRemPer(){
         return dblTimePerRemaining;
     }
 
     //Retrieve Player Scores
+    /** Get player scores
+      * @return String array of player's scores
+      */
     public String[] getScores(){
         return strTempScores;
     }
 
     //Shared Methods
     //Select Object to Draw
+    /** Allows drawer to choose between two objects to draw
+      * @param intButton button that the drawer selects
+      */
     public void choseObject(int intButton){
         if(intButton == 1){
             strObject = strChoiceObjects[0];
@@ -786,6 +854,9 @@ public class Model{
     }
 
     //Send New Drawing Data
+    /** Send new drawing data
+      * @param intDrawData drawing data for x position, y position, brush size, and brush colour
+     */
     public void newDrawData(int intDrawData[]){
         if(blnHost){
             sendDrawData(intDrawData);
@@ -796,6 +867,10 @@ public class Model{
     }
 
     //Send Chat Message
+    /** Send a chat message
+      * @param strMessage text entered by the user in a text field
+      * @return boolean to indicate whether the text field is blank
+      */
     public boolean newMessage(String strMessage){
         if(!strMessage.equals("")){
             if(blnHost){
@@ -809,6 +884,11 @@ public class Model{
     }
 
     //Demo Screen
+    /** Detects whether the user entered their username<br>
+      * If a username is entered, this will allow them to access the demo
+      * @param strNameField username entered by the user
+      * @return boolean to indicate whether the user entered a username
+      */
     public boolean initializeDemo(String strNameField){
         if(!strNameField.equals("")){
             strUsername = strNameField;
@@ -820,31 +900,51 @@ public class Model{
     }
 
     //Retrieve Item Drawing
+    /** Gets the object that the drawer chose to draw
+      * @return String of the object that the drawer chose to draw
+      */
     public String getObject(){
         return strObject;
     }
 
     //Retrieve Drawing Data
+    /** Gets drawing data
+      * @return integer array for x position, y position, brush size, and brush colour
+      */
     public int[] getDrawingData(){
         return intTempDraw;
     }
 
     //Retrieve Message Data
+    /** Gets incoming message data
+      * @return String with the incoming message data
+      */
     public String getMessageData(){
         return strTempMessage;
     }
 
     //Retrieve Object Length
+    /** Gets the number of characters in the object
+      * @return integer with the length of the object
+      */
     public int getObjectLength(){
         return intObjectLength;
     }
 
     //Retrieve Host Status
+    /** Gets the host status
+      * @return boolean to indicate whether the player is the host
+      */
     public boolean isHost(){
         return blnHost;
     }
 
     //Constuctor
+    /** 
+     * Pictionary Model Constructor
+     * 
+     * @param theView class which involves the user interface and graphics
+     */
     public Model(View theView){
         this.theView = theView;
         pingTimer = new Timer(1000/60, theView);
