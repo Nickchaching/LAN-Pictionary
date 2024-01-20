@@ -17,7 +17,7 @@ public class View implements ActionListener, MouseMotionListener, KeyListener, D
     Model theModel = new Model(this);
 
     //JComponents
-    JFrame theFrame = new JFrame();
+    JFrame theFrame = new JFrame("Pictionary V1.0.0");
     homePanel theHomePanel = new homePanel();
     serverSelectionPanel theServerSelectionPanel = new serverSelectionPanel();
     serverLobbyPanel theServerLobbyPanel = new serverLobbyPanel();
