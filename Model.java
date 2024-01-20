@@ -277,6 +277,8 @@ public class Model{
         blnGameStarted = loadObjects();
         if(blnGameStarted){
             intRound = 1;
+            pingTimer = new Timer(1000/60, theView);
+            pingTimer.start();
         }
         return blnGameStarted;
     }
@@ -957,7 +959,7 @@ public class Model{
      */
     public Model(View theView){
         this.theView = theView;
-        pingTimer = new Timer(1000/60, theView);
+        pingTimer = new Timer(1000, theView);
         preRoundTimer = new SuperTimer(intPreRoundDuration, theView);
         roundTimer = new SuperTimer(intRoundDuration, theView);
         postRoundTimer = new SuperTimer(intPostRoundDuration, theView);
