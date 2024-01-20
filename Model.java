@@ -838,6 +838,9 @@ public class Model{
         return strTempScores;
     }
 
+    /** Get chosen theme
+      * @return String for the chosen theme
+      */
     public String getTheme(){
         return strTheme;
     }
