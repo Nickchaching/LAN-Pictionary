@@ -184,7 +184,7 @@ public class Model{
     public String[] getThemes(){
         int intCount;
 
-        InputStream fileRead = this.getClass().getResourceAsStream("themes.txt");
+        InputStream fileRead = this.getClass().getResourceAsStream("Assets/themes.txt");
         if(fileRead != null){
             try{
                 BufferedReader themeFile = new BufferedReader(new InputStreamReader(fileRead));
@@ -261,7 +261,7 @@ public class Model{
         int intCount;
         int intObjects = 0;
 
-        InputStream fileRead = this.getClass().getResourceAsStream(strTheme);
+        InputStream fileRead = this.getClass().getResourceAsStream("Assets/"+strTheme);
         if(fileRead != null){
             try{
                 BufferedReader objectFile = new BufferedReader(new InputStreamReader(fileRead));
@@ -269,6 +269,7 @@ public class Model{
                     intObjects++;
                 }
                 objectFile.close();
+                fileRead = this.getClass().getResourceAsStream("Assets/"+strTheme);
                 objectFile = new BufferedReader(new InputStreamReader(fileRead));
                 strObjects = new String[intObjects];
                 for(intCount = 0; intCount < intObjects; intCount++){
