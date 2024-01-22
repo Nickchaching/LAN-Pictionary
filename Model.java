@@ -35,6 +35,7 @@
 //Client Details: IP, Name, Points, Drawing?, Drew?
 
 import java.io.*;
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 /**
@@ -182,6 +183,42 @@ public class Model{
       */
     public String[] getThemes(){
         int intCount;
+
+        InputStream fileRead = this.getClass().getResourceAsStream("themes.txt");
+        if(fileRead != null){
+            try{
+                BufferedReader themeFile = new BufferedReader(new InputStreamReader(fileRead));
+                for(intCount = 0; intCount < 8; intCount++){
+                    strThemes[intCount] = themeFile.readLine();
+                }
+                themeFile.close();
+                strTheme = strThemes[0];
+            }
+            catch(FileNotFoundException e){
+                System.out.println("Unfortunately, the themes file has not been found");
+            }
+            catch(IOException e){
+                System.out.println("Theme Loading Failed");
+            }
+        }
+        else{
+            try{
+                BufferedReader themeFile = new BufferedReader(new FileReader("Assets/themes.txt"));
+                for(intCount = 0; intCount < 8; intCount++){
+                    strThemes[intCount] = themeFile.readLine();
+                }
+                themeFile.close();
+                strTheme = strThemes[0];
+            }
+            catch(FileNotFoundException e){
+                System.out.println("Unfortunately, the themes file has not been found");
+            }
+            catch(IOException e){
+                System.out.println("Theme Loading Failed");
+            }
+        }
+        return strThemes;
+        /*
         try{
             BufferedReader themeFile = new BufferedReader(new FileReader("Assets/themes.txt"));
             for(intCount = 0; intCount < 8; intCount++){
@@ -197,6 +234,7 @@ public class Model{
             System.out.println("Unfortunately, there has been an error loading the themes");
         }
         return strThemes;
+        */
     }
 
     //Theme Selection Handling
@@ -222,6 +260,56 @@ public class Model{
     public boolean loadObjects(){
         int intCount;
         int intObjects = 0;
+
+        InputStream fileRead = this.getClass().getResourceAsStream(strTheme);
+        if(fileRead != null){
+            try{
+                BufferedReader objectFile = new BufferedReader(new InputStreamReader(fileRead));
+                while(objectFile.readLine() != null){
+                    intObjects++;
+                }
+                objectFile.close();
+                objectFile = new BufferedReader(new InputStreamReader(fileRead));
+                strObjects = new String[intObjects];
+                for(intCount = 0; intCount < intObjects; intCount++){
+                    strObjects[intCount] = objectFile.readLine();
+                }
+                return true;
+            }
+            catch(FileNotFoundException e){
+                System.out.println("Unfortunately, the themes file has not been found");
+                return false;
+            }
+            catch(IOException e){
+                System.out.println("Theme Loading Failed");
+                return false;
+            }
+        }
+        else{
+            try{
+                BufferedReader objectFile = new BufferedReader(new FileReader("Assets/"+strTheme));
+                while(objectFile.readLine() != null){
+                    intObjects++;
+                }
+                objectFile.close();
+                objectFile = new BufferedReader(new FileReader("Assets/"+strTheme));
+                strObjects = new String[intObjects];
+                for(intCount = 0; intCount < intObjects; intCount++){
+                    strObjects[intCount] = objectFile.readLine();
+                }
+                return true;
+            }
+            catch(FileNotFoundException e){
+                System.out.println("Unfortunately, the themes file has not been found");
+                return false;
+            }
+            catch(IOException e){
+                System.out.println("Theme Loading Failed");
+                return false;
+            }
+        }
+
+        /* 
         try{
             BufferedReader objectFile = new BufferedReader(new FileReader("Assets/"+strTheme));
             while(objectFile.readLine() != null){
@@ -233,7 +321,7 @@ public class Model{
             for(intCount = 0; intCount < intObjects; intCount++){
                 strObjects[intCount] = objectFile.readLine();
             }
-        return true;
+            return true;
         }
         catch(FileNotFoundException e){
             System.out.println("Unfortunately, the object file has not been found");
@@ -243,6 +331,7 @@ public class Model{
             System.out.println("Unfortunately, there has been an error loading the objects");
             return false;
         }
+        */
     }
 
     //Get Random Drawer

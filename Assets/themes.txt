@@ -3,6 +3,6 @@ geology.txt
 sports.txt
 animals.txt
 cooking.txt
-nationalparks.txt
+instruments.txt
+heroes.txt
 random.txt
-Mix of All

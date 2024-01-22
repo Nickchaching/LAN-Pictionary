@@ -43,13 +43,24 @@ public class clientLobbyPanel extends JPanel implements ActionListener{
     }
 
     public void loadImage(String strTextFile){
-        try{
-            imgTheme = ImageIO.read(new File("Assets/"+strTextFile.substring(0, strTextFile.length() - 3) + "png"));
-            repaint();
+        InputStream fileRead = this.getClass().getResourceAsStream(strTextFile.substring(0, strTextFile.length() - 3) + "png");
+        if(fileRead != null){
+            try{
+                imgTheme = ImageIO.read(fileRead);
+            }
+            catch(IOException e){
+                System.out.println("Image Loading Failed");
+            }
         }
-        catch(IOException e){
-            System.out.println("Image Loading Failed");
+        else{
+            try{
+                imgTheme = ImageIO.read(new File("Assets/"+strTextFile.substring(0, strTextFile.length() - 3) + "png"));
+            }
+            catch(IOException e){
+                System.out.println("Image Loading Failed");
+            }
         }
+        repaint();
     }
 
     public void updatePlayerList(String strPlayerList[]){
