@@ -18,7 +18,7 @@ import java.util.Enumeration;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
- * <h1>SuperSocketMaster</h1>
+ * SuperSocketMaster
  * This class gives Java students the ability to quickly open a Java network socket<p>
  * They can then send outgoing text over the socket<p>
  * They can recieve incoming text over the socket<p>

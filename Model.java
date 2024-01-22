@@ -39,7 +39,7 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 
 /**
- * <h1>Pictionary Model</h1>
+ * Pictionary Model
  * This class deals with the data to play pictionary<br>
  * It loads data from word list files into arrays<br>
  * It has methods to control server messaging and score data  
