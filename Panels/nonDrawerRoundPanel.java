@@ -62,7 +62,7 @@ public class nonDrawerRoundPanel extends JPanel implements ActionListener{
                 PlayersPanel.add(PlayerLabels[intCount]);
             }
         }
-        else if(strPlayerList.length > 5){
+        else if(strPlayerList.length >= 5){
             PlayersPanel.removeAll();
             PlayersPanel.setBounds(0, 0, 345, 60 * 2 * strPlayerList.length);
             PlayersPanel.setPreferredSize(new Dimension(345, 60 * 2 * strPlayerList.length));
