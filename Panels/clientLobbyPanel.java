@@ -43,7 +43,7 @@ public class clientLobbyPanel extends JPanel implements ActionListener{
     }
 
     public void loadImage(String strTextFile){
-        InputStream fileRead = this.getClass().getResourceAsStream("Assets/"+strTextFile.substring(0, strTextFile.length() - 3) + "png");
+        InputStream fileRead = this.getClass().getResourceAsStream("../Assets/"+strTextFile.substring(0, strTextFile.length() - 3) + "png");
         if(fileRead != null){
             try{
                 imgTheme = ImageIO.read(fileRead);

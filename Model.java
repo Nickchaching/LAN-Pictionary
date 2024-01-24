@@ -9,14 +9,12 @@
         //DesignationID 1 = Intended for Clients
     
     //Server Intended Messages
-        //Terminating Connection: 0, -1, IP
         //Initial Connection: 0, 0, IP, ClientName
         //Chat Telemetry: 0, 1, IP, Message
         //Object Choice Telemetry: 0, 2, IP, Object
         //Drawing Telemetry: 0, 3, IP, PosX, PosY, BrushSize, BrushColor
 
     //Client Intended Messages
-        //Terminating Connection: 1, -1, IP
         //Lobby Player Info Ping: 1, 0, IP, PlayerNames[]
         //Chat Telemetry: 1, 1, IP, FormattedMessage (with player name)
         //Round Intitalization1 (Choosing): 1, 2, IP, RoundsPlayed, DrawerIP, ObjectstoChoose[]
@@ -27,15 +25,17 @@
         //Score Update Telemetry: 1, 7, IP, PlayerScores[][]
         //Round Completion: 1, 8, IP, Object
         //Round Initializaton Telemetry: 1, 9, IP, TimeRemaining
+        //Score Update - Post Round: 1, 10, IP, FormattedPlayerScores[]
+        //Object Transmission - Object Not Chosen: 1, 11, IP, Object
+        //Theme Transmission: 1, 12, IP, Theme
 
 //6001 - INITIAL SERVER CONNECTION
     //Server Ping: IP, ServerName, PlayerCount
 
 //SERVER STORAGE:
-//Client Details: IP, Name, Points, Drawing?, Drew?
+//Client Details: IP, Name, Points, Answered
 
 import java.io.*;
-import javax.imageio.ImageIO;
 import javax.swing.*;
 
 /**
@@ -218,23 +218,6 @@ public class Model{
             }
         }
         return strThemes;
-        /*
-        try{
-            BufferedReader themeFile = new BufferedReader(new FileReader("Assets/themes.txt"));
-            for(intCount = 0; intCount < 8; intCount++){
-                strThemes[intCount] = themeFile.readLine();
-            }
-            themeFile.close();
-            strTheme = strThemes[0];
-        }
-        catch(FileNotFoundException e){
-            System.out.println("Unfortunately, the themes file has not been found");
-        }
-        catch(IOException e){
-            System.out.println("Unfortunately, there has been an error loading the themes");
-        }
-        return strThemes;
-        */
     }
 
     //Theme Selection Handling
@@ -309,30 +292,6 @@ public class Model{
                 return false;
             }
         }
-
-        /* 
-        try{
-            BufferedReader objectFile = new BufferedReader(new FileReader("Assets/"+strTheme));
-            while(objectFile.readLine() != null){
-                intObjects++;
-            }
-            objectFile.close();
-            objectFile = new BufferedReader(new FileReader("Assets/"+strTheme));
-            strObjects = new String[intObjects];
-            for(intCount = 0; intCount < intObjects; intCount++){
-                strObjects[intCount] = objectFile.readLine();
-            }
-            return true;
-        }
-        catch(FileNotFoundException e){
-            System.out.println("Unfortunately, the object file has not been found");
-            return false;
-        }
-        catch(IOException e){
-            System.out.println("Unfortunately, there has been an error loading the objects");
-            return false;
-        }
-        */
     }
 
     //Get Random Drawer
