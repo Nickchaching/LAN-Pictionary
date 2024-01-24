@@ -141,7 +141,7 @@ public class Model{
       * @return a boolean of whether the host socket is connected and broadcasting the IP
       */
     public boolean initializeHost(String strNameField){
-        if(!strNameField.equals("")){
+        if(!strNameField.equals("") && !strNameField.contains(",")){
             strUsername = strNameField;
             blnHost = true;
             HostSocket = new SuperSocketMaster(6000, theView);
@@ -714,7 +714,7 @@ public class Model{
       * @return boolean to indicate if user entered a name in the name text field
       */
     public boolean initializeClient(String strNameField){
-        if(!strNameField.equals("")){
+        if(!strNameField.equals("") && !strNameField.contains(",")){
             strUsername = strNameField;
             blnHost = false;
             findServer.start();

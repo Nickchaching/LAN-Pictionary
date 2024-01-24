@@ -21,7 +21,7 @@ public class leaderPanel extends JPanel implements ActionListener{
     public void actionPerformed(ActionEvent evt){
         if(evt.getSource() == theTimer){
             if(PlayersPanel.getPreferredSize().getHeight() > 540){
-                if(PlayersScroll.getViewport().getViewPosition().getY() >= intScrollHeight - 540){
+                if(PlayersScroll.getViewport().getViewPosition().getY() >= intScrollHeight/2){
                     PlayersScroll.getViewport().setViewPosition(new Point(0, 0));
                 }
                 PlayersScroll.getViewport().setViewPosition(new Point(0, (int)PlayersScroll.getViewport().getViewPosition().getY() + intScrollVelo));
