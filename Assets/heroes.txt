@@ -8,7 +8,6 @@ Aquaman
 Hulk
 Thor
 BlackWidow
-Capt.America
 Wolverine
 Cyclops
 Storm
@@ -23,7 +22,6 @@ Rogue
 Nightcrawler
 Daredevil
 JeanGrey
-Capt.marvel
 ScarletWitch
 Beast
 Colossus

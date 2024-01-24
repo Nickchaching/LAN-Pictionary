@@ -24,7 +24,6 @@ backpack
 suitcase
 flag
 hippo
-spider web
 truck
 fork
 fish
@@ -34,7 +33,6 @@ bridge
 mountain
 knee
 fly
-Mickey Mouse
 popsicle
 helicopter
 grapes

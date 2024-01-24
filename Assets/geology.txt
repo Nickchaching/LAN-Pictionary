@@ -18,9 +18,6 @@ Isthmus
 Delta
 Plain
 Cliff
-Fault Line
-Rift Valley
-Coral Reef
 Atoll
 Lagoon
 Marsh
@@ -29,6 +26,4 @@ Estuary
 Floodplain
 Waterfall
 Geyser
-Hot Spring
-Lava Tube
 Sinkhole

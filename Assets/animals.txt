@@ -1,4 +1,3 @@
-
 Elephant
 Giraffe
 Lion
