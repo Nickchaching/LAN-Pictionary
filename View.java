@@ -6,13 +6,7 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.event.*;
 
-
-//When Project is complete, create ClientModel and ServerModel classes, then, create the object within the controller that is necessary
-
-//Panel Identifier
-//1 - MAIN MENU
-
-public class View implements ActionListener, MouseMotionListener, KeyListener, DocumentListener{
+public class View implements ActionListener, MouseMotionListener, DocumentListener{
     //Properties
     Model theModel = new Model(this);
 
@@ -89,7 +83,7 @@ public class View implements ActionListener, MouseMotionListener, KeyListener, D
                 theFrame.pack();
             }
             else{
-                //Display an "error label" and update all buttons to reflect the new list
+                //Possible Future Feature: Display an "error label" and update all buttons to reflect the new list
             }
         }
         //Server Theme Selection
@@ -181,7 +175,6 @@ public class View implements ActionListener, MouseMotionListener, KeyListener, D
         else if(evt.getSource() == theModel.HostSocket){
             if(theModel.HostSocket.readText().substring(0,1).equals("0")){
                 int intType = theModel.serverMessageRecieved();
-                
                 if(intType == 0){
                     theServerLobbyPanel.updatePlayerList(theModel.getPlayerList());
                 }
@@ -273,9 +266,7 @@ public class View implements ActionListener, MouseMotionListener, KeyListener, D
                         theFrame.setContentPane(theDrawerRoundPanel);
                         theDrawerRoundPanel.updateItemLabel(theModel.getObject());
                     }
-
                     theFrame.pack();
-
                     if(theModel.isHost()){
                         theDrawerRoundPanel.updatePlayerList(theModel.changedScore());
                         theNonDrawerRoundPanel.updatePlayerList(theModel.changedScore());
@@ -342,7 +333,6 @@ public class View implements ActionListener, MouseMotionListener, KeyListener, D
             else if(theFrame.getContentPane() == thePostRoundPanel){
                 thePostRoundPanel.updateTimer(Double.parseDouble(theModel.sendPing(3)));
             }
-            //Responsible for Procesing and Sending out Telemetry
         }
 
         //Drawing Telemetry
@@ -476,10 +466,6 @@ public class View implements ActionListener, MouseMotionListener, KeyListener, D
         theNonDrawerRoundPanel.updateChar(0);
     }
 
-    public void keyTyped(KeyEvent evt){
-        
-    }
-
     public void updateServerButton(String strUpdate, int intButton){
         if(intButton == 1){
             theServerSelectionPanel.Server1Button.setText(strUpdate);
@@ -566,14 +552,6 @@ public class View implements ActionListener, MouseMotionListener, KeyListener, D
     //Unused Methods
     public void changedUpdate(DocumentEvent evt){
         
-    }
-
-    public void keyPressed(KeyEvent evt){
-
-    }
-
-    public void keyReleased(KeyEvent evt){
-
     }
 
     public void mouseMoved(MouseEvent evt){

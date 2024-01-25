@@ -27,7 +27,7 @@ public class clientLobbyPanel extends JPanel implements ActionListener{
     public void actionPerformed(ActionEvent evt){
         if(evt.getSource() == theTimer){
             if(PlayersPanel.getPreferredSize().getHeight() > 540){
-                if(PlayersScroll.getViewport().getViewPosition().getY() >= intScrollHeight - 540){
+                if(PlayersScroll.getViewport().getViewPosition().getY() >= intScrollHeight/2){
                     PlayersScroll.getViewport().setViewPosition(new Point(0, 0));
                 }
                 PlayersScroll.getViewport().setViewPosition(new Point(0, (int)PlayersScroll.getViewport().getViewPosition().getY() + intScrollVelo));
@@ -43,7 +43,7 @@ public class clientLobbyPanel extends JPanel implements ActionListener{
     }
 
     public void loadImage(String strTextFile){
-        InputStream fileRead = this.getClass().getResourceAsStream("Assets/"+strTextFile.substring(0, strTextFile.length() - 3) + "png");
+        InputStream fileRead = this.getClass().getResourceAsStream("../Assets/"+strTextFile.substring(0, strTextFile.length() - 3) + "png");
         if(fileRead != null){
             try{
                 imgTheme = ImageIO.read(fileRead);

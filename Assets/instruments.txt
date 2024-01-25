@@ -31,7 +31,6 @@ Fiddle
 Kalimba
 Tabla
 Ocarina
-Fretless Bass
 Zither
 Clavichord
 Synthesizer
@@ -44,5 +43,4 @@ Fife
 Mellotron
 Concertina
 Panpipe
-Mouth Organ
 Clarinet
