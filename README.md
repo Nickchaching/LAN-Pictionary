@@ -1,5 +1,5 @@
 # Pictionary for Windows
-This game was created as a final project for the course ICS4U1.
+This game is a re-creation of Pictionary utilizing the Java Swing GUI toolkit.
 
 It integrates OOP, GUI, FileIO, and Sockets concepts.
 
